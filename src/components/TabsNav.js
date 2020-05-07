@@ -47,7 +47,7 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: "#EAD6C6"
   },
 }));
 
@@ -64,58 +64,62 @@ export default function TabsNav(props) {
 
   async function tryToDeleteAccount() {
     try {
-        let response = await fetch('https://afternoon-depths-99413.herokuapp.com/deleteAccount', {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'authorization': 'Bearer ' + jsonToken
-            },
-            body: JSON.stringify({
-                "username": props.username,
-                "password": props.password
-            }),
-        });
-        let responseStatus = await response.status;
-  
-        if (responseStatus == 200) {
-            //Look into this
-            console.log(response.json);
-            props.returnLogedIn(false);
-        }
-        else {
-            console.log(responseStatus + " " + userId + " " + jsonToken);
-        }
+      let response = await fetch('https://afternoon-depths-99413.herokuapp.com/deleteAccount', {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'authorization': 'Bearer ' + jsonToken
+        },
+        body: JSON.stringify({
+          "username": props.username,
+          "password": props.password
+        }),
+      });
+      let responseStatus = await response.status;
+
+      if (responseStatus == 200) {
+        //Look into this
+        console.log(response.json);
+        props.returnLogedIn(false);
+      }
+      else {
+        console.log(responseStatus + " " + userId + " " + jsonToken);
+      }
     } catch (error) {
-        console.error(error);
+      console.error(error);
     }
   }
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="Pračenje biljke" {...a11yProps(0)} />
-          <Tab label="Dodaj biljku" {...a11yProps(1)} />
-          <Tab label="Upravljanje računom" {...a11yProps(2)} />
-        </Tabs>
-      </AppBar>
-      <TabPanel value={value} index={0}>
-        <HomeScreen jsonToken={jsonToken} userId={userId} />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <AddPlantScreen jsonToken={jsonToken} userId={userId} />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <div style={{ flex: 1, justifyContent:"center", alignItems:"center", padding:50 }}>
-          <p>Korisničko ime: {props.username}</p>
-          <p>Email: {props.email}</p>
-          <br/>
-          <Button onClick={()=>(props.returnLogedIn(false))}>Odjavi me</Button>
-          <br/>
-          <Button onClick={()=>tryToDeleteAccount()}>Obriši račun</Button>
-        </div>
-      </TabPanel>
+    <div style={{
+      display: 'flex', height: "100%", width: "100%", backgroundColor: "#EAD6C6", margin: 0
+    }}>
+      <div className={classes.root}>
+        <AppBar position="static">
+          <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" centered>
+                <Tab label="Praćenje biljke" {...a11yProps(0)} />
+                <Tab label="Dodaj biljku" {...a11yProps(1)} />
+                <Tab label="Upravljanje računom" {...a11yProps(2)} />
+          </Tabs>
+        </AppBar>
+        <TabPanel value={value} index={0} style={{ backgroundColor: "#EAD6C6" }}>
+          <HomeScreen jsonToken={jsonToken} userId={userId} />
+        </TabPanel>
+        <TabPanel value={value} index={1} style={{ backgroundColor: "#EAD6C6" }}>
+          <AddPlantScreen jsonToken={jsonToken} userId={userId} />
+        </TabPanel>
+        <TabPanel value={value} index={2} style={{ backgroundColor: "#EAD6C6" }}>
+          <div style={{ flex: 1, justifyContent: "center", alignItems: "center", padding: 50 }}>
+            <p>Korisničko ime: {props.username}</p>
+            <p>Email: {props.email}</p>
+            <br />
+            <Button onClick={() => (props.returnLogedIn(false))}>Odjavi me</Button>
+            <br />
+            <Button onClick={() => tryToDeleteAccount()}>Obriši račun</Button>
+          </div>
+        </TabPanel>
+      </div>
     </div>
   );
 }
