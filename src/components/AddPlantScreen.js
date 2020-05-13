@@ -5,6 +5,13 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import Divider from '@material-ui/core/Divider';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const useStyles = makeStyles({
     root: {
@@ -30,7 +37,8 @@ export default function AddPlantScreen(props) {
     const [plants, setPlants] = useState([]);
     const [materials, setMaterials] = useState([]);
     const [growthStages, setGrowthStages] = useState([]);
-    const [cards, setCards] = useState([]);
+    const [lCards, setLeftCards] = useState([]);
+    const [rCards, setRightCards] = useState([]);
 
     const classes = useStyles();
 
@@ -146,44 +154,109 @@ export default function AddPlantScreen(props) {
         tryToLogIn();
     }, [jsonToken, userId]);
 
-    /*function populateMaterials(plantId) {
+    function populateMaterials(plantId) {
         let tmp = materials.filter(mat => mat.plant_id == plantId).map(mat => (
-            <List.Item key={mat.id} title={mat.material} style={{ marginLeft: -64 }} />
+            <li><Typography>{mat.material}</Typography></li>
         ));
         return tmp;
-    }*/
+    }
 
     useEffect(() => {
         let tmp = plants.map(plant => (
-            <Card className={classes.root} key={plant.id} variant="outlined">
-                <CardContent>
-                    <Typography variant="h5" component="h2">
-                        {plant.name}
-                    </Typography>
-                    <Typography variant="body2" component="p">
-                        Opis
-                     <br />
-                        {plant.summary}
-                    </Typography>
-                    <Typography variant="body2" component="p">
-                        Težina uzgoja
-                     <br />
-                        {plant.difficulty}
-                    </Typography>
-                </CardContent>
-                <CardActions>
-                    <Button size="small" onClick={() => tryToAdd(plant.id, getGrowthStage(plant.id))}>Dodaj</Button>
-                </CardActions>
-            </Card>
+            <div style={{ paddingTop: 10 }}>
+                <Card className={classes.root} key={plant.id} variant="outlined">
+                    <CardMedia
+                        component="img"
+                        alt="Contemplative Reptile"
+                        height="140"
+                        src={`data:image/jpg;base64,${plant.image}`}
+                        title="Contemplative Reptile"
+                    />
+
+                    <CardContent>
+                        <Typography variant="h5" component="h2" style={{ paddingLeft: 15 }}>
+                            {plant.name}
+                        </Typography>
+                        <Typography variant="body1" component="p" style={{ marginTop: 10, paddingLeft: 15 }}>
+                            Težina uzgoja:
+                        </Typography>
+                        <Typography variant="body2" component="p" style={{ paddingLeft: 15 }}>
+                            {plant.difficulty}
+                        </Typography>
+                        <Divider style={{ marginTop: 10 }} />
+                        <CardActionArea>
+                            <ExpansionPanel style={{ boxShadow: 'none', borderTop: 'none' }}>
+                                <ExpansionPanelSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1a-content"
+                                    id="panel1a-header"
+                                >
+                                    <Typography>Opis</Typography>
+                                </ExpansionPanelSummary>
+                                <ExpansionPanelDetails >
+                                    <Typography>
+                                        {plant.summary}
+                                    </Typography>
+                                </ExpansionPanelDetails>
+                            </ExpansionPanel>
+                        </CardActionArea>
+                        <Divider />
+                        <CardActionArea>
+                            <ExpansionPanel style={{ boxShadow: 'none', borderTop: 'none' }}>
+                                <ExpansionPanelSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1a-content"
+                                    id="panel1a-header"
+                                >
+                                    <Typography>Materijali</Typography>
+                                </ExpansionPanelSummary>
+                                <ExpansionPanelDetails >
+                                    <ul style={{ paddingLeft: 30 }}>
+                                        {populateMaterials(plant.id)}
+                                    </ul>
+                                </ExpansionPanelDetails>
+                            </ExpansionPanel>
+                        </CardActionArea>
+                        <Divider />
+                    </CardContent>
+                    <CardActions style={{ paddingLeft: 20 }}>
+                        <Button size="small" onClick={() => tryToAdd(plant.id, getGrowthStage(plant.id))}>Dodaj</Button>
+                    </CardActions>
+                </Card>
+            </div>
         ));
 
-        setCards(tmp);
+        let lcards = [];
+        let rcards = [];
+
+        for (var i = 0; i < tmp.length; i++) {
+            if (i % 2 === 0) {
+                lcards.push(tmp[i]);
+            } else {
+                rcards.push(tmp[i]);
+            }
+        }
+
+        setLeftCards(lcards);
+        setRightCards(rcards);
 
     }, [growthStages])
 
     return (
         <div>
-            {cards}
+            <div style={{ display: 'flex', flexDirection: 'row', flex: 2, padding: 20 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%" }}></div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
+                    {lCards}
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 0.1, height: "100%" }}></div>
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
+                    {rCards}
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%" }}></div>
+
+            </div>
         </div>
     );
 }

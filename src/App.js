@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import Login from './components/Login'
 import Register from './components/Register'
 import TabsNav from './components/TabsNav'
+import Landing from './components/Landing'
 
 function App() {
   const [logedIn, setLogedIn] = useState(false);
-  const[register, setRegister] = useState(false);
+  const [login, setLogin] = useState(false);
+  const [register, setRegister] = useState(false);
 
   const [jsonToken, setJsonToken] = useState('');
   const [userId, setUserId] = useState('');
@@ -14,7 +16,10 @@ function App() {
   const [email, setEmail] = useState('');
   const [date, setDate] = useState('');
 
-  if (!logedIn && !register) {
+  if (!logedIn && !register && !login) {
+    return (<Landing returnLogin={setLogin} />)
+  }
+  else if (!logedIn && !register && login) {
     return (<Login
       returnLogedIn={setLogedIn}
       returnRegister={setRegister}
@@ -26,13 +31,13 @@ function App() {
       returnDate={setDate}
     />);
   }
-  else if(!logedIn && register){
+  else if (!logedIn && register && login) {
     return (<Register
       returnRegister={setRegister}
     />);
   }
-  else {
-    return (<TabsNav jsonToken={jsonToken} userId={userId} username={username} password={password} email={email} returnLogedIn={setLogedIn}/>);
+  else if (logedIn) {
+    return (<TabsNav jsonToken={jsonToken} userId={userId} username={username} password={password} email={email} date={date} returnLogedIn={setLogedIn} returnLogin={setLogin} />);
   }
 }
 

@@ -5,6 +5,10 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import Divider from '@material-ui/core/Divider';
+
 
 const useStyles = makeStyles({
     root: {
@@ -21,13 +25,18 @@ const useStyles = makeStyles({
     pos: {
         marginBottom: 12,
     },
+    media: {
+        height: 140,
+    }
 });
 
 export default function HomeScreen(props) {
     const [jsonToken] = useState(props.jsonToken);
     const [userId] = useState(props.userId);
     const [progress, setProgress] = useState([]);
-    const [cards, setCards] = useState([]);
+    const [plants, setPlants] = useState([]);
+    const [lCards, setLeftCards] = useState([]);
+    const [rCards, setRightCards] = useState([]);
 
     const classes = useStyles();
 
@@ -46,9 +55,35 @@ export default function HomeScreen(props) {
             });
             let responseStatus = await response.status;
 
-            if (responseStatus === 200) {
+            if (responseStatus == 200) {
                 let json = await response.json();
+
                 setProgress(json);
+            }
+            else {
+                console.log(responseStatus + " " + userId + " " + jsonToken);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async function tryToGetPlants() {
+        try {
+            let response = await fetch('https://afternoon-depths-99413.herokuapp.com/plants', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'authorization': 'Bearer ' + jsonToken
+                }
+            });
+            let responseStatus = await response.status;
+
+            if (responseStatus == 200) {
+                let json = await response.json();
+                setPlants(json);
+                tryToLogIn();
             }
             else {
                 console.log(responseStatus + " " + userId + " " + jsonToken);
@@ -112,38 +147,85 @@ export default function HomeScreen(props) {
     }
 
     useEffect(() => {
-        tryToLogIn();
+        tryToGetPlants();
     }, [jsonToken, userId]);
 
     useEffect(() => {
         let tmp = progress.map(prog => (
-            <Card className={classes.root} key={prog.id} variant="outlined">
-                <CardContent>
-                    <Typography className={classes.title} color="textSecondary" gutterBottom>
-                        {prog.growth_stage.stage_title}
-                    </Typography>
-                    <Typography variant="h5" component="h2">
-                        {prog.plant.name}
-                    </Typography>
-                    <Typography variant="body2" component="p">
-                        Proteklo vrijeme
-                     <br />
-                        {elapsedTime(Date.parse(prog.started_on))}
-                    </Typography>
-                </CardContent>
-                <CardActions>
-                    <Button size="small" onClick={() => tryToDelete(prog.id)}>Obriši</Button>
-                </CardActions>
-            </Card>
+            <div style={{ paddingTop: 10 }}>
+                <Card className={classes.root} key={prog.id} variant="outlined">
+                    <CardActionArea>
+
+                        <CardMedia
+                            component="img"
+                            alt="Contemplative Reptile"
+                            height="140"
+                            src={`data:image/jpg;base64,${plants[prog.plant.id - 1].image}`}
+                            title="Contemplative Reptile"
+                        />
+
+                        <CardContent>
+                            <Typography className={classes.title} color="textSecondary" gutterBottom style={{ paddingLeft: 15 }}>
+                                {prog.growth_stage.stage_title}
+                            </Typography>
+                            <Typography variant="h5" component="h2" style={{ paddingLeft: 15 }}>
+                                {prog.plant.name}
+                            </Typography>
+                            <Typography variant="body2" component="p" style={{marginTop:10, paddingLeft:15}}>
+                                Očekivano vrijeme uzgoja:
+                                <br />
+                                {prog.growth_stage.stage_duration} dana
+                            </Typography>
+                            <Divider style={{marginTop:10, marginBottom:10, paddingLeft:15}} />
+                            <Typography variant="body2" component="p" style={{ paddingLeft: 15 }}>
+
+                                Proteklo vrijeme
+                                <br />
+                                {elapsedTime(Date.parse(prog.started_on))}
+                            </Typography>
+                            <Divider style={{marginTop:10}}/>
+
+                        </CardContent>
+                    </CardActionArea>
+                    <CardActions style={{paddingLeft:20}}>
+                        <Button size="small" onClick={() => tryToDelete(prog.id)}>Obriši</Button>
+                        <Button size="small">Gotovo</Button>
+                    </CardActions>
+                </Card>
+            </div>
         ));
 
-        setCards(tmp);
+        let lcards = [];
+        let rcards = [];
+
+        for (var i = 0; i < tmp.length; i++) {
+            if (i % 2 === 0) {
+                lcards.push(tmp[i]);
+            } else {
+                rcards.push(tmp[i]);
+            }
+        }
+
+        setLeftCards(lcards);
+        setRightCards(rcards);
 
     }, [progress])
 
     return (
         <div>
-            {cards}
+            <div style={{ display: 'flex', flexDirection: 'row', flex: 2, padding: 20 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%" }}></div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 2}}>
+                    {lCards}
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 0.1, height: "100%" }}></div>
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 2}}>
+                    {rCards}
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%" }}></div>
+
+            </div>
         </div>
     );
 }
