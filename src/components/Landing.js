@@ -31,7 +31,7 @@ function Landing(props) {
             <section id="home" className="section static">
                 <div className="goreLijevo">
                     <img className="plant" src={Plant} style={{ width: "15%" }} />
-                    <h1>Odaberite željenu biljku za sadnju </h1>
+                    <h1 className="aukurac">Odaberite željenu biljku za sadnju </h1>
                 </div>
                 <img className="strelica1" src={Strelica} />
                 <div className="sredina">
@@ -41,7 +41,7 @@ function Landing(props) {
                 <img className="strelica2" src={Strelica} />
                 <div className="doleLijevo">
                     <img className="tegla" src={Tegla} style={{ width: "20%" }} />
-                    <h1 >Nakon puno pažnje dobit cete željenu biljku u punom sjaju</h1>
+                    <h1 className="aukurac" >Nakon puno pažnje dobit cete željenu biljku u punom sjaju</h1>
                 </div>
             </section>
 

@@ -9,7 +9,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Divider from '@material-ui/core/Divider';
 
-
 const useStyles = makeStyles({
     root: {
         minWidth: 275,
@@ -30,6 +29,14 @@ const useStyles = makeStyles({
     }
 });
 
+var mqtt = require('mqtt');
+
+var topic = "s1/tmpzrak";
+var topic1 = "s1/tmptlo";
+var topic2 = "s1/vlzrak";
+var topic3 = "s1/vltlo";
+var client = mqtt.connect("mqtts://m24.cloudmqtt.com:30991", { clientId: "jelMeNekoTrazio", username: "web", password: "a" });
+
 export default function HomeScreen(props) {
     const [jsonToken] = useState(props.jsonToken);
     const [userId] = useState(props.userId);
@@ -37,6 +44,46 @@ export default function HomeScreen(props) {
     const [plants, setPlants] = useState([]);
     const [lCards, setLeftCards] = useState([]);
     const [rCards, setRightCards] = useState([]);
+
+    const [tmpZraka, setTmpZraka] = useState('');
+
+    mqtt = () => {
+        console.log("connected flag  " + client.connected);
+
+        client.on("connect", function () {
+            console.log("connected  " + client.connected);
+        })
+
+        console.log("subscribing to topics");
+        client.subscribe({
+            "s1/tmpzrak": { qos: 0 },
+            "s1/tmptlo": { qos: 0 },
+            "s1/vlzrak": { qos: 0 },
+            "s1/vltlo": { qos: 0 },
+        }); //single topic
+
+        //notice this is printed even before we connect
+        console.log("end of script");
+    };
+
+
+    useEffect(() => {
+        //handle errors
+        client.on("error", function (error) {
+            console.log("Can't connect" + error);
+            process.exit(1)
+        });
+
+
+        //handle incoming messages
+        client.on('message', function (topic, message, packet) {
+            console.log("message is " + message);
+            console.log("topic is " + topic);
+            setTmpZraka(message.toString());
+            //client.end();
+        });
+    })
+
 
     const classes = useStyles();
 
@@ -148,6 +195,7 @@ export default function HomeScreen(props) {
 
     useEffect(() => {
         tryToGetPlants();
+        mqtt();
     }, [jsonToken, userId]);
 
     useEffect(() => {
@@ -171,23 +219,26 @@ export default function HomeScreen(props) {
                             <Typography variant="h5" component="h2" style={{ paddingLeft: 15 }}>
                                 {prog.plant.name}
                             </Typography>
-                            <Typography variant="body2" component="p" style={{marginTop:10, paddingLeft:15}}>
+                            <Typography variant="body2" component="p" style={{ marginTop: 10, paddingLeft: 15 }}>
                                 Očekivano vrijeme uzgoja:
                                 <br />
                                 {prog.growth_stage.stage_duration} dana
                             </Typography>
-                            <Divider style={{marginTop:10, marginBottom:10, paddingLeft:15}} />
+                            <Divider style={{ marginTop: 10, marginBottom: 10, paddingLeft: 15 }} />
                             <Typography variant="body2" component="p" style={{ paddingLeft: 15 }}>
-
                                 Proteklo vrijeme
                                 <br />
                                 {elapsedTime(Date.parse(prog.started_on))}
                             </Typography>
-                            <Divider style={{marginTop:10}}/>
+                            <Divider style={{ marginTop: 10, marginBottom: 10, paddingLeft: 15 }} />
+                            <Typography variant="body2" component="p" style={{ paddingLeft: 15 }}>
+                                Muh cenzors: {tmpZraka}
+                            </Typography>
+                            <Divider style={{ marginTop: 10 }} />
 
                         </CardContent>
                     </CardActionArea>
-                    <CardActions style={{paddingLeft:20}}>
+                    <CardActions style={{ paddingLeft: 20 }}>
                         <Button size="small" onClick={() => tryToDelete(prog.id)}>Obriši</Button>
                         <Button size="small">Gotovo</Button>
                     </CardActions>
@@ -209,18 +260,21 @@ export default function HomeScreen(props) {
         setLeftCards(lcards);
         setRightCards(rcards);
 
-    }, [progress])
+    }, [progress, tmpZraka])
 
     return (
         <div>
+            <Typography variant="body2" component="p" style={{ paddingLeft: 15 }}>
+                Muh cenzors: {tmpZraka}
+            </Typography>
             <div style={{ display: 'flex', flexDirection: 'row', flex: 2, padding: 20 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%" }}></div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', flex: 2}}>
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
                     {lCards}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', flex: 0.1, height: "100%" }}></div>
-                <div style={{ display: 'flex', flexDirection: 'column', flex: 2}}>
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
                     {rCards}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%" }}></div>
