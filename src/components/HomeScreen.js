@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import Divider from '@material-ui/core/Divider';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import TextField from '@material-ui/core/TextField';
+
+import TrackedCard from './TrackedCard';
 
 const useStyles = makeStyles({
     root: {
@@ -29,13 +30,13 @@ const useStyles = makeStyles({
     }
 });
 
-var mqtt = require('mqtt');
+//var mqtt = require('mqtt');
 
-var topic = "s1/tmpzrak";
+/*var topic = "s1/tmpzrak";
 var topic1 = "s1/tmptlo";
 var topic2 = "s1/vlzrak";
 var topic3 = "s1/vltlo";
-var client = mqtt.connect("mqtts://m24.cloudmqtt.com:30991", { clientId: "jelMeNekoTrazio", username: "web", password: "a" });
+var client = mqtt.connect("mqtts://m24.cloudmqtt.com:30991", { clientId: "jelMeNekoTrazio", username: "web", password: "a" });*/
 
 export default function HomeScreen(props) {
     const [jsonToken] = useState(props.jsonToken);
@@ -45,9 +46,8 @@ export default function HomeScreen(props) {
     const [lCards, setLeftCards] = useState([]);
     const [rCards, setRightCards] = useState([]);
 
-    const [tmpZraka, setTmpZraka] = useState('');
 
-    mqtt = () => {
+    /*mqtt = () => {
         console.log("connected flag  " + client.connected);
 
         client.on("connect", function () {
@@ -64,10 +64,10 @@ export default function HomeScreen(props) {
 
         //notice this is printed even before we connect
         console.log("end of script");
-    };
+    };*/
 
 
-    useEffect(() => {
+    /*useEffect(() => {
         //handle errors
         client.on("error", function (error) {
             console.log("Can't connect" + error);
@@ -82,7 +82,7 @@ export default function HomeScreen(props) {
             setTmpZraka(message.toString());
             //client.end();
         });
-    })
+    })*/
 
 
     const classes = useStyles();
@@ -193,57 +193,50 @@ export default function HomeScreen(props) {
 
     }
 
+    async function moveToDone(progId) {
+        console.log("called")
+        try {
+            let response = await fetch('https://afternoon-depths-99413.herokuapp.com/progress/done', {
+                method: 'PATCH',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'authorization': 'Bearer ' + jsonToken
+                },
+                body: JSON.stringify({
+                    progressId: progId,
+                    done: 1
+                }),
+            });
+            let responseStatus = await response.status;
+
+            if (responseStatus == 200) {
+                console.log("Done");
+                tryToGetPlants();
+            }
+            else {
+                console.log(responseStatus);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     useEffect(() => {
         tryToGetPlants();
-        mqtt();
+        //mqtt();
     }, [jsonToken, userId]);
 
     useEffect(() => {
-        let tmp = progress.map(prog => (
-            <div style={{ paddingTop: 10 }}>
-                <Card className={classes.root} key={prog.id} variant="outlined">
-                    <CardActionArea>
-
-                        <CardMedia
-                            component="img"
-                            alt="Contemplative Reptile"
-                            height="140"
-                            src={`data:image/jpg;base64,${plants[prog.plant.id - 1].image}`}
-                            title="Contemplative Reptile"
-                        />
-
-                        <CardContent>
-                            <Typography className={classes.title} color="textSecondary" gutterBottom style={{ paddingLeft: 15 }}>
-                                {prog.growth_stage.stage_title}
-                            </Typography>
-                            <Typography variant="h5" component="h2" style={{ paddingLeft: 15 }}>
-                                {prog.plant.name}
-                            </Typography>
-                            <Typography variant="body2" component="p" style={{ marginTop: 10, paddingLeft: 15 }}>
-                                Očekivano vrijeme uzgoja:
-                                <br />
-                                {prog.growth_stage.stage_duration} dana
-                            </Typography>
-                            <Divider style={{ marginTop: 10, marginBottom: 10, paddingLeft: 15 }} />
-                            <Typography variant="body2" component="p" style={{ paddingLeft: 15 }}>
-                                Proteklo vrijeme
-                                <br />
-                                {elapsedTime(Date.parse(prog.started_on))}
-                            </Typography>
-                            <Divider style={{ marginTop: 10, marginBottom: 10, paddingLeft: 15 }} />
-                            <Typography variant="body2" component="p" style={{ paddingLeft: 15 }}>
-                                Muh cenzors: {tmpZraka}
-                            </Typography>
-                            <Divider style={{ marginTop: 10 }} />
-
-                        </CardContent>
-                    </CardActionArea>
-                    <CardActions style={{ paddingLeft: 20 }}>
-                        <Button size="small" onClick={() => tryToDelete(prog.id)}>Obriši</Button>
-                        <Button size="small">Gotovo</Button>
-                    </CardActions>
-                </Card>
-            </div>
+        let tmp = progress.filter(prog => !prog.done).map(prog => (
+            <TrackedCard 
+                prog={prog} 
+                image={plants[prog.plant.id - 1].image}
+                elapsedTime={elapsedTime}
+                //handleClickOpen={handleClickOpen}
+                tryToDelete={tryToDelete}
+                moveToDone={moveToDone}
+            />
         ));
 
         let lcards = [];
@@ -260,13 +253,10 @@ export default function HomeScreen(props) {
         setLeftCards(lcards);
         setRightCards(rcards);
 
-    }, [progress, tmpZraka])
+    }, [progress])
 
     return (
         <div>
-            <Typography variant="body2" component="p" style={{ paddingLeft: 15 }}>
-                Muh cenzors: {tmpZraka}
-            </Typography>
             <div style={{ display: 'flex', flexDirection: 'row', flex: 2, padding: 20 }}>
                 <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%" }}></div>
 
@@ -278,7 +268,6 @@ export default function HomeScreen(props) {
                     {rCards}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%" }}></div>
-
             </div>
         </div>
     );

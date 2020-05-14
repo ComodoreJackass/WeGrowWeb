@@ -163,6 +163,7 @@ export default function Login({ returnLogedIn, returnJsonToken, returnUserId, re
                             id="email"
                             label="Email"
                             name="email"
+                            type="email"
                             autoComplete="email"
                             autoFocus
                             error={emailError}

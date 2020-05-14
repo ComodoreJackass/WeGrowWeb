@@ -5,7 +5,7 @@ body,html{margin:0;padding:0;}
 
 .webmap {
   height: 400px;
-  width:40%;
+  width:80%;
 }
 
 .wrapper {
@@ -86,14 +86,14 @@ body,html{margin:0;padding:0;}
     text-align: left;
     position: absolute;
     top: 40%;
-    left: 68%;
+    left: 62%;
     color: white;
     background: rgba(0, 0, 0, 0.8);
     line-height: 1.4em;
     width: 50%;
     border-radius: 25px;
 }
-.aukurac{
+.n1{
   font-family: 'Quicksand', sans-serif;
     font-size: 18px;
     letter-spacing: 2px;
@@ -105,7 +105,7 @@ body,html{margin:0;padding:0;}
 	padding-left:15%;
 	text-align:center;
 }
-h2{
+.n2{
   font-family: 'Cormorant Garamond', serif;
     line-height: 1.2em;
     letter-spacing: 3px;
@@ -113,7 +113,7 @@ h2{
     width: 60%;
     padding-left: 10px;
 }
-h4{
+.n4{
  font-family: 'Quicksand', sans-serif;
     font-size: 18px;
     letter-spacing: 2px;
@@ -124,7 +124,7 @@ h4{
 	margin:0;
 	text-align:center;
 }
-p{
+.par{
 	font-family: 'Quicksand', sans-serif;
     font-size: 18px;
     letter-spacing: 2px;
@@ -142,8 +142,6 @@ p{
   width: 20%;
   height:15%;
   text-align:right;
-
-
 }
 
 .sredina{
