@@ -19,6 +19,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
+import { uuid } from 'uuidv4';
 
 var mqtt = require('mqtt');
 var client = mqtt.connect("mqtts://m24.cloudmqtt.com:30991", { clientId: "jelMeNekoTrazio", username: "web", password: "a" });
@@ -48,7 +49,7 @@ export default function TrackedCard(props) {
     const [prog] = useState(props.prog);
     const [image] = useState(props.image);
 
-    const [enableSensors, setEnableSensors] = useState(false);
+    const [enableSensors, setEnableSensors] = useState(props.hasSensors);
     const [open, setOpen] = React.useState(false);
 
     const [tmpZraka, setTmpZraka] = useState('Senzor nije spojen');
@@ -74,6 +75,11 @@ export default function TrackedCard(props) {
     const subscribeToTopics = () => {
         console.log("connected flag  " + client.connected);
 
+        setTmpZraka("Čekanje podataka");
+        setTmpTla("Čekanje podataka");
+        setVlagaTla("Čekanje podataka");
+        setVlagaZraka("Čekanje podataka");
+
         client.on("connect", function () {
             console.log("connected  " + client.connected);
         })
@@ -89,6 +95,21 @@ export default function TrackedCard(props) {
         console.log("end of script");
     };
 
+    const unsubscribe =()=>{
+        client.end();
+        setTmpZraka("Senzor nije spojen");
+        setTmpTla("Senzor nije spojen");
+        setVlagaTla("Senzor nije spojen");
+        setVlagaZraka("Senzor nije spojen");
+        client = mqtt.connect("mqtts://m24.cloudmqtt.com:30991", { clientId: "jelMeNekoTrazio", username: "web", password: "a" });
+    }
+
+    useEffect(() => {
+        if (enableSensors) {
+            subscribeToTopics();
+        }
+    }, [enableSensors]);
+
     useEffect(() => {
         if (enableSensors) {
             console.log("listening")
@@ -101,19 +122,19 @@ export default function TrackedCard(props) {
                 console.log("message is " + message);
                 console.log("topic is " + topic);
 
-                if(topic==="s1/tmpzrak"){
+                if (topic === "s1/tmpzrak") {
                     setTmpZraka(message.toString());
                     setProgTmpZraka(parseFloat(message.toString()) + 40);
                 }
-                else if(topic==="s1/tmptlo"){
+                else if (topic === "s1/tmptlo") {
                     setTmpTla(message.toString());
                     setProgTmpTla(parseFloat(message.toString()) + 40);
                 }
-                else if(topic==="s1/vlzrak"){
+                else if (topic === "s1/vlzrak") {
                     setVlagaZraka(message.toString());
                     setProgVlagaZraka(parseFloat(message.toString()));
                 }
-                else if(topic==="s1/vltlo"){
+                else if (topic === "s1/vltlo") {
                     setVlagaTla(message.toString());
                     setProgVlagaTla(parseFloat(message.toString()));
                 }
@@ -121,8 +142,35 @@ export default function TrackedCard(props) {
         }
     })
 
+    async function setSensors(progId, sensor) {
+        try {
+            let response = await fetch('https://afternoon-depths-99413.herokuapp.com/progress/sensors', {
+                method: 'PATCH',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'authorization': 'Bearer ' + props.jsonToken
+                },
+                body: JSON.stringify({
+                    progressId: progId,
+                    sensors: sensor
+                }),
+            });
+            let responseStatus = await response.status;
+
+            if (responseStatus === 200) {
+                console.log("Sensors added");
+            }
+            else {
+                console.log(responseStatus);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
-        <div key={prog.id} style={{ paddingTop: 10 }}>
+        <div style={{ paddingTop: 10 }}>
             <Card className={classes.root} variant="outlined">
                 <CardMedia
                     component="img"
@@ -235,38 +283,59 @@ export default function TrackedCard(props) {
                     <Button size="small" onClick={() => props.moveToDone(prog.id)}>Gotovo</Button>
                 </CardActions>
             </Card>
-            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Povezivanje sa senzorima</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        Unesite id i lozinku senzora kako bi započeli pračenje razvoja biljke.
-                    </DialogContentText>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="username"
-                        label="id"
-                        type="username"
-                        fullWidth
-                    />
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="lozinka"
-                        label="lozinka"
-                        type="password"
-                        fullWidth
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                        Odustani
-                    </Button>
-                    <Button onClick={() => {subscribeToTopics(); setEnableSensors(true); handleClose();}} color="primary">
-                        Spoji me
-                    </Button>
-                </DialogActions>
-            </Dialog>
+            {
+                enableSensors
+                    ?
+                    <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+                        <DialogTitle id="form-dialog-title">Raskid veze sa senzorima</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                Želite li prestati pratiti biljku.
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose} color="primary">
+                                Odustani
+                             </Button>
+                            <Button onClick={() => {setEnableSensors(false); setSensors(prog.id, 0); unsubscribe(); handleClose(); }} color="primary">
+                                Raskini vezu
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                    :
+                    <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+                        <DialogTitle id="form-dialog-title">Povezivanje sa senzorima</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                Unesite id i lozinku senzora kako bi započeli pračenje razvoja biljke.
+                        </DialogContentText>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="username"
+                                label="id"
+                                type="username"
+                                fullWidth
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="lozinka"
+                                label="lozinka"
+                                type="password"
+                                fullWidth
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose} color="primary">
+                                Odustani
+                            </Button>
+                            <Button onClick={() => { subscribeToTopics(); setEnableSensors(true); setSensors(prog.id, 1); handleClose(); }} color="primary">
+                                Spoji me
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+            }
         </div>
     )
 }

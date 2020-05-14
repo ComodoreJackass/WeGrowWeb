@@ -12,6 +12,7 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { uuid } from 'uuidv4';
 
 const useStyles = makeStyles({
     root: {
@@ -163,7 +164,7 @@ export default function AddPlantScreen(props) {
 
     useEffect(() => {
         let tmp = plants.map(plant => (
-            <div style={{ paddingTop: 10 }}>
+            <div key={uuid()} style={{ paddingTop: 10 }}>
                 <Card className={classes.root} key={plant.id} variant="outlined">
                     <CardMedia
                         component="img"

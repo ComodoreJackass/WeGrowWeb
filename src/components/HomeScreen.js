@@ -1,35 +1,6 @@
 import React, { useState, useEffect } from 'react';
-//import { makeStyles } from '@material-ui/core/styles';
-
 import TrackedCard from './TrackedCard';
-
-/*const useStyles = makeStyles({
-    root: {
-        minWidth: 275,
-    },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
-    },
-    media: {
-        height: 140,
-    }
-});*/
-
-//var mqtt = require('mqtt');
-
-/*var topic = "s1/tmpzrak";
-var topic1 = "s1/tmptlo";
-var topic2 = "s1/vlzrak";
-var topic3 = "s1/vltlo";
-var client = mqtt.connect("mqtts://m24.cloudmqtt.com:30991", { clientId: "jelMeNekoTrazio", username: "web", password: "a" });*/
+import { uuid } from 'uuidv4';
 
 export default function HomeScreen(props) {
     const [jsonToken] = useState(props.jsonToken);
@@ -38,47 +9,6 @@ export default function HomeScreen(props) {
     const [plants, setPlants] = useState([]);
     const [lCards, setLeftCards] = useState([]);
     const [rCards, setRightCards] = useState([]);
-
-
-    /*mqtt = () => {
-        console.log("connected flag  " + client.connected);
-
-        client.on("connect", function () {
-            console.log("connected  " + client.connected);
-        })
-
-        console.log("subscribing to topics");
-        client.subscribe({
-            "s1/tmpzrak": { qos: 0 },
-            "s1/tmptlo": { qos: 0 },
-            "s1/vlzrak": { qos: 0 },
-            "s1/vltlo": { qos: 0 },
-        }); //single topic
-
-        //notice this is printed even before we connect
-        console.log("end of script");
-    };*/
-
-
-    /*useEffect(() => {
-        //handle errors
-        client.on("error", function (error) {
-            console.log("Can't connect" + error);
-            process.exit(1)
-        });
-
-
-        //handle incoming messages
-        client.on('message', function (topic, message, packet) {
-            console.log("message is " + message);
-            console.log("topic is " + topic);
-            setTmpZraka(message.toString());
-            //client.end();
-        });
-    })*/
-
-
-    //const classes = useStyles();
 
     async function tryToLogIn() {
         try {
@@ -97,7 +27,6 @@ export default function HomeScreen(props) {
 
             if (responseStatus === 200) {
                 let json = await response.json();
-
                 setProgress(json);
             }
             else {
@@ -223,12 +152,15 @@ export default function HomeScreen(props) {
     useEffect(() => {
         let tmp = progress.filter(prog => !prog.done).map(prog => (
             <TrackedCard 
+                key={uuid()}
                 prog={prog} 
                 image={plants[prog.plant.id - 1].image}
                 elapsedTime={elapsedTime}
                 //handleClickOpen={handleClickOpen}
                 tryToDelete={tryToDelete}
                 moveToDone={moveToDone}
+                hasSensors={prog.has_sensors}
+                jsonToken={jsonToken}
             />
         ));
 
