@@ -20,7 +20,7 @@ function Landing(props) {
                     <a href="#home">O nama</a>
                     <a href="#news">Cijene</a>
                     <a href="#contact">Mapa</a>
-                    <a href="#" onClick={() => { props.returnLogin(true) }}>Log in</a>
+                    <a href="#login" onClick={() => { props.returnLogin(true) }}>Log in</a>
                 </div>
                 <div className="naslov" style={{ padding: 20 }}>
                     <h2 className="n2">We grow</h2>
@@ -30,17 +30,17 @@ function Landing(props) {
 
             <section id="home" className="section static">
                 <div className="goreLijevo">
-                    <img className="plant" src={Plant} style={{ width: "15%" }} />
+                    <img className="plant" alt="" src={Plant} style={{ width: "15%" }} />
                     <h1 className="n1">Odaberite željenu biljku za sadnju </h1>
                 </div>
-                <img className="strelica1" src={Strelica} />
+                <img className="strelica1" alt="" src={Strelica} />
                 <div className="sredina">
-                    <img className="zaljevanje" src={Zaljevanje} style={{ width: "20%" }} />
+                    <img className="zaljevanje" alt="" src={Zaljevanje} style={{ width: "20%" }} />
                     <h4 className="n4">Pomocu senzora dobivat cete obavijesti oko biljke </h4>
                 </div>
-                <img className="strelica2" src={Strelica} />
+                <img className="strelica2" alt="" src={Strelica} />
                 <div className="doleLijevo">
-                    <img className="tegla" src={Tegla} style={{ width: "20%" }} />
+                    <img className="tegla" alt="" src={Tegla} style={{ width: "20%" }} />
                     <h1 className="n1" >Nakon puno pažnje dobit cete željenu biljku u punom sjaju</h1>
                 </div>
             </section>
@@ -98,29 +98,29 @@ function Landing(props) {
                     <input type="radio" name="slider" title="slide5" className="slider__nav" />
                     <div className="slider__inner">
                         <div className="slider__contents">
-                            <img className="ante" src={Ante} style={{ width: "15%" }} />
+                            <img className="ante" alt="" src={Ante} style={{ width: "15%" }} />
                             <p className="slider__txt par">Bez ove aplikacije moje biljke bi stalno propadale. Uz Wegrow to više nije slučaj</p>
                             <h2 className="slider__caption n2"> Ante Markić | Poliglot,škola stranih jezika</h2>
                         </div>
                         <div className="slider__contents">
-                            <img className="elena" src={Elena} style={{ width: "15%" }} />
+                            <img className="elena" src={Elena} alt="" style={{ width: "15%" }} />
                             <p className="slider__txt par">Kao teta u vrtiću, mališane smo učili sadnju, Wegrow je puno pomogo da se ta sadnja ostvari.</p>
                             <h2 className="slider__caption n2"> Elena Rudec | Malci i Komarci</h2>
                         </div>
 
                         <div className="slider__contents">
-                            <img className="tomislav" src={Tomislav} style={{ width: "15%" }} />
+                            <img className="tomislav" src={Tomislav} alt="" style={{ width: "15%" }} />
                             <p className="slider__txt par">Uspio sam zasaditi svoju omiljenu biljku koju sam vec pokusavao godinama. Veliko hvala</p>
                             <h2 className="slider__caption n2">Tomislav Janjić | Bravar</h2>
                         </div>
 
                         <div className="slider__contents">
-                            <img className="duro" src={Duro} style={{ width: "15%" }} />
+                            <img className="duro" src={Duro} alt="" style={{ width: "15%" }} />
                             <p className="slider__txt par">Moja Đurđa me uvijek gnjavila da ne znam ništa o biljkama, ali sve znam s Wegrow jednim klikom.</p>
                             <h2 className="slider__caption n2"> Đuro Popović | Umirovljenik</h2>
                         </div>
                         <div className="slider__contents">
-                            <img className="sanja" src={Sanja} style={{ width: "15%" }} />
+                            <img className="sanja" src={Sanja} alt="" style={{ width: "15%" }} />
                             <p className="slider__txt par">Želim da svake godine bude sve bolji, uz senzore i upute očekujem jos bolji vrt ove godine.</p>
                             <h2 className="slider__caption n2">Sanja Horvat | Doktor</h2>
                         </div>

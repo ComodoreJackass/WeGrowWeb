@@ -54,7 +54,7 @@ export default function AddPlantScreen(props) {
             });
             let responseStatus = await response.status;
 
-            if (responseStatus == 200) {
+            if (responseStatus === 200) {
                 let json = await response.json();
                 setPlants(json);
                 tryToFetchMaterials();
@@ -79,7 +79,7 @@ export default function AddPlantScreen(props) {
             });
             let responseStatus = await response.status;
 
-            if (responseStatus == 200) {
+            if (responseStatus === 200) {
                 let json = await response.json();
                 setMaterials(json);
                 tryToFetchGrowthStages();
@@ -104,7 +104,7 @@ export default function AddPlantScreen(props) {
             });
             let responseStatus = await response.status;
 
-            if (responseStatus == 200) {
+            if (responseStatus === 200) {
                 let json = await response.json();
                 setGrowthStages(json);
             }
@@ -117,7 +117,7 @@ export default function AddPlantScreen(props) {
     }
 
     function getGrowthStage(plantId) {
-        let tmp = growthStages.filter(stage => stage.plant_id == plantId);
+        let tmp = growthStages.filter(stage => stage.plant_id === plantId);
         return tmp[0].id;
     }
 
@@ -139,7 +139,7 @@ export default function AddPlantScreen(props) {
             });
             let responseStatus = await response.status;
 
-            if (responseStatus == 200) {
+            if (responseStatus === 200) {
                 console.log("Added");
             }
             else {
@@ -155,7 +155,7 @@ export default function AddPlantScreen(props) {
     }, [jsonToken, userId]);
 
     function populateMaterials(plantId) {
-        let tmp = materials.filter(mat => mat.plant_id == plantId).map(mat => (
+        let tmp = materials.filter(mat => mat.plant_id === plantId).map(mat => (
             <li><Typography>{mat.material}</Typography></li>
         ));
         return tmp;

@@ -1,16 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import TextField from '@material-ui/core/TextField';
+//import { makeStyles } from '@material-ui/core/styles';
 
 import TrackedCard from './TrackedCard';
 
-const useStyles = makeStyles({
+/*const useStyles = makeStyles({
     root: {
         minWidth: 275,
     },
@@ -28,7 +21,7 @@ const useStyles = makeStyles({
     media: {
         height: 140,
     }
-});
+});*/
 
 //var mqtt = require('mqtt');
 
@@ -85,7 +78,7 @@ export default function HomeScreen(props) {
     })*/
 
 
-    const classes = useStyles();
+    //const classes = useStyles();
 
     async function tryToLogIn() {
         try {
@@ -102,7 +95,7 @@ export default function HomeScreen(props) {
             });
             let responseStatus = await response.status;
 
-            if (responseStatus == 200) {
+            if (responseStatus === 200) {
                 let json = await response.json();
 
                 setProgress(json);
@@ -127,7 +120,7 @@ export default function HomeScreen(props) {
             });
             let responseStatus = await response.status;
 
-            if (responseStatus == 200) {
+            if (responseStatus === 200) {
                 let json = await response.json();
                 setPlants(json);
                 tryToLogIn();
@@ -155,7 +148,7 @@ export default function HomeScreen(props) {
             });
             let responseStatus = await response.status;
 
-            if (responseStatus == 200) {
+            if (responseStatus === 200) {
                 console.log("Deleted");
                 tryToLogIn();
             }
@@ -210,7 +203,7 @@ export default function HomeScreen(props) {
             });
             let responseStatus = await response.status;
 
-            if (responseStatus == 200) {
+            if (responseStatus === 200) {
                 console.log("Done");
                 tryToGetPlants();
             }

@@ -8,7 +8,6 @@ import Box from '@material-ui/core/Box';
 import moment from 'moment';
 
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -91,7 +90,7 @@ export default function TabsNav(props) {
       });
       let responseStatus = await response.status;
 
-      if (responseStatus == 200) {
+      if (responseStatus === 200) {
         let json = await response.json();
 
         let count = 0;
@@ -111,7 +110,7 @@ export default function TabsNav(props) {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    if(newValue==2){
+    if(newValue===2){
       tryToLogIn();
     }
   };
@@ -132,7 +131,7 @@ export default function TabsNav(props) {
       });
       let responseStatus = await response.status;
 
-      if (responseStatus == 200) {
+      if (responseStatus === 200) {
         //Look into this
         console.log(response.json);
         props.returnLogedIn(false);

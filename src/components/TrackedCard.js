@@ -101,19 +101,19 @@ export default function TrackedCard(props) {
                 console.log("message is " + message);
                 console.log("topic is " + topic);
 
-                if(topic=="s1/tmpzrak"){
+                if(topic==="s1/tmpzrak"){
                     setTmpZraka(message.toString());
                     setProgTmpZraka(parseFloat(message.toString()) + 40);
                 }
-                else if(topic=="s1/tmptlo"){
+                else if(topic==="s1/tmptlo"){
                     setTmpTla(message.toString());
                     setProgTmpTla(parseFloat(message.toString()) + 40);
                 }
-                else if(topic=="s1/vlzrak"){
+                else if(topic==="s1/vlzrak"){
                     setVlagaZraka(message.toString());
                     setProgVlagaZraka(parseFloat(message.toString()));
                 }
-                else if(topic=="s1/vltlo"){
+                else if(topic==="s1/vltlo"){
                     setVlagaTla(message.toString());
                     setProgVlagaTla(parseFloat(message.toString()));
                 }
