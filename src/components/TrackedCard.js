@@ -19,6 +19,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
+import IconButton from '@material-ui/core/IconButton';
+import WaterIcon from '@material-ui/icons/LocalDrink';
+
 import { uuid } from 'uuidv4';
 
 var mqtt = require('mqtt');
@@ -95,7 +98,7 @@ export default function TrackedCard(props) {
         console.log("end of script");
     };
 
-    const unsubscribe =()=>{
+    const unsubscribe = () => {
         client.end();
         setTmpZraka("Senzor nije spojen");
         setTmpTla("Senzor nije spojen");
@@ -169,15 +172,42 @@ export default function TrackedCard(props) {
         }
     }
 
+    async function watered(progId) {
+        try {
+            let response = await fetch('https://afternoon-depths-99413.herokuapp.com/progress/lastWateredOn', {
+                method: 'PATCH',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'authorization': 'Bearer ' + props.jsonToken
+                },
+                body: JSON.stringify({
+                    progressId: progId
+                }),
+            });
+            let responseStatus = await response.status;
+
+            if (responseStatus == 200) {
+                console.log("Done");
+                props.reset();
+            }
+            else {
+                console.log(responseStatus);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
         <div style={{ paddingTop: 10 }}>
             <Card className={classes.root} variant="outlined">
                 <CardMedia
                     component="img"
-                    alt="Contemplative Reptile"
+                    alt=""
                     height="140"
                     src={`data:image/jpg;base64,${image}`}
-                    title="Contemplative Reptile"
+                    title=""
                 />
 
                 <CardContent>
@@ -198,6 +228,19 @@ export default function TrackedCard(props) {
                         <br />
                         {props.elapsedTime(Date.parse(prog.started_on))}
                     </Typography>
+
+                    <Divider style={{ marginTop: 10, marginBottom: 10, paddingLeft: 15 }} />
+                    <Typography variant="body2" component="p" style={{ paddingLeft: 15 }}>
+                        Zadnje zalijevanje prije:
+                        <br />
+                        {props.elapsedTime(Date.parse(prog.last_watered_on))}
+                        <IconButton aria-label="water" onClick={() => watered(prog.id)} style={{marginLeft:"10px"}}>
+                        <WaterIcon />
+                    </IconButton>
+                    </Typography>
+
+ 
+
                     <Divider style={{ marginTop: 10, marginBottom: 10, paddingLeft: 15 }} />
                     <Button size="small" style={{ paddingLeft: 15, paddingRight: 15, marginBottom: 10, textTransform: 'none' }} onClick={handleClickOpen}>
                         <Typography variant="body2" component="p">
@@ -297,7 +340,7 @@ export default function TrackedCard(props) {
                             <Button onClick={handleClose} color="primary">
                                 Odustani
                              </Button>
-                            <Button onClick={() => {setEnableSensors(false); setSensors(prog.id, 0); unsubscribe(); handleClose(); }} color="primary">
+                            <Button onClick={() => { setEnableSensors(false); setSensors(prog.id, 0); unsubscribe(); handleClose(); }} color="primary">
                                 Raskini vezu
                             </Button>
                         </DialogActions>

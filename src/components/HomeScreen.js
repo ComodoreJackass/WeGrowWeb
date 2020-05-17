@@ -79,7 +79,7 @@ export default function HomeScreen(props) {
 
             if (responseStatus === 200) {
                 console.log("Deleted");
-                tryToLogIn();
+                tryToGetPlants();
             }
             else {
                 console.log(responseStatus);
@@ -161,6 +161,7 @@ export default function HomeScreen(props) {
                 moveToDone={moveToDone}
                 hasSensors={prog.has_sensors}
                 jsonToken={jsonToken}
+                reset={tryToGetPlants}
             />
         ));
 

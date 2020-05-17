@@ -168,10 +168,10 @@ export default function AddPlantScreen(props) {
                 <Card className={classes.root} key={plant.id} variant="outlined">
                     <CardMedia
                         component="img"
-                        alt="Contemplative Reptile"
+                        alt=""
                         height="140"
                         src={`data:image/jpg;base64,${plant.image}`}
-                        title="Contemplative Reptile"
+                        title=""
                     />
 
                     <CardContent>
