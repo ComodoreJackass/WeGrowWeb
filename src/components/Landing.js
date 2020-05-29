@@ -1,16 +1,16 @@
 import React, { useEffect, useRef } from 'react';
-import './css.css';
 import { loadModules } from 'esri-loader';
 
-import Plant from './plant.png';
-import Strelica from './strelica.png';
-import Zaljevanje from './zaljevanje.png';
-import Tegla from './tegla.png';
-import Ante from './ante.png';
-import Elena from './elena.jpg';
-import Tomislav from './tomislav.jpg';
-import Duro from './duro.png';
-import Sanja from './sanja.png';
+import { ReactComponent as Logo } from '../assets/logo.svg';
+import LandingPic from '../assets/landing.png';
+import Soon from '../assets/soon.png';
+import Garden from '../assets/garden.png';
+import Sprout from '../assets/sprout.png';
+import Planty from '../assets/plant.png';
+import Book from '../assets/book.png';
+import Hot from '../assets/hot.png';
+import Facebook from '../assets/facebook.png';
+import Instagram from '../assets/instagram.png';
 
 export default function Landing(props) {
     const sensorValues = {
@@ -36,129 +36,220 @@ export default function Landing(props) {
         }
     }
 
+    const navbar = {
+        display: 'flex',
+        flex: 0.5,
+        flexDirection: 'row',
+        width: '100%',
+        backgroundColor: 'white',
+        alignItems: 'center'
+    };
+
+    const navLink = {
+        textDecoration: 'none',
+        fontFamily: 'Rubik',
+        color: 'black',
+        fontSize: '1.1em'
+    };
+
+    const navLink2 = {
+        textDecoration: 'none',
+        fontFamily: 'Rubik',
+        color: 'white',
+        fontSize: '1.1em'
+    };
+
     return (
-        <div className="wrapper">
-            <section className="section parallax bg1">
-                <div className="topnav">
-                    <a href="#about">O nama</a>
-                    <a href="#pricing">Cijene</a>
-                    <a href="#reviews">Recenzije</a>
-                    <a href="#map">Mapa senzora</a>
-                    <a href="#login" onClick={() => { props.returnLogin(true) }}>Prijavi me</a>
+        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: '420vh', backgroundColor: 'green' }}>
+            <div id="Top" style={navbar}>
+                <div style={{ display: 'flex', flex: 6, justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Logo style={{ height: '4em' }} />
+                    <a style={navLink} href="#About">O Plantzilli</a>
+                    <a style={navLink} href="#Pricing">Opcije</a>
+                    <a style={navLink} href="#Map">Esri mapa</a>
+                    <a style={navLink} href="#Contact">Kontakt</a>
                 </div>
-                <div className="naslov" style={{ padding: 20 }}>
-                    <h2 className="n2">We grow</h2>
-                    <p className="par">Odaberite svoju željenu biljku i krenite u avanturu sadnje biljaka </p>
+                <div style={{ flex: 8 }}></div>
+                <div style={{ flex: 2 }}>
+                    <a style={navLink} href="#" onClick={() => { props.returnLogin(true) }}>Prijavi me</a>
                 </div>
-            </section>
 
-            <section id="about" className="section static">
-                <div className="goreLijevo">
-                    <img className="plant" alt="" src={Plant} style={{ width: "15%" }} />
-                    <h1 className="n1">Odaberite željenu biljku za sadnju </h1>
+            </div>
+            <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                flex: 9,
+                backgroundImage: `url(${LandingPic})`,
+                backgroundPosition: 'center',
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+                alignItems: 'center'
+            }}>
+                <div style={{ flex: 2 }}></div>
+                <div style={{ textAlign: 'center', padding: '1em' }}>
+                    <p style={{ flex: 4, fontSize: '3em', paddingBottom: '1em' }}>Plantzilla</p>
+                    <p style={{ fontSize: '1.5em' }}>Naša aplikacija nudi novo iskustvo za Vas i Vaše biljke</p>
+                    <p style={{ fontSize: '1.5em', paddingBottom: '5em' }}>Vrijeme je sad i zato krenite</p>
+                    <img alt="" src={Soon} style={{ width: "25%" }} />
                 </div>
-                <img className="strelica1" alt="" src={Strelica} />
-                <div className="sredina">
-                    <img className="zaljevanje" alt="" src={Zaljevanje} style={{ width: "20%" }} />
-                    <h4 className="n4">Pomoću senzora dobivat ćete obavijesti oko biljke </h4>
-                </div>
-                <img className="strelica2" alt="" src={Strelica} />
-                <div className="doleLijevo">
-                    <img className="tegla" alt="" src={Tegla} style={{ width: "20%" }} />
-                    <h1 className="n1" >Nakon puno pažnje dobit ćete željenu biljku u punom sjaju</h1>
-                </div>
-            </section>
+                <div style={{ flex: 4 }}></div>
+            </div>
 
-            <section id="pricing" className="section parallax bg2">
-                <div className="lijevoPada">
-                    <h3> SADNICA </h3>
-                    <div className="cijena"> Free </div>
-                    <li> 5 biljaka </li>
-                    <div className="crta"> ________ </div>
-                    <li> Praćenje biljaka</li>
-                    <div className="crta"> ________ </div>
-                    <li> Dobivanje obavijesti</li>
-                </div>
-                <div className="sredinaPada">
-                    <h3> VRT </h3>
-                    <div className="cijena">75kn</div>
-                    <li> 2 mjeseca besplatna aplikacija, nakon 25kn/mjesec </li>
-                    <div className="crta"> ________ </div>
-                    <li> 25 biljaka </li>
-                    <div className="crta"> ________ </div>
-                    <li> Praćenje biljaka</li>
-                    <div className="crta"> ________ </div>
-                    <li> Dobivanje obavijesti</li>
-                    <div className="crta"> ________ </div>
-                    <li> Upute za sadnju</li>
-                    <div className="crta"> ________ </div>
-                    <li> Senzor za temperaturu i vlagu </li>
-                </div>
-                <div className="desnoPada">
-                    <h3> ŠUMA </h3>
-                    <div className="cijena"> 150 kn </div>
-                    <li> 4 mjeseca besplatna aplikacija, nakon 45kn/mjesec </li>
-                    <div className="crta"> ________ </div>
-                    <li> Neograničen broj biljka </li>
-                    <div className="crta"> ________ </div>
-                    <li> Praćenje biljaka</li>
-                    <div className="crta"> ________ </div>
-                    <li> Dobivanje obavijesti</li>
-                    <div className="crta"> ________ </div>
-                    <li> Upute za sadnju</li>
-                    <div className="crta"> ________ </div>
-                    <li> Senzor za temperaturu i vlagu </li>
-                    <div className="crta"> ________ </div>
-                    <li> Senzor za temperaturu zemlje </li>
-                    <div className="crta"> ________ </div>
-                    <li> Senzor za vlagu zemlje </li>
-                    <div className="crta"> ________ </div>
-                    <li> Nema reklama </li>
-                </div>
-            </section>
-
-            <section id="reviews" className="section static1">
-                <div className="testimonials-section">
-                    <input type="radio" name="slider" title="slide1" defaultChecked="checked" className="slider__nav" />
-                    <input type="radio" name="slider" title="slide2" className="slider__nav" />
-                    <input type="radio" name="slider" title="slide3" className="slider__nav" />
-                    <input type="radio" name="slider" title="slide4" className="slider__nav" />
-                    <input type="radio" name="slider" title="slide5" className="slider__nav" />
-                    <div className="slider__inner">
-                        <div className="slider__contents">
-                            <img className="ante" alt="" src={Ante} style={{ width: "15%" }} />
-                            <p className="slider__txt par">Bez ove aplikacije moje biljke bi stalno propadale. Uz Wegrow to više nije slučaj</p>
-                            <h2 className="slider__caption n2"> Ante Markić | Poliglot,škola stranih jezika</h2>
-                        </div>
-                        <div className="slider__contents">
-                            <img className="elena" src={Elena} alt="" style={{ width: "15%" }} />
-                            <p className="slider__txt par">Kao teta u vrtiću, mališane smo učili sadnju, Wegrow je puno pomogo da se ta sadnja ostvari.</p>
-                            <h2 className="slider__caption n2"> Elena Rudec | Malci i Komarci</h2>
-                        </div>
-
-                        <div className="slider__contents">
-                            <img className="tomislav" src={Tomislav} alt="" style={{ width: "15%" }} />
-                            <p className="slider__txt par">Uspio sam zasaditi svoju omiljenu biljku koju sam vec pokusavao godinama. Veliko hvala</p>
-                            <h2 className="slider__caption n2">Tomislav Janjić | Bravar</h2>
-                        </div>
-
-                        <div className="slider__contents">
-                            <img className="duro" src={Duro} alt="" style={{ width: "15%" }} />
-                            <p className="slider__txt par">Moja Đurđa me uvijek gnjavila da ne znam ništa o biljkama, ali sve znam s Wegrow jednim klikom.</p>
-                            <h2 className="slider__caption n2"> Đuro Popović | Umirovljenik</h2>
-                        </div>
-                        <div className="slider__contents">
-                            <img className="sanja" src={Sanja} alt="" style={{ width: "15%" }} />
-                            <p className="slider__txt par">Želim da svake godine bude sve bolji, uz senzore i upute očekujem jos bolji vrt ove godine.</p>
-                            <h2 className="slider__caption n2">Sanja Horvat | Doktor</h2>
+            <div id="About" style={{ display: 'flex', flex: 9, backgroundColor: 'white' }}>
+                <div style={{ flex: 2 }}></div>
+                <div style={{ display: 'flex', flex: 5, flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', flex: 13, textAlign: 'center', justifyContent: 'space-around', alignItems: 'center' }}>
+                        <p style={{ fontSize: '2em', color: '#4D974E', paddingTop: '0.5em' }}>Zašto koristiti Plantzillu?</p>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <img alt="" src={Garden} style={{}} />
+                            <p style={{ fontSize: '1.5em', lineHeight: '1.2em', paddingTop: '2em', paddingBottom: '0.5em', paddingLeft: "10%", paddingRight: "10%" }}>Vrtlarenje je odavno prestalo biti omiljeni 'hobi' rezerviran za ljude koji žive u ruralnim područjima ili kućama s dvorištem. Ako vam se uzgoj vlastitog povrća, salata ili začinskog bilja na balkonu, prozorskim klupicama ili pred ulaznim vratima čini kao zanimljiva razbibriga, pravi je trenutak da se okušate u ovom korisnom hobiju.</p>
                         </div>
                     </div>
+                    <div style={{ flex: 2 }}></div>
                 </div>
-            </section>
+                <div style={{ flex: 2 }}></div>
+            </div>
 
-            <section id="map" className="section static1">
-                <Map sensorValues={sensorValues}/>
-            </section>
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flex: 6, backgroundColor: '#F0F0F0' }}>
+                <div style={{ flex: 3 }}>
+                    <p style={{ fontSize: '2em', color: '#4D974E', padding: '1em', textAlign: 'center' }}>Kako izgleda sadnja uz Plantzillu</p>
+                </div>
+                <div style={{ display: 'flex', flex: 6, justifyContent: 'space-evenly', padding: '1em', paddingTop: "2em", textAlign: 'center' }}>
+                    <div style={{ flex: 1 }}></div>
+                    <div style={{ flex: 2 }}>
+                        <img alt="" src={Sprout} style={{}} />
+                        <p style={{ fontSize: '1.5em', textAlign: 'center', marginTop: "-0.85em" }}>Odabirite željenu biljku za sadnju i dodajte je u Vaš popis</p>
+                    </div>
+
+                    <div style={{ flex: 0.8 }}></div>
+                    <div style={{ flex: 2 }}>
+                        <img alt="" src={Planty} style={{}} />
+                        <p style={{ fontSize: '1.5em', textAlign: 'center', }}>Pratite uputstva za sadnju i brigu o Vašim biljkama</p>
+                    </div>
+
+                    <div style={{ flex: 0.8 }}></div>
+                    <div style={{ flex: 2 }}>
+                        <img alt="" src={Hot} style={{}} />
+                        <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Uz pomoć senzora pratite rast Vaše biljke i izvan kuće</p>
+                    </div>
+
+                    <div style={{ flex: 0.8 }}></div>
+                    <div style={{ flex: 2 }}>
+                        <img alt="" src={Book} style={{}} />
+                        <p style={{ fontSize: '1.5em', textAlign: 'center' }}>U tren oka Vaša biljka će potpuno izrasti</p>
+                    </div>
+                    <div style={{ flex: 1 }}></div>
+                </div>
+            </div>
+
+            <div id="Pricing" style={{ display: 'flex', flex: 10, backgroundColor: 'white', flexDirection: 'column' }}>
+                <div style={{ flex: 1 }}>
+                    <p style={{ fontSize: '2em', color: '#4D974E', padding: '1em', textAlign: 'center' }}>Opcije</p>
+                </div>
+                <div style={{ display: 'flex', flex: 8, justifyContent: 'space-evenly', padding: '1em', paddingTop: "2em", textAlign: 'center' }}>
+                    <div style={{ display: 'flex', flex: 1 }}></div>
+                    <div style={{ flex: 2, display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: "1em" }}>
+                            <div style={{ flex: 0.5 }}></div>
+                            <p style={{ flex: 1, fontSize: '1.5em', textAlign: 'left' }}>Sadnica za početak</p>
+                            <p style={{ flex: 1, fontSize: '2em', textAlign: 'left', paddingLeft: '0.5em' }}>Free</p>
+                            <div style={{ flex: 0.5 }}></div>
+                        </div>
+                        <div style={{ flex: 8, display: 'flex', flexDirection: 'column', paddingTop: '1em', paddingBottom: '1em', backgroundColor: '#F0F0F0', justifyContent: 'space-evenly' }}>
+                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>5 biljaka</p>
+                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Praćenje biljaka</p>
+                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Dobivanje obavijesti</p>
+                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Upute za sadnju</p>
+                            <p style={{ fontSize: '1.5em', textAlign: 'center', textDecoration: 'line-through', color: 'gray' }}>Senzor za temperaturu i vlagu</p>
+                            <p style={{ fontSize: '1.5em', textAlign: 'center', textDecoration: 'line-through', color: 'gray' }}>Senzor za temperaturu zemlje</p>
+                            <p style={{ fontSize: '1.5em', textAlign: 'center', textDecoration: 'line-through', color: 'gray' }}>Senzor za vlagu</p>
+                        </div>
+                    </div>
+
+                    <div style={{ flex: 1 }}></div>
+                    <div style={{ flex: 2, display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: "1em" }}>
+                            <div style={{ flex: 0.5 }}></div>
+                            <p style={{ flex: 1, fontSize: '1.5em', textAlign: 'left' }}>Vrt za napredak</p>
+                            <p style={{ flex: 1, fontSize: '2em', textAlign: 'left', paddingLeft: '0.5em' }}>75kn</p>
+                            <div style={{ flex: 0.5 }}></div>
+                        </div>
+                        <div style={{ flex: 8, display: 'flex', flexDirection: 'column', paddingTop: '1em', paddingBottom: '1em', backgroundColor: '#F0F0F0', justifyContent: 'space-evenly' }}>
+                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>25 biljaka</p>
+                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Praćenje biljaka</p>
+                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Dobivanje obavijesti</p>
+                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Upute za sadnju</p>
+                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Senzor za temperaturu i vlagu</p>
+                            <p style={{ fontSize: '1.5em', textAlign: 'center', textDecoration: 'line-through', color: 'gray' }}>Senzor za temperaturu zemlje</p>
+                            <p style={{ fontSize: '1.5em', textAlign: 'center', textDecoration: 'line-through', color: 'gray' }}>Senzor za vlagu</p>
+                        </div>
+                    </div>
+
+                    <div style={{ flex: 1 }}></div>
+                    <div style={{ flex: 2, display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: "1em" }}>
+                            <div style={{ flex: 0.5 }}></div>
+                            <p style={{ flex: 1.2, fontSize: '1.5em', textAlign: 'left' }}>Šuma za prave vrtlare</p>
+                            <p style={{ flex: 1, fontSize: '2em', textAlign: 'left', paddingLeft: '0.5em' }}>150kn</p>
+                            <div style={{ flex: 0.5 }}></div>
+                        </div>
+                        <div style={{ flex: 8, display: 'flex', flexDirection: 'column', paddingTop: '1em', paddingBottom: '1em', backgroundColor: '#F0F0F0', justifyContent: 'space-evenly' }}>
+                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>∞ biljaka</p>
+                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Praćenje biljaka</p>
+                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Dobivanje obavijesti</p>
+                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Upute za sadnju</p>
+                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Senzor za temperaturu i vlagu</p>
+                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Senzor za temperaturu zemlje</p>
+                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Senzor za vlagu</p>
+                        </div>
+                    </div>
+                    <div style={{ flex: 1 }}></div>
+                </div>
+                <div style={{ flex: 1 }}></div>
+            </div>
+
+            <div id="Map" style={{ display: 'flex', flexDirection: 'column', flex: 10, backgroundColor: '#F0F0F0', paddingTop:"0.5em", paddingBottom:"0.5em" }}>
+                <div style={{ flex: 1 }}></div>
+                <div style={{ flex: 12, display: 'flex' }}>
+                    <div style={{ flex: 1 }}></div>
+                    <div style={{ flex: 7, backgroundColor: 'white', display: 'flex' }}>
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '3em' }}>
+                            <p style={{ fontSize: '1.5em', flex: 0.5, paddingBottom: '1em' }}>Javite nam se</p>
+                            <form style={{ flex: 8, display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly' }}>
+                                <input type="text" placeholder="Ime" style={{ backgroundColor: '#F0F0F0', padding: '0.5em', marginBottom: '0.5em' }} />
+                                <input type="text" placeholder="Email" style={{ backgroundColor: '#F0F0F0', padding: '0.5em', marginBottom: '0.5em' }} />
+                                <textarea placeholder="Vaša poruka" rows="15" style={{ backgroundColor: '#F0F0F0', padding: '0.5em', marginBottom: '0.5em' }} />
+                                <input type="submit" value="Pošalji" style={{ textAlign: 'left', width: '3.2em' }} />
+                            </form>
+                            <div style={{ flex: 1 }}></div>
+                        </div>
+                        <div style={{ flex: 2 }}>
+                            <Map sensorValues={sensorValues} />
+                        </div>
+                    </div>
+                    <div style={{ flex: 1 }}></div>
+                </div>
+                <div style={{ flex: 1 }}></div>
+            </div>
+            <div id="Contact" style={{ display: 'flex', flex: 0.5, backgroundColor: '#424242', padding: '1em', flexDirection: 'column', fontSize: '1.2em' }}>
+                <div style={{ flex: 2, display: 'flex', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', flex: 3, justifyContent: 'space-between', alignItems: 'flex-Start', paddingLeft: '0.6em' }}>
+                        <a style={navLink2} href="#Top">Na vrh</a>
+                        <a style={navLink2} href="#About">O Plantzilli</a>
+                        <a style={navLink2} href="#Pricing">Opcije</a>
+                        <a style={navLink2} href="#Map">Esri mapa</a>
+                    </div>
+                    <div style={{ flex: 5 }}></div>
+                    <div style={{ flex: 1 }}>
+                        <p style={{ color: 'white', padding: '0.5em' }}>Pronađite nas na:</p>
+                        <img alt="" src={Facebook} style={{ marginBottom: '0.1em' }} />
+                        <img alt="" src={Instagram} style={{}} />
+                    </div>
+                </div>
+                <div style={{ flex: 1, borderTop: "1px solid white" }}>
+                    <p style={{ color: 'white', padding: '0.5em' }}>Made with love Plantzilla, 2020</p>
+                </div>
+            </div>
         </div>
     );
 }
@@ -275,7 +366,7 @@ class Map extends React.Component {
     }
     render() {
         return (
-            <div className="webmap" ref={this.mapRef} />
+            <div style={{ height: '100%', width: '100%' }} ref={this.mapRef} />
         );
     }
 };
