@@ -20,6 +20,9 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FileBase64 from 'react-file-base64';
 
+import IconButton from '@material-ui/core/IconButton';
+import ArrowBack from '@material-ui/icons/ArrowBack';
+
 import Voce from '../assets/voce.png'
 import Povrce from '../assets/povrce.png'
 import Cvijece from '../assets/cvijece.png'
@@ -127,70 +130,79 @@ export default function AddPlantScreen(props) {
     }
 
     useEffect(() => {
-        let tmp = plants.filter(plant => plant.category === category).map(plant => (
-            <div key={uuid()} style={{ paddingTop: 10 }}>
-                <Card className={classes.root} key={plant.id} variant="outlined" style={{ borderRadius: 20, backgroundColor: '#fff' }}>
-                    <CardMedia
-                        component="img"
-                        alt=""
-                        height="250"
-                        src={`data:image/jpg;base64,${plant.image}`}
-                        title=""
-                        style={{ borderRadius: 20 }}
-                    />
+        let tmp = plants.filter(plant => plant.category === category).map(plant => {
 
-                    <CardContent>
-                        <Typography variant="h5" component="h2" style={{ paddingLeft: 15 }}>
-                            {plant.name}
-                        </Typography>
-                        <Typography variant="body1" component="p" style={{ marginTop: 10, paddingLeft: 15 }}>
-                            Težina uzgoja:
-                        </Typography>
-                        <Typography variant="body2" component="p" style={{ paddingLeft: 15 }}>
-                            {plant.difficulty}
-                        </Typography>
-                        <Divider style={{ marginTop: 10 }} />
-                        <CardActionArea>
-                            <ExpansionPanel style={{ boxShadow: 'none', borderTop: 'none' }}>
-                                <ExpansionPanelSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls="panel1a-content"
-                                    id="panel1a-header"
-                                >
-                                    <Typography>Opis</Typography>
-                                </ExpansionPanelSummary>
-                                <ExpansionPanelDetails >
-                                    <Typography>
-                                        {plant.summary}
-                                    </Typography>
-                                </ExpansionPanelDetails>
-                            </ExpansionPanel>
-                        </CardActionArea>
-                        <Divider />
-                        <CardActionArea>
-                            <ExpansionPanel style={{ boxShadow: 'none', borderTop: 'none' }}>
-                                <ExpansionPanelSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls="panel1a-content"
-                                    id="panel1a-header"
-                                >
-                                    <Typography>Materijali</Typography>
-                                </ExpansionPanelSummary>
-                                <ExpansionPanelDetails >
-                                    <ul style={{ paddingLeft: 30 }}>
-                                        {populateMaterials(plant.materials)}
-                                    </ul>
-                                </ExpansionPanelDetails>
-                            </ExpansionPanel>
-                        </CardActionArea>
-                        <Divider />
-                    </CardContent>
-                    <CardActions style={{ paddingLeft: 20 }}>
-                        <Button size="small" onClick={() => tryToAdd(plant.id)}>Dodaj</Button>
-                    </CardActions>
-                </Card>
-            </div>
-        ));
+            let bckgColor = "";
+            if (plant.category === "Voće") {
+                bckgColor = "#F5DADA";
+            } else if (plant.category === "Povrće") {
+                bckgColor = "#CAF5B0";
+            } else if (plant.category === "Cvijeće") {
+                bckgColor = "#F5F0BE";
+            }
+            else {
+                bckgColor = "#E8E4FF";
+            }
+
+            return (
+                <div key={uuid()} style={{ paddingTop: 10 }}>
+                    <Card className={classes.root} key={plant.id} variant="outlined" style={{ borderRadius: 20, backgroundColor: bckgColor }}>
+                        <CardMedia
+                            component="img"
+                            alt=""
+                            height="250"
+                            src={`data:image/jpg;base64,${plant.image}`}
+                            title=""
+                            style={{ borderRadius: 20 }}
+                        />
+
+                        <CardContent>
+                            <Typography variant="h5" component="h2" style={{ paddingLeft: 15 }}>
+                                {plant.name}
+                            </Typography>
+                            <Typography variant="body1" component="p" style={{ marginTop: 10, paddingLeft: 15 }}>
+                                Težina uzgoja: {plant.difficulty}
+                            </Typography>
+                            <CardActionArea>
+                                <ExpansionPanel style={{ boxShadow: 'none', borderTop: 'none', backgroundColor: bckgColor }}>
+                                    <ExpansionPanelSummary
+                                        expandIcon={<ExpandMoreIcon />}
+                                        aria-controls="panel1a-content"
+                                        id="panel1a-header"
+                                    >
+                                        <Typography>Opis</Typography>
+                                    </ExpansionPanelSummary>
+                                    <ExpansionPanelDetails >
+                                        <Typography>
+                                            {plant.summary}
+                                        </Typography>
+                                    </ExpansionPanelDetails>
+                                </ExpansionPanel>
+                            </CardActionArea>
+                            <CardActionArea>
+                                <ExpansionPanel style={{ boxShadow: 'none', borderTop: 'none', backgroundColor: bckgColor }}>
+                                    <ExpansionPanelSummary
+                                        expandIcon={<ExpandMoreIcon />}
+                                        aria-controls="panel1a-content"
+                                        id="panel1a-header"
+                                    >
+                                        <Typography>Materijali</Typography>
+                                    </ExpansionPanelSummary>
+                                    <ExpansionPanelDetails >
+                                        <ul style={{ paddingLeft: 30 }}>
+                                            {populateMaterials(plant.materials)}
+                                        </ul>
+                                    </ExpansionPanelDetails>
+                                </ExpansionPanel>
+                            </CardActionArea>
+                        </CardContent>
+                        <CardActions style={{ paddingLeft: 20 }}>
+                            <Button size="small" onClick={() => tryToAdd(plant.id)}>Dodaj</Button>
+                        </CardActions>
+                    </Card>
+                </div>
+            )
+        });
 
         let lcards = [];
         let mcards = [];
@@ -397,8 +409,10 @@ export default function AddPlantScreen(props) {
         else if (category === 'Add') {
             return (
                 <div style={{ display: 'flex', flexDirection: 'row', flex: 2, padding: 20 }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%", paddingTop: 10 }}>
-                        <Button style={{ width: "80%" }} onClick={() => setCategory("")}>Kategorije</Button>
+                    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%", paddingTop: 10, justifyContent: 'center' }}>
+                        <IconButton aria-label="Povratak na kategorije" onClick={() => setCategory("")} style={{ width: '25%', alignSelf: 'center' }}>
+                            <ArrowBack style={{ color: 'black', fontSize: '1.2em' }} />
+                        </IconButton>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', flex: 2, height: "100%" }}></div>
                     <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
@@ -516,7 +530,7 @@ export default function AddPlantScreen(props) {
 
                         <FileBase64
                             multiple={false}
-                            onDone={getFiles}/>
+                            onDone={getFiles} />
 
                         <Snackbar open={alertOpen} autoHideDuration={6000} onClose={() => setAlertOpen(false)}>
                             <Alert onClose={() => setAlertOpen(false)} severity="error">
@@ -559,8 +573,10 @@ export default function AddPlantScreen(props) {
         else {
             return (
                 <div style={{ display: 'flex', flexDirection: 'row', flex: 2, padding: 20 }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%", paddingTop: 10 }}>
-                        <Button style={{ width: "80%" }} onClick={() => setCategory("")}>Kategorije</Button>
+                    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%", paddingTop: 10, justifyContent: 'center' }}>
+                        <IconButton aria-label="Povratak na kategorije" onClick={() => setCategory("")} style={{ width: '25%', alignSelf: 'center' }}>
+                            <ArrowBack style={{ color: 'black', fontSize: '1.2em' }} />
+                        </IconButton>
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>

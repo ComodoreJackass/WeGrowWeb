@@ -69,6 +69,8 @@ export default function TrackedCard(props) {
     const [vlagaTla, setVlagaTla] = useState('Senzor nije spojen');
     const [progVlagaTla, setProgVlagaTla] = useState(0);
 
+    const [bckgColor, setBckgColor] = useState('');
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -210,9 +212,22 @@ export default function TrackedCard(props) {
         }
     };
 
+    useEffect(() => {
+        if (prog.plant.category === "Voće") {
+            setBckgColor("#F5DADA");
+        } else if (prog.plant.category === "Povrće") {
+            setBckgColor("#CAF5B0");
+        } else if (prog.plant.category === "Cvijeće") {
+            setBckgColor("#F5F0BE");
+        }
+        else {
+            setBckgColor("#E8E4FF");
+        }
+    }, []);
+
     return (
         <div style={{ paddingTop: 10 }}>
-            <Card className={classes.root} variant="outlined" style={{ borderRadius: 20, backgroundColor:'#fff' }}>
+            <Card className={classes.root} variant="outlined" style={{ borderRadius: 20, backgroundColor: bckgColor }}>
                 <CardMedia
                     component="img"
                     alt=""
@@ -227,32 +242,21 @@ export default function TrackedCard(props) {
                         {prog.plant.name}
                     </Typography>
                     <Typography variant="body2" component="p" style={{ marginTop: 10, paddingLeft: 15 }}>
-                        Očekivano vrijeme uzgoja:
-                        <br />
-                        {prog.plant.duration} dana
+                        Očekivano vrijeme uzgoja: {prog.plant.duration} dana
                     </Typography>
-                    <Divider style={{ marginTop: 10, marginBottom: 10, paddingLeft: 15 }} />
-                    <Typography variant="body2" component="p" style={{ paddingLeft: 15 }}>
-                        Proteklo vrijeme
-                        <br />
-                        {props.elapsedTime(Date.parse(prog.started_on))}
+                    <Typography variant="body2" component="p" style={{ paddingLeft: 15, marginTop: "1em" }}>
+                        Proteklo vrijeme {props.elapsedTime(Date.parse(prog.started_on))}
                     </Typography>
-
-                    <Divider style={{ marginTop: 10, marginBottom: 10, paddingLeft: 15 }} />
-                    <Typography variant="body2" component="p" style={{ paddingLeft: 15 }}>
+                    <Typography variant="body2" component="p" style={{ paddingLeft: 15, marginTop: "1em" }}>
                         Zadnje zalijevanje prije:
-                        <br />
                         {props.elapsedTime(Date.parse(prog.last_watered_on))}
                         <IconButton aria-label="water" onClick={() => watered(prog.id)} style={{ marginLeft: "10px" }}>
-                            <WaterIcon />
+                            <WaterIcon style={{ color: '#77B5FE' }} />
                         </IconButton>
                     </Typography>
 
-                    <Divider style={{ marginTop: 10, paddingLeft: 15 }} />
-
-
                     <CardActionArea>
-                        <ExpansionPanel style={{ boxShadow: 'none', borderTop: 'none', backgroundColor:'#fff' }}>
+                        <ExpansionPanel style={{ boxShadow: 'none', borderTop: 'none', backgroundColor: bckgColor }}>
                             <ExpansionPanelSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls="panel1a-content"
@@ -310,15 +314,14 @@ export default function TrackedCard(props) {
                         </ExpansionPanel>
                     </CardActionArea>
 
-                    <Divider/>
                     <CardActionArea>
-                        <ExpansionPanel style={{ boxShadow: 'none', borderTop: 'none', backgroundColor:'#fff' }}>
+                        <ExpansionPanel style={{ boxShadow: 'none', borderTop: 'none', backgroundColor: bckgColor }}>
                             <ExpansionPanelSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
                             >
-                                <Typography>Briga o biljci</Typography>
+                                <Typography variant="body2" component="p">Briga o biljci</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails >
                                 <Typography>
@@ -327,15 +330,14 @@ export default function TrackedCard(props) {
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
                     </CardActionArea>
-                    <Divider />
                     <CardActionArea>
-                        <ExpansionPanel style={{ boxShadow: 'none', borderTop: 'none', backgroundColor:'#fff' }}>
+                        <ExpansionPanel style={{ boxShadow: 'none', borderTop: 'none', backgroundColor: bckgColor }}>
                             <ExpansionPanelSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
                             >
-                                <Typography>Upute za sadnju</Typography>
+                                <Typography variant="body2" component="p">Upute za sadnju</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails >
                                 <Typography>
@@ -344,9 +346,8 @@ export default function TrackedCard(props) {
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
                     </CardActionArea>
-                    <Divider />
                 </CardContent>
-                <CardActions style={{ paddingLeft: 20 }}>
+                <CardActions style={{ paddingLeft: 20, paddingRight:20, display: 'flex', justifyContent: 'space-between' }}>
                     <Button size="small" onClick={() => props.tryToDelete(prog.id)}>Obriši</Button>
                     <Button size="small" onClick={() => props.moveToDone(prog.id)}>Gotovo</Button>
                 </CardActions>

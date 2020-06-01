@@ -77,6 +77,10 @@ export default function TabsNav(props) {
   const [value, setValue] = React.useState(0);
 
   const [done, setDone] = useState(0);
+  const [doneC, setDoneC] = useState(0);
+  const [doneP, setDoneP] = useState(0);
+  const [doneZ, setDoneZ] = useState(0);
+  const [doneV, setDoneV] = useState(0);
 
   async function tryToLogIn() {
     try {
@@ -97,11 +101,29 @@ export default function TabsNav(props) {
         let json = await response.json();
 
         let count = 0;
+        let cVoce = 0;
+        let cPovrce = 0;
+        let cCvijece = 0;
+        let cZacini = 0;
         json.forEach(element => {
           if (element.done) count++;
+          if (element.plant.category === "Voće") {
+            cVoce++;
+          } else if (element.plant.category === "Povrće") {
+            cPovrce++;
+          } else if (element.plant.category === "Cvijeće") {
+            cCvijece++
+          }
+          else {
+            cZacini++;
+          }
         });
 
         setDone(count);
+        setDoneV(cVoce);
+        setDoneP(cPovrce);
+        setDoneZ(cZacini);
+        setDoneC(cCvijece);
       }
       else {
         console.log(responseStatus + " " + userId + " " + jsonToken);
@@ -181,19 +203,19 @@ export default function TabsNav(props) {
           <AddPlantScreen jsonToken={jsonToken} userId={userId} value={handleChange} username={props.username} />
         </TabPanel>
         <TabPanel value={value} index={2} style={{ backgroundColor: "#FFF" }}>
-          <div style={{display:'flex', flex: 1, justifyContent: "center", alignItems: "center", padding: '30%', paddingTop: 20, paddingBottom: 0 }}>
-            <Card className={classes.card} style={{display:'flex', flexDirection:'column', flex:1, justifyContent:'center', alignItems:'center', padding: '2em'}}>
-              <img
-                alt=""
-                src={Background}
-                title=""
-                style={{height:200}}
-              />
+          <div style={{ display: 'flex', flex: 1, justifyContent: "center", alignItems: "center", padding: '20%', paddingTop: 20, paddingBottom: 0 }}>
+            <Card className={classes.card} style={{ display: 'flex', flexDirection: 'column', flex: 1, alignItems: 'center', padding: '2em' }}>
               <CardContent>
+                <img
+                  alt=""
+                  src={Background}
+                  title=""
+                  style={{ height: 200 }}
+                />
                 <Typography gutterBottom variant="h5" component="h2" style={{ marginBottom: 20 }}>
-                  Upravljanje računom
-                  </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
+                  Bok, {props.username}
+                </Typography>
+                <Typography variant="body1" color="textSecondary" component="p">
                   Postignuća:
                 </Typography>
                 <div style={{ height: 120, width: 120, marginLeft: "20%", marginTop: 20, marginBottom: 10 }}>
@@ -220,28 +242,39 @@ export default function TabsNav(props) {
                     backgroundColor: '#3e98c7',
                   })} />
                 </div>
-                <Typography variant="body2" color="textSecondary" component="p" style={{marginTop:20}}>
-                  Uzgojeno biljaka: {done}
+                <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 20 }}>
+                  Uzgojeno sveukupno biljaka: {done}
                 </Typography>
-                <Divider style={{ marginTop: 40, marginBottom: 10 }} />
-                <Typography variant="body2" color="textSecondary" component="p" style={{ paddingLeft: 15 }}>
+                <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10 }}>
+                  Uzgojeno Voća: {doneV}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10 }}>
+                  Uzgojeno Povrća: {doneP}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10 }}>
+                  Uzgojeno Cvijeća: {doneC}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10 }}>
+                  Uzgojeno Začina: {doneZ}
+                </Typography>
+
+                <Typography variant="body1" color="textSecondary" component="p" style={{ marginTop: 40, marginBottom: 10 }}>
+                  Postavke računa:
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10, marginBottom: 10 }}>
                   Korisničko ime: {props.username}
                 </Typography>
-                <Divider style={{ marginTop: 10, marginBottom: 10 }} />
-                <Typography variant="body2" color="textSecondary" component="p" style={{ paddingLeft: 15 }}>
+                <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10, marginBottom: 10 }}>
                   Email: {props.email}
                 </Typography>
-                <Divider style={{ marginTop: 10, marginBottom: 10 }} />
-                <Typography variant="body2" color="textSecondary" component="p" style={{ paddingLeft: 15 }}>
+                <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10, marginBottom: 30 }}>
                   Datum registracije: {moment(props.date).format('DD.MM.YYYY')}
                 </Typography>
-                <Divider style={{ marginTop: 10 }} />
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginLeft: -5 }}>
+                  <Button onClick={() => { props.returnLogedIn(false); props.returnLogin(false) }}>Odjavi me</Button>
+                  <Button onClick={() => tryToDeleteAccount()}>Obriši račun</Button>
+                </div>
               </CardContent>
-              <CardActions style={{ paddingLeft: 20 }}>
-                <Button onClick={() => { props.returnLogedIn(false); props.returnLogin(false) }}>Odjavi me</Button>
-                <br />
-                <Button onClick={() => tryToDeleteAccount()}>Obriši račun</Button>
-              </CardActions>
             </Card>
           </div>
         </TabPanel>

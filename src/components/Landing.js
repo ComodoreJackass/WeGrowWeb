@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { loadModules } from 'esri-loader';
-
+import './css.css';
 import { ReactComponent as Logo } from '../assets/logo.svg';
 import LandingPic from '../assets/landing.png';
 import Soon from '../assets/soon.png';
@@ -13,6 +13,8 @@ import Hot from '../assets/hot.png';
 import IconButton from '@material-ui/core/IconButton';
 import Facebook from '@material-ui/icons/Facebook';
 import Instagram from '@material-ui/icons/Instagram';
+import Button from '@material-ui/core/Button';
+
 
 import GoogleLogin from 'react-google-login';
 
@@ -73,6 +75,17 @@ export default function Landing(props) {
         console.log(response);
     }
 
+    function changeBackground(e) {
+        e.target.style.background = '#2EB77D';
+        e.target.style.color = 'white';
+    }
+
+
+    function restoreBackground(e) {
+        e.target.style.background = '#F0F0F0';
+        e.target.style.color = 'black';
+    }
+
     return (
         <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: '420vh', backgroundColor: 'green' }}>
             <div id="Top" style={navbar}>
@@ -86,7 +99,7 @@ export default function Landing(props) {
                     </ul>
                 </div>
                 <div style={{ flex: 8 }}></div>
-                <div style={{ display:'flex', flexDirection:'row', flex: 2, alignItems:'center', justifyContent: 'space-around' }}>
+                <div style={{ display: 'flex', flexDirection: 'row', flex: 2, alignItems: 'center', justifyContent: 'space-around' }}>
                     <a style={navLink} href="#" onClick={() => { props.returnLogin(true) }}>Prijava</a>
                     <GoogleLogin
                         clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
@@ -178,7 +191,12 @@ export default function Landing(props) {
                             <p style={{ flex: 1, fontSize: '2em', textAlign: 'left', paddingLeft: '0.5em' }}>Free</p>
                             <div style={{ flex: 0.5 }}></div>
                         </div>
-                        <div style={{ flex: 8, display: 'flex', flexDirection: 'column', paddingTop: '1em', paddingBottom: '1em', backgroundColor: '#F0F0F0', justifyContent: 'space-evenly' }}>
+                        <div
+                            style={{ flex: 8, display: 'flex', flexDirection: 'column', paddingTop: '1em', paddingBottom: '1em', backgroundColor: '#F0F0F0', justifyContent: 'space-evenly' }}
+                            className="opcije"
+                            onMouseOver={changeBackground}
+                            onMouseLeave={restoreBackground}
+                        >
                             <p style={{ fontSize: '1.5em', textAlign: 'center' }}>5 biljaka</p>
                             <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Praćenje biljaka</p>
                             <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Dobivanje obavijesti</p>
@@ -197,7 +215,12 @@ export default function Landing(props) {
                             <p style={{ flex: 1, fontSize: '2em', textAlign: 'left', paddingLeft: '0.5em' }}>75kn</p>
                             <div style={{ flex: 0.5 }}></div>
                         </div>
-                        <div style={{ flex: 8, display: 'flex', flexDirection: 'column', paddingTop: '1em', paddingBottom: '1em', backgroundColor: '#F0F0F0', justifyContent: 'space-evenly' }}>
+                        <div
+                            style={{ flex: 8, display: 'flex', flexDirection: 'column', paddingTop: '1em', paddingBottom: '1em', backgroundColor: '#F0F0F0', justifyContent: 'space-evenly' }}
+                            className="opcije"
+                            onMouseOver={changeBackground}
+                            onMouseLeave={restoreBackground}
+                        >
                             <p style={{ fontSize: '1.5em', textAlign: 'center' }}>25 biljaka</p>
                             <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Praćenje biljaka</p>
                             <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Dobivanje obavijesti</p>
@@ -216,7 +239,12 @@ export default function Landing(props) {
                             <p style={{ flex: 1, fontSize: '2em', textAlign: 'left', paddingLeft: '0.5em' }}>150kn</p>
                             <div style={{ flex: 0.5 }}></div>
                         </div>
-                        <div style={{ flex: 8, display: 'flex', flexDirection: 'column', paddingTop: '1em', paddingBottom: '1em', backgroundColor: '#F0F0F0', justifyContent: 'space-evenly' }}>
+                        <div
+                            style={{ flex: 8, display: 'flex', flexDirection: 'column', paddingTop: '1em', paddingBottom: '1em', backgroundColor: '#F0F0F0', justifyContent: 'space-evenly' }}
+                            className="opcije"
+                            onMouseOver={changeBackground}
+                            onMouseLeave={restoreBackground}
+                        >
                             <p style={{ fontSize: '1.5em', textAlign: 'center' }}>∞ biljaka</p>
                             <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Praćenje biljaka</p>
                             <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Dobivanje obavijesti</p>
@@ -242,7 +270,9 @@ export default function Landing(props) {
                                 <input type="text" placeholder="Ime" style={{ backgroundColor: '#F0F0F0', padding: '0.5em', marginBottom: '0.5em' }} />
                                 <input type="text" placeholder="Email" style={{ backgroundColor: '#F0F0F0', padding: '0.5em', marginBottom: '0.5em' }} />
                                 <textarea placeholder="Vaša poruka" rows="15" style={{ backgroundColor: '#F0F0F0', padding: '0.5em', marginBottom: '0.5em' }} />
-                                <input type="submit" value="Pošalji" style={{ textAlign: 'left', width: '3.2em' }} />
+                                <Button style={{ width: "2em" }}>
+                                    <input type="submit" value="Pošalji" style={{ textAlign: 'left', width: '3.2em' }} />
+                                </Button>
                             </form>
                             <div style={{ flex: 1 }}></div>
                         </div>
