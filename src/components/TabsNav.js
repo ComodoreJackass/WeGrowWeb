@@ -15,6 +15,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import { Line, Circle } from 'rc-progress';
 
 import 'react-circular-progressbar/dist/styles.css';
 
@@ -22,6 +23,12 @@ import HomeScreen from './HomeScreen'
 import AddPlantScreen from './AddPlantScreen'
 
 import Background from '../assets/accImage.png';
+
+import A1 from '../assets/a1.png';
+import A2 from '../assets/a2.png';
+import A3 from '../assets/a3.png';
+import A4 from '../assets/a4.png';
+
 import { ReactComponent as Logo } from '../assets/logo.svg';
 import Banner from '../assets/header.png'
 
@@ -203,46 +210,46 @@ export default function TabsNav(props) {
           <AddPlantScreen jsonToken={jsonToken} userId={userId} value={handleChange} username={props.username} />
         </TabPanel>
         <TabPanel value={value} index={2} style={{ backgroundColor: "#FFF" }}>
-          <div style={{ display: 'flex', flex: 1, justifyContent: "center", alignItems: "center", padding: '20%', paddingTop: 20, paddingBottom: 0 }}>
-            <Card className={classes.card} style={{ display: 'flex', flexDirection: 'column', flex: 1, alignItems: 'center', padding: '2em' }}>
-              <CardContent>
-                <img
-                  alt=""
-                  src={Background}
-                  title=""
-                  style={{ height: 200 }}
-                />
+          <div style={{ display: 'flex', flex: 1, justifyContent: "center", alignItems: "center", paddingLeft: '20%', paddingRight: '20%', paddingBottom: 0 }}>
+            <Card className={classes.card} style={{ display: 'flex', flexDirection: 'column', flex: 1, alignItems: 'center' }}>
+              <CardContent style={{ width: '60%' }}>
                 <Typography gutterBottom variant="h5" component="h2" style={{ marginBottom: 20 }}>
                   Bok, {props.username}
                 </Typography>
                 <Typography variant="body1" color="textSecondary" component="p">
-                  Postignuća:
+                  Vaša Postignuća (lvl {`${Math.floor(done / 5)}`}):
                 </Typography>
-                <div style={{ height: 120, width: 120, marginLeft: "20%", marginTop: 20, marginBottom: 10 }}>
-                  <CircularProgressbar value={(done % 5)} maxValue={5} text={`Razina: ${Math.floor(done / 5)}`} styles={buildStyles({
-                    // Rotation of path and trail, in number of turns (0-1)
-                    rotation: 0.25,
-
-                    // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
-                    strokeLinecap: 'butt',
-
-                    // Text size
-                    textSize: '12px',
-
-                    // How long animation takes to go from one percentage to another, in seconds
-                    pathTransitionDuration: 0.5,
-
-                    // Can specify path transition in more detail, or remove it entirely
-                    // pathTransition: 'none',
-
-                    // Colors
-                    pathColor: `rgba(12, 138, 54, 0.8)`,
-                    textColor: '#000',
-                    trailColor: '#d6d6d6',
-                    backgroundColor: '#3e98c7',
-                  })} />
+                <div style={{ width: "100%", marginTop: 30, marginBottom: 50 }}>
+                  <Line percent={((done % 5) * 20)} strokeWidth="1" strokeColor="#51A1FF" />
+                  <div style={{ display: 'flex', flex: '1', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop:40 }}>
+                    <img
+                      alt=""
+                      src={A1}
+                      title=""
+                      style={{ height: 50 }}
+                    />
+                    <img
+                      alt=""
+                      src={A2}
+                      title=""
+                      style={{ height: 50 }}
+                    />
+                    <img
+                      alt=""
+                      src={A3}
+                      title=""
+                      style={{ height: 50 }}
+                    />
+                    <img
+                      alt=""
+                      src={A4}
+                      title=""
+                      style={{ height: 50 }}
+                    />
+                  </div>
                 </div>
-                <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 20 }}>
+
+                <Typography variant="body2" color="textSecondary" component="p">
                   Uzgojeno sveukupno biljaka: {done}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10 }}>
@@ -254,7 +261,7 @@ export default function TabsNav(props) {
                 <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10 }}>
                   Uzgojeno Cvijeća: {doneC}
                 </Typography>
-                <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10 }}>
+                <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10, marginBottom: 50 }}>
                   Uzgojeno Začina: {doneZ}
                 </Typography>
 
