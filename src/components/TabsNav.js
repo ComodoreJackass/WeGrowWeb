@@ -15,12 +15,15 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+
 import 'react-circular-progressbar/dist/styles.css';
 
 import HomeScreen from './HomeScreen'
 import AddPlantScreen from './AddPlantScreen'
 
-import Background from '../assets/bckg-large.png';
+import Background from '../assets/accImage.png';
+import { ReactComponent as Logo } from '../assets/logo.svg';
+import Banner from '../assets/header.png'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -58,7 +61,7 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: "#EAD6C6"
+    backgroundColor: "#FFF"
   },
   card: {
     minWidth: 275,
@@ -109,8 +112,9 @@ export default function TabsNav(props) {
   }
 
   const handleChange = (event, newValue) => {
+    console.log(newValue);
     setValue(newValue);
-    if(newValue===2){
+    if (newValue === 2) {
       tryToLogIn();
     }
   };
@@ -146,40 +150,53 @@ export default function TabsNav(props) {
 
   return (
     <div style={{
-      display: 'flex', height: "100%", width: "100%", backgroundColor: "#EAD6C6", margin: 0
+      display: 'flex', height: "100%", width: "100%", backgroundColor: "#FFF", margin: 0
     }}>
       <div className={classes.root}>
-        <AppBar position="static">
-          <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" centered>
-            <Tab label="Praćenje biljke" {...a11yProps(0)} />
-            <Tab label="Dodaj biljku" {...a11yProps(1)} />
-            <Tab label="Upravljanje računom" {...a11yProps(2)} />
-          </Tabs>
+        <AppBar position="static" title={<img src={Logo} />} style={{ backgroundColor: '#fff', color: '#000' }}>
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            <div style={{ flex: 1 }}>
+              <Logo style={{ height: '4em' }} />
+            </div>
+            <div style={{ flex: 1 }}></div>
+            <div style={{ flex: 5 }}>
+              <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" centered>
+                <Tab label="Praćenje biljke" {...a11yProps(0)} style={{ marginRight: "5em" }} />
+                <Tab label="Dodaj biljku" {...a11yProps(1)} style={{ marginRight: "5em" }} />
+                <Tab label="Upravljanje računom" {...a11yProps(2)} />
+              </Tabs>
+            </div>
+            <div style={{ flex: 2 }}></div>
+          </div>
+          <div style={{
+            display: 'flex', height: "8em", width: "100%", backgroundColor: "#F1E4C7", backgroundImage: `url(${Banner})`, backgroundPosition: 'center bottom',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat', margin: 0, padding: 0,
+          }}></div>
         </AppBar>
-        <TabPanel value={value} index={0} style={{ backgroundColor: "#EAD6C6" }}>
+        <TabPanel value={value} index={0} style={{ backgroundColor: "#FFF" }}>
           <HomeScreen jsonToken={jsonToken} userId={userId} />
         </TabPanel>
-        <TabPanel value={value} index={1} style={{ backgroundColor: "#EAD6C6" }}>
-          <AddPlantScreen jsonToken={jsonToken} userId={userId} />
+        <TabPanel value={value} index={1} style={{ backgroundColor: "#FFF" }}>
+          <AddPlantScreen jsonToken={jsonToken} userId={userId} value={handleChange} username={props.username} />
         </TabPanel>
-        <TabPanel value={value} index={2} style={{ backgroundColor: "#EAD6C6" }}>
-          <div style={{ flex: 1, justifyContent: "center", alignItems: "center", padding: '20%', paddingTop: 20, paddingBottom: 0 }}>
-            <Card className={classes.card}>
-              <CardMedia
-                component="img"
-                alt="Contemplative Reptile"
-                height="300"
+        <TabPanel value={value} index={2} style={{ backgroundColor: "#FFF" }}>
+          <div style={{display:'flex', flex: 1, justifyContent: "center", alignItems: "center", padding: '30%', paddingTop: 20, paddingBottom: 0 }}>
+            <Card className={classes.card} style={{display:'flex', flexDirection:'column', flex:1, justifyContent:'center', alignItems:'center', padding: '2em'}}>
+              <img
+                alt=""
                 src={Background}
-                title="Contemplative Reptile"
+                title=""
+                style={{height:200}}
               />
               <CardContent>
-                <Typography gutterBottom variant="h5" component="h2" style={{ paddingLeft: 15, marginBottom: 20 }}>
+                <Typography gutterBottom variant="h5" component="h2" style={{ marginBottom: 20 }}>
                   Upravljanje računom
                   </Typography>
-                <Typography variant="body2" color="textSecondary" component="p" style={{ paddingLeft: 15 }}>
-                  Vještina uzgoja:
+                <Typography variant="body2" color="textSecondary" component="p">
+                  Postignuća:
                 </Typography>
-                <div style={{ height: 200, width: 200, marginLeft: "10%", marginTop: 10, marginBottom: 10 }}>
+                <div style={{ height: 120, width: 120, marginLeft: "20%", marginTop: 20, marginBottom: 10 }}>
                   <CircularProgressbar value={(done % 5)} maxValue={5} text={`Razina: ${Math.floor(done / 5)}`} styles={buildStyles({
                     // Rotation of path and trail, in number of turns (0-1)
                     rotation: 0.25,
@@ -203,11 +220,10 @@ export default function TabsNav(props) {
                     backgroundColor: '#3e98c7',
                   })} />
                 </div>
-                <Divider style={{ marginTop: 10, marginBottom: 10 }} />
-                <Typography variant="body2" color="textSecondary" component="p" style={{ paddingLeft: 15 }}>
+                <Typography variant="body2" color="textSecondary" component="p" style={{marginTop:20}}>
                   Uzgojeno biljaka: {done}
                 </Typography>
-                <Divider style={{ marginTop: 10, marginBottom: 10 }} />
+                <Divider style={{ marginTop: 40, marginBottom: 10 }} />
                 <Typography variant="body2" color="textSecondary" component="p" style={{ paddingLeft: 15 }}>
                   Korisničko ime: {props.username}
                 </Typography>

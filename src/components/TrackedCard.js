@@ -21,6 +21,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import WaterIcon from '@material-ui/icons/LocalDrink';
+import { withStyles } from '@material-ui/core/styles';
+import { Line, Circle } from 'rc-progress';
 
 import { uuid } from 'uuidv4';
 
@@ -199,28 +201,35 @@ export default function TrackedCard(props) {
         }
     }
 
+    const styles = {
+        root: {
+            flexGrow: 1
+        },
+        colorPrimary: {
+            background: 'green'
+        }
+    };
+
     return (
         <div style={{ paddingTop: 10 }}>
-            <Card className={classes.root} variant="outlined">
+            <Card className={classes.root} variant="outlined" style={{ borderRadius: 20, backgroundColor:'#fff' }}>
                 <CardMedia
                     component="img"
                     alt=""
-                    height="140"
+                    height="250"
                     src={`data:image/jpg;base64,${image}`}
                     title=""
+                    style={{ borderRadius: 20 }}
                 />
 
                 <CardContent>
-                    <Typography className={classes.title} color="textSecondary" gutterBottom style={{ paddingLeft: 15 }}>
-                        {prog.growth_stage.stage_title}
-                    </Typography>
                     <Typography variant="h5" component="h2" style={{ paddingLeft: 15 }}>
                         {prog.plant.name}
                     </Typography>
                     <Typography variant="body2" component="p" style={{ marginTop: 10, paddingLeft: 15 }}>
                         Očekivano vrijeme uzgoja:
                         <br />
-                        {prog.growth_stage.stage_duration} dana
+                        {prog.plant.duration} dana
                     </Typography>
                     <Divider style={{ marginTop: 10, marginBottom: 10, paddingLeft: 15 }} />
                     <Typography variant="body2" component="p" style={{ paddingLeft: 15 }}>
@@ -234,60 +243,76 @@ export default function TrackedCard(props) {
                         Zadnje zalijevanje prije:
                         <br />
                         {props.elapsedTime(Date.parse(prog.last_watered_on))}
-                        <IconButton aria-label="water" onClick={() => watered(prog.id)} style={{marginLeft:"10px"}}>
-                        <WaterIcon />
-                    </IconButton>
+                        <IconButton aria-label="water" onClick={() => watered(prog.id)} style={{ marginLeft: "10px" }}>
+                            <WaterIcon />
+                        </IconButton>
                     </Typography>
 
- 
+                    <Divider style={{ marginTop: 10, paddingLeft: 15 }} />
 
-                    <Divider style={{ marginTop: 10, marginBottom: 10, paddingLeft: 15 }} />
-                    <Button size="small" style={{ paddingLeft: 15, paddingRight: 15, marginBottom: 10, textTransform: 'none' }} onClick={handleClickOpen}>
-                        <Typography variant="body2" component="p">
-                            Senzori
-                    </Typography>
-                    </Button>
-                    <br />
-                    <div style={{ paddingLeft: 15, paddingRight: 15, display: "flex" }}>
-                        <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
-                            <div style={{ width: "80%" }}>
-                                <Typography variant="body2" component="p" style={{ paddingBottom: 5 }}>
-                                    Temp zemlje: {tmpTla}
-                                </Typography>
-                                <LinearProgress variant="determinate" value={progTmpTla} />
-                            </div>
-                        </div>
-                        <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
-                            <div style={{ width: "80%" }}>
-                                <Typography variant="body2" component="p" style={{ paddingBottom: 5 }}>
-                                    Vlaga zemlje: {vlagaTla}
-                                </Typography>
-                                <LinearProgress variant="determinate" value={progVlagaTla} />
-                            </div>
-                        </div>
-                    </div>
-                    <div style={{ paddingLeft: 15, paddingRight: 15, paddingTop: 10, display: "flex" }}>
-                        <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
-                            <div style={{ width: "80%" }}>
-                                <Typography variant="body2" component="p" style={{ paddingBottom: 5 }}>
-                                    Temp zraka: {tmpZraka}
-                                </Typography>
-                                <LinearProgress variant="determinate" value={progTmpZraka} />
-                            </div>
-                        </div>
-                        <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
-                            <div style={{ width: "80%" }}>
-                                <Typography variant="body2" component="p" style={{ paddingBottom: 5 }}>
-                                    Vlaga zraka: {vlagaZraka}
-                                </Typography>
-                                <LinearProgress variant="determinate" value={progVlagaZraka} />
-                            </div>
-                        </div>
-                    </div>
 
-                    <Divider style={{ marginTop: 20 }} />
                     <CardActionArea>
-                        <ExpansionPanel style={{ boxShadow: 'none', borderTop: 'none' }}>
+                        <ExpansionPanel style={{ boxShadow: 'none', borderTop: 'none', backgroundColor:'#fff' }}>
+                            <ExpansionPanelSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1a-content"
+                                id="panel1a-header"
+                            >
+                                <Typography variant="body2" component="p">
+                                    Senzori
+                                </Typography>
+                            </ExpansionPanelSummary>
+                            <ExpansionPanelDetails >
+                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                    <Button size="small" style={{ paddingLeft: 15, paddingRight: 15, marginBottom: 10, textTransform: 'none' }} onClick={handleClickOpen}>
+                                        <Typography variant="body2" component="p">
+                                            Spajanje/Odspajanje Senzora
+                                        </Typography>
+                                    </Button>
+                                    <div style={{ paddingLeft: 15, paddingRight: 15, display: "flex" }}>
+                                        <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
+                                            <div style={{ width: "80%" }}>
+                                                <Typography variant="body2" component="p" style={{ paddingBottom: 5 }}>
+                                                    Temp zemlje: {tmpTla}
+                                                </Typography>
+                                                <Line percent={progTmpTla} strokeWidth="4" strokeColor="red" />
+                                            </div>
+                                        </div>
+                                        <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
+                                            <div style={{ width: "80%" }}>
+                                                <Typography variant="body2" component="p" style={{ paddingBottom: 5 }}>
+                                                    Vlaga zemlje: {vlagaTla}
+                                                </Typography>
+                                                <Line percent={progVlagaTla} strokeWidth="4" strokeColor="blue" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style={{ paddingLeft: 15, paddingRight: 15, paddingTop: 10, display: "flex" }}>
+                                        <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
+                                            <div style={{ width: "80%" }}>
+                                                <Typography variant="body2" component="p" style={{ paddingBottom: 5 }}>
+                                                    Temp zraka: {tmpZraka}
+                                                </Typography>
+                                                <Line percent={progTmpZraka} strokeWidth="4" strokeColor="red" />
+                                            </div>
+                                        </div>
+                                        <div style={{ display: "flex", flexDirection: "row", width: "100%" }}>
+                                            <div style={{ width: "80%" }}>
+                                                <Typography variant="body2" component="p" style={{ paddingBottom: 5 }}>
+                                                    Vlaga zraka: {vlagaZraka}
+                                                </Typography>
+                                                <Line percent={progVlagaZraka} strokeWidth="4" strokeColor="blue" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ExpansionPanelDetails>
+                        </ExpansionPanel>
+                    </CardActionArea>
+
+                    <Divider/>
+                    <CardActionArea>
+                        <ExpansionPanel style={{ boxShadow: 'none', borderTop: 'none', backgroundColor:'#fff' }}>
                             <ExpansionPanelSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls="panel1a-content"
@@ -297,14 +322,14 @@ export default function TrackedCard(props) {
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails >
                                 <Typography>
-                                    {prog.growth_stage.next_stage_text}
+                                    {prog.plant.care}
                                 </Typography>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
                     </CardActionArea>
                     <Divider />
                     <CardActionArea>
-                        <ExpansionPanel style={{ boxShadow: 'none', borderTop: 'none' }}>
+                        <ExpansionPanel style={{ boxShadow: 'none', borderTop: 'none', backgroundColor:'#fff' }}>
                             <ExpansionPanelSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls="panel1a-content"
@@ -314,7 +339,7 @@ export default function TrackedCard(props) {
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails >
                                 <Typography>
-                                    {prog.growth_stage.description}
+                                    {prog.plant.instructions}
                                 </Typography>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>

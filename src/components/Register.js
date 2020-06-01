@@ -10,7 +10,8 @@ import { Snackbar, CircularProgress } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 
 
-import Background from '../assets/bckg2.png';
+import LoginImg from '../assets/register.png'
+import Banner from '../assets/header.png'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -127,11 +128,12 @@ export default function Login({ returnLogedIn, returnJsonToken, returnUserId, re
     }, []);
 
     return (
-        <div style={{
-            display: 'flex', height: "100%", width: "100%",backgroundColor: "#F1E4C7", backgroundImage: `url(${Background})`, backgroundPosition: 'center',
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat', margin: 0
-        }}>
+        <div>
+            <div style={{
+                display: 'flex', height: "8em", width: "100%", backgroundColor: "#FFF", backgroundImage: `url(${Banner})`, backgroundPosition: 'center bottom',
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat', margin: 0
+            }}></div>
             <div style={{ flex: 1 }}></div>
             <div className={classes.paper}>
                 <div style={{ flex: 1 }}></div>
@@ -144,99 +146,99 @@ export default function Login({ returnLogedIn, returnJsonToken, returnUserId, re
                     }}>
                         <div style={{ flex: 3 }}></div>
                         <div style={{ flex: 1 }}>
-                            <Avatar className={classes.avatar}>
-                                <LockOutlinedIcon fontSize="large" />
-                            </Avatar>
+                            <img alt="" src={LoginImg} />
                         </div>
                         <div style={{ flex: 3 }}></div>
                     </div>
                     <Typography component="h1" variant="h5" style={{ textAlign: "center" }}>
                         Registracija
                     </Typography>
-                    <form className={classes.form} noValidate>
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="email"
+                        label="Email"
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        autoFocus
+                        error={emailError}
+                        value={email}
+                        color="secondary"
+                        onChange={(event) => { setEmail(event.target.value); setEmailError(false) }}
+                    />
+
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="username"
+                        label="Korisničko ime"
+                        name="username"
+                        autoComplete="username"
+                        error={usernameError}
+                        value={username}
+                        color="secondary"
+                        onChange={(event) => { setUsername(event.target.value); setUsernameError(false) }}
+                    />
+
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Lozinka"
+                        type="password"
+                        id="password"
+                        autoComplete="current-password"
+                        error={passwordError}
+                        value={password}
+                        color="secondary"
+                        onChange={(event) => { setPassword(event.target.value); setPasswordError(false) }}
+                    />
+
+                    <Snackbar open={alertOpen} autoHideDuration={6000} onClose={() => setAlertOpen(false)}>
+                        <Alert onClose={() => setAlertOpen(false)} severity="error">
+                            {alertText}
+                        </Alert>
+                    </Snackbar>
+
+                    <div style={{
+                        flexDirection: "column",
+                        flex: 3,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between"
+                    }}>
+                        {displayProgress ? <CircularProgress variant="determinate" value={progress} style={{ marginBottom: "1em" }} /> : <CircularProgress variant="determinate" value={0} style={{ marginBottom: "1em" }} />}
+
+                        <Button
                             fullWidth
-                            id="email"
-                            label="Email"
-                            name="email"
-                            type="email"
-                            autoComplete="email"
-                            autoFocus
-                            error={emailError}
-                            value={email}
-                            onChange={(event) => { setEmail(event.target.value); setEmailError(false) }}
-                        />
-
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="username"
-                            label="Korisničko ime"
-                            name="username"
-                            autoComplete="username"
-                            error={usernameError}
-                            value={username}
-                            onChange={(event) => { setUsername(event.target.value); setUsernameError(false) }}
-                        />
-
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Lozinka"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                            error={passwordError}
-                            value={password}
-                            onChange={(event) => { setPassword(event.target.value); setPasswordError(false) }}
-                        />
-
-                        <Snackbar open={alertOpen} autoHideDuration={6000} onClose={() => setAlertOpen(false)}>
-                            <Alert onClose={() => setAlertOpen(false)} severity="error">
-                                {alertText}
-                             </Alert>
-                        </Snackbar>
-
-                        <div style={{
-                            flexDirection: "column",
-                            flex: 3,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between"
-                        }}>
-                            {displayProgress ? <CircularProgress variant="determinate" value={progress} style={{ marginBottom: "1em" }} /> : <CircularProgress variant="determinate" value={0} style={{ marginBottom: "1em" }} />}
-
-                            <Button
-                                fullWidth
-                                variant="contained"
-                                style={{
-                                    backgroundColor: "#0C8A36",
-                                    color: "white"
-                                }}
-                                className={classes.submit}
-                                onClick={
-                                    () => {
-                                        verifyInput();
-                                    }
+                            variant="contained"
+                            style={{
+                                backgroundColor: "#C4D0FD",
+                                color: "white",
+                                width: "60%"
+                            }}
+                            className={classes.submit}
+                            onClick={
+                                () => {
+                                    verifyInput();
                                 }
-                            >
-                                Izradi račun
+                            }
+                        >
+                            Izradi račun
                         </Button>
-                        </div>
-                        <div style={{ paddingTop: "2em", paddingBottom: "2em", textAlign:"center" }}>
-                            <Link href="#" onClick={() => returnRegister(false)} variant="body2" style={{ color: '#0000EE' }}>
-                                {"Vrati me na prijavu"}
-                            </Link>
-                        </div>
-                    </form>
+                    </div>
+                    <div style={{ paddingTop: "2em", paddingBottom: "2em", textAlign: "center" }}>
+                        <Link href="#" onClick={() => returnRegister(false)} variant="body2" style={{ color: '#0000EE' }}>
+                            {"Vrati me na prijavu"}
+                        </Link>
+                    </div>
                 </div>
                 <div style={{ flex: 2 }}></div>
             </div>

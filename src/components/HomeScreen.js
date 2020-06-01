@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import TrackedCard from './TrackedCard';
 import { uuid } from 'uuidv4';
+import Banner from '../assets/landing.png'
 
 export default function HomeScreen(props) {
     const [jsonToken] = useState(props.jsonToken);
@@ -8,6 +9,7 @@ export default function HomeScreen(props) {
     const [progress, setProgress] = useState([]);
     const [plants, setPlants] = useState([]);
     const [lCards, setLeftCards] = useState([]);
+    const [mCards, setMiddleCards] = useState([]);
     const [rCards, setRightCards] = useState([]);
 
     async function tryToLogIn() {
@@ -151,10 +153,10 @@ export default function HomeScreen(props) {
 
     useEffect(() => {
         let tmp = progress.filter(prog => !prog.done).map(prog => (
-            <TrackedCard 
+            <TrackedCard
                 key={uuid()}
-                prog={prog} 
-                image={plants[prog.plant.id - 1].image}
+                prog={prog}
+                image={prog.plant.image}
                 elapsedTime={elapsedTime}
                 //handleClickOpen={handleClickOpen}
                 tryToDelete={tryToDelete}
@@ -166,17 +168,23 @@ export default function HomeScreen(props) {
         ));
 
         let lcards = [];
+        let mcards = [];
         let rcards = [];
 
         for (var i = 0; i < tmp.length; i++) {
-            if (i % 2 === 0) {
+            if (i % 3 === 0) {
                 lcards.push(tmp[i]);
-            } else {
+            }
+            else if (i % 3 === 1) {
+                mcards.push(tmp[i]);
+            }
+            else {
                 rcards.push(tmp[i]);
             }
         }
 
         setLeftCards(lcards);
+        setMiddleCards(mcards);
         setRightCards(rcards);
 
     }, [progress])
@@ -189,7 +197,16 @@ export default function HomeScreen(props) {
                 <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
                     {lCards}
                 </div>
+
                 <div style={{ display: 'flex', flexDirection: 'column', flex: 0.1, height: "100%" }}></div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
+                    {mCards}
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 0.1, height: "100%" }}></div>
+
+
                 <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
                     {rCards}
                 </div>

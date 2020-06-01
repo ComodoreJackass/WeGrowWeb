@@ -15,7 +15,7 @@ const theme = createMuiTheme({
       // dark: will be calculated from palette.primary.main,
       // contrastText: will be calculated to contrast with palette.primary.main
     },
-    secondary: purple,
+    secondary: {main:"#C4D0FD"},
   },
   status: {
     danger: 'orange',

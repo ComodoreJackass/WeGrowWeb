@@ -9,8 +9,12 @@ import Sprout from '../assets/sprout.png';
 import Planty from '../assets/plant.png';
 import Book from '../assets/book.png';
 import Hot from '../assets/hot.png';
-import Facebook from '../assets/facebook.png';
-import Instagram from '../assets/instagram.png';
+
+import IconButton from '@material-ui/core/IconButton';
+import Facebook from '@material-ui/icons/Facebook';
+import Instagram from '@material-ui/icons/Instagram';
+
+import GoogleLogin from 'react-google-login';
 
 export default function Landing(props) {
     const sensorValues = {
@@ -46,32 +50,51 @@ export default function Landing(props) {
     };
 
     const navLink = {
+        display: 'block',
+        whiteSpace: 'nowrap',
         textDecoration: 'none',
         fontFamily: 'Rubik',
         color: 'black',
-        fontSize: '1.1em'
+        fontSize: '1.1em',
+        marginRight: '0.2em'
     };
 
     const navLink2 = {
+        display: 'block',
+        whiteSpace: 'nowrap',
         textDecoration: 'none',
         fontFamily: 'Rubik',
         color: 'white',
-        fontSize: '1.1em'
+        fontSize: '1.1em',
+        marginRight: '0.2em'
     };
+
+    const responseGoogle = (response) => {
+        console.log(response);
+    }
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: '420vh', backgroundColor: 'green' }}>
             <div id="Top" style={navbar}>
-                <div style={{ display: 'flex', flex: 6, justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Logo style={{ height: '4em' }} />
-                    <a style={navLink} href="#About">O Plantzilli</a>
-                    <a style={navLink} href="#Pricing">Opcije</a>
-                    <a style={navLink} href="#Map">Esri mapa</a>
-                    <a style={navLink} href="#Contact">Kontakt</a>
+                <div style={{ display: 'flex', flex: 6, justifyContent: 'space-around', alignItems: 'center' }}>
+                    <ul style={{ listStyleType: 'none', margin: 0, padding: 0, display: 'flex', flex: 6, justifyContent: 'space-between', alignItems: 'center' }}>
+                        <li><Logo style={{ height: '4em' }} /></li>
+                        <a style={navLink} href="#About"><li>O Plantzilli</li></a>
+                        <li><a style={navLink} href="#Pricing">Opcije</a></li>
+                        <li><a style={navLink} href="#Map">Esri Mapa</a></li>
+                        <li><a style={navLink} href="#Contact">Kontakt</a></li>
+                    </ul>
                 </div>
                 <div style={{ flex: 8 }}></div>
-                <div style={{ flex: 2 }}>
-                    <a style={navLink} href="#" onClick={() => { props.returnLogin(true) }}>Prijavi me</a>
+                <div style={{ display:'flex', flexDirection:'row', flex: 2, alignItems:'center', justifyContent: 'space-around' }}>
+                    <a style={navLink} href="#" onClick={() => { props.returnLogin(true) }}>Prijava</a>
+                    <GoogleLogin
+                        clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+                        buttonText="Login"
+                        onSuccess={responseGoogle}
+                        onFailure={responseGoogle}
+                        cookiePolicy={'single_host_origin'}
+                    />
                 </div>
 
             </div>
@@ -100,8 +123,8 @@ export default function Landing(props) {
                 <div style={{ display: 'flex', flex: 5, flexDirection: 'column' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', flex: 13, textAlign: 'center', justifyContent: 'space-around', alignItems: 'center' }}>
                         <p style={{ fontSize: '2em', color: '#4D974E', paddingTop: '0.5em' }}>Zašto koristiti Plantzillu?</p>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                            <img alt="" src={Garden} style={{}} />
+                        <div style={{ display: 'flex', flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+                            <img alt="" src={Garden} style={{ height: 400 }} />
                             <p style={{ fontSize: '1.5em', lineHeight: '1.2em', paddingTop: '2em', paddingBottom: '0.5em', paddingLeft: "10%", paddingRight: "10%" }}>Vrtlarenje je odavno prestalo biti omiljeni 'hobi' rezerviran za ljude koji žive u ruralnim područjima ili kućama s dvorištem. Ako vam se uzgoj vlastitog povrća, salata ili začinskog bilja na balkonu, prozorskim klupicama ili pred ulaznim vratima čini kao zanimljiva razbibriga, pravi je trenutak da se okušate u ovom korisnom hobiju.</p>
                         </div>
                     </div>
@@ -208,7 +231,7 @@ export default function Landing(props) {
                 <div style={{ flex: 1 }}></div>
             </div>
 
-            <div id="Map" style={{ display: 'flex', flexDirection: 'column', flex: 10, backgroundColor: '#F0F0F0', paddingTop:"0.5em", paddingBottom:"0.5em" }}>
+            <div id="Map" style={{ display: 'flex', flexDirection: 'column', flex: 10, backgroundColor: '#F0F0F0', paddingTop: "0.5em", paddingBottom: "0.5em" }}>
                 <div style={{ flex: 1 }}></div>
                 <div style={{ flex: 12, display: 'flex' }}>
                     <div style={{ flex: 1 }}></div>
@@ -232,18 +255,27 @@ export default function Landing(props) {
                 <div style={{ flex: 1 }}></div>
             </div>
             <div id="Contact" style={{ display: 'flex', flex: 0.5, backgroundColor: '#424242', padding: '1em', flexDirection: 'column', fontSize: '1.2em' }}>
-                <div style={{ flex: 2, display: 'flex', alignItems: 'center' }}>
-                    <div style={{ display: 'flex', flex: 3, justifyContent: 'space-between', alignItems: 'flex-Start', paddingLeft: '0.6em' }}>
+                <div style={{ flex: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', flex: 2, justifyContent: 'space-between', alignItems: 'flex-Start', paddingLeft: '0.6em' }}>
                         <a style={navLink2} href="#Top">Na vrh</a>
                         <a style={navLink2} href="#About">O Plantzilli</a>
                         <a style={navLink2} href="#Pricing">Opcije</a>
                         <a style={navLink2} href="#Map">Esri mapa</a>
                     </div>
-                    <div style={{ flex: 5 }}></div>
-                    <div style={{ flex: 1 }}>
+                    <div style={{ flex: 5, display: 'flex', alignItems: 'flex-end', flexDirection: 'column' }}>
                         <p style={{ color: 'white', padding: '0.5em' }}>Pronađite nas na:</p>
-                        <img alt="" src={Facebook} style={{ marginBottom: '0.1em' }} />
-                        <img alt="" src={Instagram} style={{}} />
+                        <div style={{ paddingRight: "1em" }}>
+                            <IconButton aria-label="facebook">
+                                <a href="https://www.facebook.com/Plantzilla-103503864727030/?modal=admin_todo_tour" target="_blank">
+                                    <Facebook style={{ color: 'white', fontSize: '1.5em' }} />
+                                </a>
+                            </IconButton>
+                            <IconButton aria-label="instagram">
+                                <a href="https://www.instagram.com/Plantzilla_App/" target="_blank">
+                                    <Instagram style={{ color: 'white', fontSize: '1.5em' }} />
+                                </a>
+                            </IconButton>
+                        </div>
                     </div>
                 </div>
                 <div style={{ flex: 1, borderTop: "1px solid white" }}>
@@ -256,117 +288,396 @@ export default function Landing(props) {
 
 
 class Map extends React.Component {
-
     constructor(props) {
         super(props);
+
+        this.state = {
+            dimenzion: '3D',
+            chart: 'tmpzrak',
+            isActive: 'tmpzrak',
+            sensorsData: '',
+            Ime: ["Rajčica", "Kaktus", "Sobna biljka"],
+            lokacijeSenzora: [[15.972, 45.814], [15.971, 45.801], [15.983, 45.809]],
+            urlSlike: ["https://i.ibb.co/Tr79kkx/download.jpg", "https://i.ibb.co/nCRSyWy/images.jpg", "https://i.ibb.co/0ZwgQBZ/peperomija-biljka-kakva-je-za-uzgoj-i-sto-biljku-krasi-5328867311ad51a03e0ca8d8f5a00502-view-article-new.jpg"]
+        };
+
         this.mapRef = React.createRef();
+        this.legend = React.createRef();
+        this.switchButton = React.createRef();
     }
 
+    tempValues;
+    graphicsLayer;
+    Graphic;
+    Polyline;
+    TextSymbol;
+    Point;
+    create2DView;
+    create3DView;
+    LineSymbol3DLayer;
 
     componentDidMount() {
+        // lazy load za ArcGIS api module i css
         loadModules(['esri/Map',
             'esri/views/MapView',
             "esri/Graphic",
-            "esri/layers/GraphicsLayer"],
+            "esri/layers/GraphicsLayer",
+            "esri/widgets/ScaleBar",
+            "esri/widgets/Search",
+            "esri/widgets/BasemapToggle",
+            "esri/views/SceneView",
+            "esri/geometry/Polyline",
+            "esri/symbols/TextSymbol",
+            "esri/geometry/Point",
+            "esri/widgets/Compass",
+            "esri/symbols/LineSymbol3DLayer"],
             { css: true })
-            .then(([ArcGISMap, MapView, Graphic, GraphicsLayer]) => {
-                const map = new ArcGISMap({
-                    basemap: 'topo-vector'
+            .then(([ArcGISMap, MapView, Graphic, GraphicsLayer, ScaleBar, Search, BasemapToggle, SceneView, Polyline, TextSymbol, Point, Compass, LineSymbol3DLayer]) => {
+
+                this.Graphic = Graphic;
+                this.Polyline = Polyline;
+                this.TextSymbol = TextSymbol;
+                this.Point = Point;
+                this.LineSymbol3DLayer = LineSymbol3DLayer;
+
+                let map = new ArcGISMap({
+                    basemap: 'topo',
+                    ground: "world-elevation"
                 });
 
-                this.view = new MapView({
-                    container: this.mapRef.current,
-                    map: map,
-                    center: [15.98, 45.79],
-                    zoom: 11
-                });
-
-                let graphicsLayer = new GraphicsLayer({ id: 'Biljke', title: 'Biljke' });
-                map.add(graphicsLayer);
-
-                const lokacijeSenzora = [[15.982, 45.804], [15.971, 45.801], [15.983, 45.809]];
-                const urlSlike = ["https://i.ibb.co/Tr79kkx/download.jpg", "https://i.ibb.co/nCRSyWy/images.jpg", "https://i.ibb.co/0ZwgQBZ/peperomija-biljka-kakva-je-za-uzgoj-i-sto-biljku-krasi-5328867311ad51a03e0ca8d8f5a00502-view-article-new.jpg"]
-
-                function createMapGraphics(sensorsData) {
-                    Object.entries(sensorsData).forEach(([key, sensor], index) => {
-                        createMapPoints(sensor, key, lokacijeSenzora[index], urlSlike[index]);
+                const createViewElements = () => {
+                    var search = new Search({
+                        view: this.view
                     });
-                }
 
-                if (this.props.sensorValues.data) {
-                    createMapGraphics(this.props.sensorValues.data);
-                }
+                    this.view.ui.add(search, "top-right");
 
-                function createMapPoints(sensor, sensorName, lokacija, slika) {
-                    var point = { type: "point", longitude: lokacija[0], latitude: lokacija[1] };
-                    let color = "blue";
-                    if (sensor.tmpzrak < 11) {
-                        color = "red";
-                    }
-                    let symbol = {
-                        type: "simple-marker",
-                        style: "circle",
-                        color,
-                        size: "8px",  // pixels
-                        outline: {  // autocasts as new SimpleLineSymbol()
-                            color,
-                            width: 1  // points
+                    var basemapToggle = new BasemapToggle({
+                        view: this.view,
+                        nextBasemap: "streets-night-vector"
+                    });
+
+                    this.view.ui.add(this.legend.current, "bottom-left");
+                    this.view.ui.add(this.switchButton.current, "top-right");
+
+                    this.view.ui.add(basemapToggle, "bottom-right");
+
+                    this.graphicsLayer = new GraphicsLayer({ id: 'Biljke', title: 'Biljke' });
+
+                    map.add(this.graphicsLayer);
+
+                    if (this.graphicsLayer) {
+                        try {
+                            this.graphicsLayer.removeAll();
+                        } catch (e) {
+                            console.log('Unable to remove graphics');
+                            console.log('error' + e)
                         }
+                    }
+
+                    var currentElevationInfo = {
+                        mode: "relative-to-ground",
+                        offset: 0,
+                        unit: "meters"
                     };
 
-                    let popup = {
-                        title: `${sensorName}`,
-                        content: [{
-                            // Pass in the fields to display
-                            type: "fields",
-                            fieldInfos: [{
-                                fieldName: "tmpzrak",
-                                label: "Temperatura zraka",
-                            }, {
-                                fieldName: "vlzrak",
-                                label: "Vlažnost zraka",
-                            },
-                            {
-                                fieldName: "tmptlo",
-                                label: "Temperatura tla"
-                            }, {
-                                fieldName: "vltlo",
-                                label: "Vlažnost tla"
-                            }],
-                        }, {
-                            type: "media",
-                            mediaInfos: {
-                                title: "<b>Slika biljke</b>",
-                                type: "image",
-                                value: {
-                                    sourceURL: slika
-                                }
-                            }
-                        }]
-                    }
+                    this.graphicsLayer.elevationInfo = currentElevationInfo;
 
-                    var pointGraphic = new Graphic({
-                        geometry: point,
-                        symbol: symbol,
-                        attributes: sensor,
-                        popupTemplate: popup,
-                        putFields: []
+                    if (this.props.sensorValues.data) {
+                        this.setState({
+                            sensorsData: this.props.sensorValues.data
+                        }, () => {
+                            this.createMapGraphics(this.state.sensorsData, this.state.lokacijeSenzora, this.state.urlSlike);
+                        });
+                    }
+                }
+
+                //Scalebar can not be rendered for 3d map
+                const addAditinal2DElements = () => {
+                    var scaleBar = new ScaleBar({
+                        view: this.view,
+                        unit: "metric"
                     });
 
-                    graphicsLayer.add(pointGraphic);
+                    this.view.ui.add(scaleBar, {
+                        position: "bottom-left"
+                    });
 
-                };
+                    var compass = new Compass({
+                        view: this.view
+                    });
+
+                    // adds the compass to the top left corner of the MapView
+                    this.view.ui.add(compass, "top-left");
+                }
+
+                this.create2DView = () => {
+                    if (this.graphicsLayer) {
+                        this.graphicsLayer.removeAll();
+                    }
+                    // Map view i ref DOM
+                    this.view = new MapView({
+                        container: this.mapRef.current,
+                        map: map,
+                        center: [15.98, 45.79],
+                        zoom: 11
+                    });
+                    createViewElements();
+                    addAditinal2DElements();
+                    this.createMapGraphics(this.props.sensorValues.data, this.state.lokacijeSenzora, this.state.urlSlike);
+                }
+
+                this.create3DView = () => {
+                    if (this.graphicsLayer) {
+                        this.graphicsLayer.removeAll();
+                    }
+                    // Map view i ref DOM
+                    this.view = new SceneView({
+                        container: this.mapRef.current,
+                        map: map,
+                        center: [15.98, 45.79],
+                        zoom: 11,
+                        camera: {
+                            position: [
+                                15.98, // lon
+                                45.74, // lat
+                                3000  // elevation in meters
+                            ],
+                            tilt: 65
+                        }
+                    });
+                    createViewElements();
+                    this.createMapGraphics(this.props.sensorValues.data, this.state.lokacijeSenzora, this.state.urlSlike);
+                }
+                this.create3DView();
             });
+    }
+    createMapGraphics = (sensorsData, lokacijeSenzora, urlSlike) => {
+
+        //Object destructuring
+        Object.entries(sensorsData).forEach(([key, sensor], index) => {
+            //Dodavanje lokacije na svaki senzor
+            if (this.state.dimenzion === '3D') {
+                this.createMap3DPoints(sensor, key, lokacijeSenzora[index], urlSlike[index], index);
+            } else {
+                this.createMap2DPoints(sensor, key, lokacijeSenzora[index], urlSlike[index], index);
+            }
+        });
+    }
+
+    createMap2DPoints(sensor, sensorName, lokacija, slika, index) {
+
+        var point = {
+            type: "point",
+            longitude: lokacija[0],
+            latitude: lokacija[1]
+        };
+
+        var simpleMarkerSymbol = {
+            type: "simple-marker",
+            color: [0, 120, 200]
+        };
+
+        let popup = {
+            title: `${sensorName}`,
+            content: [{
+                // Pass in the fields to display
+                type: "fields",
+                fieldInfos: [{
+                    fieldName: "tmpzrak",
+                    label: "Temperatura zraka",
+                }, {
+                    fieldName: "vlzrak",
+                    label: "Vlažnost zraka",
+                },
+                {
+                    fieldName: "tmptlo",
+                    label: "Temperatura tla"
+                }, {
+                    fieldName: "vltlo",
+                    label: "Vlažnost tla"
+                }],
+            }, {
+                type: "media",
+                mediaInfos: {
+                    title: "<b>Slika biljke</b>",
+                    type: "image",
+                    value: {
+                        sourceURL: slika
+                    }
+                }
+            }]
+        }
+
+        var pointGraphic = new this.Graphic({
+            geometry: point,
+            symbol: simpleMarkerSymbol,
+            attributes: sensor,
+            popupTemplate: popup,
+            putFields: []
+        });
+
+        this.graphicsLayer.add(pointGraphic);
+
+        var pnt = new this.Point({
+            longitude: lokacija[0],
+            latitude: lokacija[1],
+            z: sensor[this.state.chart] * 9
+        });
+        var txtSym = new this.TextSymbol({
+            text: `${this.state.Ime[index]} \n ${this.state.chart === "tmpzrak" ? "Temperatura zraka" : this.state.chart === "vlzrak" ? "Vlaga zraka" : this.state.chart === "tmptlo" ? "Temperatura tla" : "Vlagažnost tla"}: ${sensor[this.state.chart]} `,
+            color: "white",
+            haloColor: "black",
+            haloSize: "2px",
+            xoffset: 3,
+            yoffset: 3,
+        });
+        var lblGraphic = new this.Graphic(pnt, txtSym);
+        this.graphicsLayer.add(lblGraphic);
+    }
+
+    createMap3DPoints(sensor, sensorName, lokacija, slika, index) {
+        var paths = [
+            [lokacija[0], lokacija[1], 0],
+            [lokacija[0], lokacija[1], sensor[this.state.chart] * 7]];
+
+        var line = new this.Polyline({
+            hasZ: true,
+            hasM: false,
+            paths: paths,
+            spatialReference: { wkid: 4326 }
+        });
+
+        let popup = {
+            title: `${sensorName}`,
+            content: [{
+                type: "fields",
+                fieldInfos: [{
+                    fieldName: "tmpzrak",
+                    label: "Temperatura zraka",
+                }, {
+                    fieldName: "vlzrak",
+                    label: "Vlažnost zraka",
+                },
+                {
+                    fieldName: "tmptlo",
+                    label: "Temperatura tla"
+                }, {
+                    fieldName: "vltlo",
+                    label: "Vlažnost tla"
+                }],
+            }, {
+                type: "media",
+                mediaInfos: {
+                    title: "<b>Slika biljke</b>",
+                    type: "image",
+                    value: {
+                        sourceURL: slika
+                    }
+                }
+            }]
+        }
+
+        var symbol = {
+            type: "line-3d",  // autocasts as new LineSymbol3D()
+            symbolLayers: [{
+                type: "path",  // autocasts as new PathSymbol3DLayer()
+                profile: "circle",
+                width: 100,    // width of the tube in meters
+                material: { color: [0, 120, 200] }
+            },
+            {
+                type: "text",
+                material: {
+                    color: [0, 0, 0, 0.8]
+                }
+            }]
+        };
+
+        var pointGraphic = new this.Graphic({
+            geometry: line,
+            symbol: symbol,
+            attributes: sensor,
+            popupTemplate: popup,
+            putFields: []
+        });
+
+
+        this.graphicsLayer.add(pointGraphic);
+
+        var pnt = new this.Point({
+            longitude: lokacija[0],
+            latitude: lokacija[1],
+            z: sensor[this.state.chart] * 9
+        });
+        var txtSym = new this.TextSymbol({
+            text: `${this.state.Ime[index]} \n ${this.state.chart === "tmpzrak" ? "Temperatura zraka" : this.state.chart === "vlzrak" ? "Vlaga zraka" : this.state.chart === "tmptlo" ? "Temperatura tla" : "Vlagažnost tla"}: ${sensor[this.state.chart]} `,
+            color: "white",
+            haloColor: "black",
+            haloSize: "2px",
+            xoffset: 3,
+            yoffset: 3,
+        });
+        var lblGraphic = new this.Graphic(pnt, txtSym);
+        this.graphicsLayer.add(lblGraphic);
+    };
+
+    changeValue = (chart) => {
+        this.setState({ chart: chart.target.id, isActive: chart.target.id }, () => {
+            this.graphicsLayer.removeAll();
+            this.createMapGraphics(this.state.sensorsData, this.state.lokacijeSenzora, this.state.urlSlike)
+        });
     }
     componentWillUnmount() {
         if (this.view) {
-            // destroy the map view
             this.view.container = null;
         }
     }
     render() {
         return (
-            <div style={{ height: '100%', width: '100%' }} ref={this.mapRef} />
+            <div style={{ height: '100%', width: '100%' }}>
+                <div className="webmap" style={{ height: '100%', width: '100%' }} ref={this.mapRef} />
+                <div className="legend" ref={this.legend}>
+                    <h4>Legenda</h4>
+                    <ul style={{
+                        listStyleType: 'none'
+                    }}>
+                        <li>
+                            <p>Vrijednost u granici normale</p>
+                        </li>
+                        <li>
+                            <svg width="15" height="15">
+                                <circle cx="7.5" cy="7.5" r="6" stroke-width="4" fill="rgb(0, 120, 200)" />
+                            </svg>
+                        </li>
+                    </ul>
+                    <ul style={{
+                        listStyleType: 'none'
+                    }}>
+                        <li>
+                            <p>Vrijednost nije u granici normale</p>
+                        </li>
+                        <li>
+                            <svg width="15" height="15">
+                                <circle cx="7.5" cy="7.5" r="6" stroke-width="4" fill="red" />
+                            </svg>
+                        </li>
+                    </ul>
+                </div>
+                <div onClick={() => {
+                    let dimenzionState = this.state.dimenzion === "3D" ? "2D" : "3D";
+                    this.setState({ dimenzion: dimenzionState }, () => {
+                        dimenzionState === "3D" ? this.create3DView() : this.create2DView();
+                    })
+                }} ref={this.switchButton}>
+                    <input
+                        className="esri-component esri-widget--button esri-widget esri-interactive"
+                        type="button"
+                        id="switch-btn"
+                        value={this.state.dimenzion === "3D" ? "2D" : "3D"}
+                    />
+                </div>
+            </div >
         );
     }
 };

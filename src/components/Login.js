@@ -9,6 +9,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Snackbar, CircularProgress } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 
+import LoginImg from '../assets/login.png'
+import Banner from '../assets/header.png'
+
 
 import Background from '../assets/bckg-large.png';
 
@@ -120,33 +123,32 @@ export default function Login({ returnLogedIn, returnJsonToken, returnUserId, re
     }, []);
 
     return (
-        <div style={{
-            display: 'flex', height: "100%", width: "100%", backgroundImage: `url(${Background})`, backgroundPosition: 'center',
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat', margin: 0
-        }}>
-            <div style={{ flex: 1 }}></div>
-            <div className={classes.paper}>
+        <div>
+            <div style={{
+                display: 'flex', height: "8em", width: "100%", backgroundColor: "#FFF", backgroundImage: `url(${Banner})`, backgroundPosition: 'center bottom',
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat', margin: 0
+            }}></div>
+            <div>
                 <div style={{ flex: 1 }}></div>
-                <div style={{ flex: 3, background: "rgba(255, 255, 255, 0.7)", padding: 20, borderRadius: 25 }}>
-                    <div style={{
-                        display: 'flex',
-                        flexDirection: "row",
-                        paddingTop: "1em",
-                        paddingBottom: "1em",
-                    }}>
-                        <div style={{ flex: 3 }}></div>
-                        <div style={{ flex: 1 }}>
-                            <Avatar className={classes.avatar}>
-                                <LockOutlinedIcon fontSize="large" />
-                            </Avatar>
+                <div className={classes.paper}>
+                    <div style={{ flex: 1 }}></div>
+                    <div style={{ flex: 3, background: "rgba(255, 255, 255, 0.7)", padding: 20, borderRadius: 25 }}>
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: "row",
+                            paddingTop: "1em",
+                            paddingBottom: "1em",
+                        }}>
+                            <div style={{ flex: 3 }}></div>
+                            <div style={{ flex: 1 }}>
+                                <img alt="" src={LoginImg} />
+                            </div>
+                            <div style={{ flex: 3 }}></div>
                         </div>
-                        <div style={{ flex: 3 }}></div>
-                    </div>
-                    <Typography component="h1" variant="h5" style={{ textAlign: "center" }}>
-                        Prijava
+                        <Typography component="h1" variant="h5" style={{ textAlign: "center" }}>
+                            Dobrodošli
                     </Typography>
-                    <form className={classes.form} noValidate>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -197,7 +199,8 @@ export default function Login({ returnLogedIn, returnJsonToken, returnUserId, re
                                 variant="contained"
                                 style={{
                                     backgroundColor: "#0C8A36",
-                                    color: "white"
+                                    color: "white",
+                                    width: "60%"
                                 }}
                                 className={classes.submit}
                                 onClick={
@@ -214,11 +217,11 @@ export default function Login({ returnLogedIn, returnJsonToken, returnUserId, re
                                 {"Nemate račun? Registrirajte se"}
                             </Link>
                         </div>
-                    </form>
+                    </div>
+                    <div style={{ flex: 2 }}></div>
                 </div>
-                <div style={{ flex: 2 }}></div>
+                <div style={{ flex: 1 }}></div>
             </div>
-            <div style={{ flex: 1 }}></div>
         </div >
     );
 }
