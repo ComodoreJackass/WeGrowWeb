@@ -189,29 +189,65 @@ export default function HomeScreen(props) {
 
     }, [progress])
 
+    const [width, setWidth] = React.useState(window.innerWidth);
+    const breakpoint = 1000;
+
+    React.useEffect(() => {
+        const handleWindowResize = () => setWidth(window.innerWidth)
+        window.addEventListener("resize", handleWindowResize);
+
+        return () => window.removeEventListener("resize", handleWindowResize);
+    }, []);
+
+    function layout() {
+        if (width < breakpoint) {
+            return (
+                <div>
+                    <div style={{ display: 'flex', flexDirection: 'row', flex: 2, padding: 20 }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%" }}></div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 8 }}>
+                            {lCards}
+                            {mCards}
+                            {rCards}
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%" }}></div>
+                    </div>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <div style={{ display: 'flex', flexDirection: 'row', flex: 2, padding: 20 }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%" }}></div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
+                            {lCards}
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 0.1, height: "100%" }}></div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
+                            {mCards}
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 0.1, height: "100%" }}></div>
+
+
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
+                            {rCards}
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%" }}></div>
+                    </div>
+                </div>
+            )
+        }
+    }
+
     return (
         <div>
-            <div style={{ display: 'flex', flexDirection: 'row', flex: 2, padding: 20 }}>
-                <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%" }}></div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
-                    {lCards}
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', flex: 0.1, height: "100%" }}></div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
-                    {mCards}
-                </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', flex: 0.1, height: "100%" }}></div>
-
-
-                <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
-                    {rCards}
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%" }}></div>
-            </div>
+            {layout()}
         </div>
     );
 }

@@ -358,301 +358,588 @@ export default function AddPlantScreen(props) {
     }
 
 
+    const [width, setWidth] = React.useState(window.innerWidth);
+    const breakpoint = 1000;
+
+    React.useEffect(() => {
+        const handleWindowResize = () => setWidth(window.innerWidth)
+        window.addEventListener("resize", handleWindowResize);
+
+        return () => window.removeEventListener("resize", handleWindowResize);
+    }, []);
+
     function switcher() {
-        if (category === '') {
-            return (
-                <div style={{ display: 'flex', flexDirection: 'row', flex: 2, padding: 20 }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 2, height: "100%" }}></div>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+        if (width > breakpoint) {
+            if (category === '') {
+                return (
+                    <div style={{ display: 'flex', flexDirection: 'row', flex: 2, padding: 20 }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 2, height: "100%" }}></div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
 
-                        <div style={{ paddingTop: "2em" }}>
-                            <Card className={classes.root} variant="outlined" style={{ borderRadius: 20, backgroundColor: '#FFE3E3' }}>
-                                <Button style={{ width: "100%" }} onClick={() => setCategory("Voće")}>
-                                    <CardContent style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: "10em" }}>
-                                        <Typography style={{ padding: 2 }}>Voće</Typography>
-                                        <img src={Voce} style={{ alignSelf: 'center' }} />
-                                    </CardContent>
-                                </Button>
-                            </Card>
-                        </div>
-                        <div style={{ paddingTop: "2em" }}>
-                            <Card className={classes.root} variant="outlined" style={{ borderRadius: 20, backgroundColor: '#E8E4FF' }}>
-                                <Button style={{ width: "100%" }} onClick={() => setCategory("Začini")}>
-                                    <CardContent style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: "10em" }}>
-                                        <Typography style={{ padding: 2 }}>Začini</Typography>
-                                        <img src={Zacini} style={{ alignSelf: 'center' }} />
-                                    </CardContent>
-                                </Button>
-                            </Card>
-                        </div>
+                            <div style={{ paddingTop: "2em" }}>
+                                <Card className={classes.root} variant="outlined" style={{ borderRadius: 20, backgroundColor: '#FFE3E3' }}>
+                                    <Button style={{ width: "100%" }} onClick={() => setCategory("Voće")}>
+                                        <CardContent style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: "10em" }}>
+                                            <Typography style={{ padding: 2 }}>Voće</Typography>
+                                            <img src={Voce} style={{ alignSelf: 'center' }} />
+                                        </CardContent>
+                                    </Button>
+                                </Card>
+                            </div>
+                            <div style={{ paddingTop: "2em" }}>
+                                <Card className={classes.root} variant="outlined" style={{ borderRadius: 20, backgroundColor: '#E8E4FF' }}>
+                                    <Button style={{ width: "100%" }} onClick={() => setCategory("Začini")}>
+                                        <CardContent style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: "10em" }}>
+                                            <Typography style={{ padding: 2 }}>Začini</Typography>
+                                            <img src={Zacini} style={{ alignSelf: 'center' }} />
+                                        </CardContent>
+                                    </Button>
+                                </Card>
+                            </div>
 
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 0.5, height: "100%" }}></div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+
+                            <div style={{ paddingTop: "2em" }}>
+                                <Card className={classes.root} variant="outlined" style={{ borderRadius: 20, backgroundColor: '#CAF5B0' }}>
+                                    <Button style={{ width: "100%" }} onClick={() => setCategory("Povrće")}>
+                                        <CardContent style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: "10em" }}>
+                                            <Typography style={{ padding: 2 }}>Povrće</Typography>
+                                            <img src={Povrce} style={{ alignSelf: 'center' }} />
+                                        </CardContent>
+                                    </Button>
+                                </Card>
+                            </div>
+                            <div style={{ paddingTop: "2em" }}>
+                                <Card className={classes.root} variant="outlined" style={{ borderRadius: 20, backgroundColor: '#FFF2DE' }}>
+                                    <Button style={{ width: "100%" }} onClick={() => setCategory("Add")}>
+                                        <CardContent style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: "10em" }}>
+                                            <Typography style={{ padding: 2 }}>Dodaj biljku</Typography>
+                                            <img src={dodajBiljku} style={{ alignSelf: 'center', marginTop: 5 }} />
+                                        </CardContent>
+                                    </Button>
+                                </Card>
+                            </div>
+
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 0.5, height: "100%" }}></div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+
+                            <div style={{ paddingTop: "2em" }}>
+                                <Card className={classes.root} variant="outlined" style={{ borderRadius: 20, backgroundColor: '#F5F0BE' }}>
+                                    <Button style={{ width: "100%" }} onClick={() => setCategory("Cvijeće")}>
+                                        <CardContent style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: "10em" }}>
+                                            <Typography style={{ padding: 2 }}>Cvijeće</Typography>
+                                            <img src={Cvijece} style={{ alignSelf: 'center' }} />
+                                        </CardContent>
+                                    </Button>
+                                </Card>
+                            </div>
+
+                            <div style={{ paddingTop: "2em" }}>
+                                <Card className={classes.root} variant="outlined" style={{ borderRadius: 20, backgroundColor: '#E0F4F6' }}>
+                                    <Button style={{ width: "100%" }} onClick={() => setCategory("qr")}>
+                                        <CardContent style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: "10em" }}>
+                                            <Typography style={{ padding: 2 }}>QR</Typography>
+                                            <img src={qr} style={{ alignSelf: 'center' }} />
+                                        </CardContent>
+                                    </Button>
+                                </Card>
+                            </div>
+
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 2, height: "100%" }}></div>
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 0.5, height: "100%" }}></div>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-
-                        <div style={{ paddingTop: "2em" }}>
-                            <Card className={classes.root} variant="outlined" style={{ borderRadius: 20, backgroundColor: '#CAF5B0' }}>
-                                <Button style={{ width: "100%" }} onClick={() => setCategory("Povrće")}>
-                                    <CardContent style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: "10em" }}>
-                                        <Typography style={{ padding: 2 }}>Povrće</Typography>
-                                        <img src={Povrce} style={{ alignSelf: 'center' }} />
-                                    </CardContent>
-                                </Button>
-                            </Card>
+                );
+            }
+            else if (category === 'Add') {
+                return (
+                    <div style={{ display: 'flex', flexDirection: 'row', flex: 2, padding: 20 }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%", paddingTop: 10, justifyContent: 'center' }}>
+                            <IconButton aria-label="Povratak na kategorije" onClick={() => setCategory("")} style={{ width: '25%', alignSelf: 'center' }}>
+                                <ArrowBack style={{ color: 'black', fontSize: '1.2em' }} />
+                            </IconButton>
                         </div>
-                        <div style={{ paddingTop: "2em" }}>
-                            <Card className={classes.root} variant="outlined" style={{ borderRadius: 20, backgroundColor: '#FFF2DE' }}>
-                                <Button style={{ width: "100%" }} onClick={() => setCategory("Add")}>
-                                    <CardContent style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: "10em" }}>
-                                        <Typography style={{ padding: 2 }}>Dodaj biljku</Typography>
-                                        <img src={dodajBiljku} style={{ alignSelf: 'center', marginTop: 5 }} />
-                                    </CardContent>
-                                </Button>
-                            </Card>
-                        </div>
-
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 0.5, height: "100%" }}></div>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-
-                        <div style={{ paddingTop: "2em" }}>
-                            <Card className={classes.root} variant="outlined" style={{ borderRadius: 20, backgroundColor: '#F5F0BE' }}>
-                                <Button style={{ width: "100%" }} onClick={() => setCategory("Cvijeće")}>
-                                    <CardContent style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: "10em" }}>
-                                        <Typography style={{ padding: 2 }}>Cvijeće</Typography>
-                                        <img src={Cvijece} style={{ alignSelf: 'center' }} />
-                                    </CardContent>
-                                </Button>
-                            </Card>
-                        </div>
-
-                        <div style={{ paddingTop: "2em" }}>
-                            <Card className={classes.root} variant="outlined" style={{ borderRadius: 20, backgroundColor: '#E0F4F6' }}>
-                                <Button style={{ width: "100%" }} onClick={() => setCategory("qr")}>
-                                    <CardContent style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: "10em" }}>
-                                        <Typography style={{ padding: 2 }}>QR</Typography>
-                                        <img src={qr} style={{ alignSelf: 'center' }} />
-                                    </CardContent>
-                                </Button>
-                            </Card>
-                        </div>
-
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 2, height: "100%" }}></div>
-                </div>
-            );
-        }
-        else if (category === 'Add') {
-            return (
-                <div style={{ display: 'flex', flexDirection: 'row', flex: 2, padding: 20 }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%", paddingTop: 10, justifyContent: 'center' }}>
-                        <IconButton aria-label="Povratak na kategorije" onClick={() => setCategory("")} style={{ width: '25%', alignSelf: 'center' }}>
-                            <ArrowBack style={{ color: 'black', fontSize: '1.2em' }} />
-                        </IconButton>
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 2, height: "100%" }}></div>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
-                        <Typography component="h1" variant="h5" style={{ textAlign: "center" }}>
-                            Dodavanje biljke
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 2, height: "100%" }}></div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
+                            <Typography component="h1" variant="h5" style={{ textAlign: "center" }}>
+                                Dodavanje biljke
                         </Typography>
 
-                        <TextField
-                            required
-                            label="Naziv biljke"
-                            fullWidth
-                            autoFocus
-                            value={plantName}
-                            color="secondary"
-                            onChange={(event) => { setPlantName(event.target.value) }}
-                            style={{ marginBottom: "1em" }}
-                            withPreview={true}
-                        />
-
-                        <Select
-                            value={plantCategory}
-                            onChange={(value) => { setPlantCategory(value.target.value) }}
-                            style={{ marginTop: "1em" }}
-                        >
-                            <MenuItem value={'Voće'}>Voće</MenuItem>
-                            <MenuItem value={'Povrće'}>Povrće</MenuItem>
-                            <MenuItem value={'Cvijeće'}>Cvijeće</MenuItem>
-                            <MenuItem value={'Začini'}>Začini</MenuItem>
-                        </Select>
-
-                        <TextField
-                            required
-                            label="Opis biljke"
-                            fullWidth
-                            multiline
-                            rows={4}
-                            value={plantDescription}
-                            color="secondary"
-                            onChange={(event) => { setPlantDescription(event.target.value) }}
-                            style={{ marginTop: "1em" }}
-                        />
-
-                        <TextField
-                            required
-                            label="Težina uzgoja"
-                            fullWidth
-                            value={plantDifficulty}
-                            color="secondary"
-                            onChange={(event) => { setPlantDifficulty(event.target.value) }}
-                            style={{ marginTop: "1em" }}
-                        />
-
-                        <TextField
-                            required
-                            label="Upute za sadnju"
-                            fullWidth
-                            multiline
-                            rows={4}
-                            value={plantInstuctions}
-                            color="secondary"
-                            onChange={(event) => { setPlantInstructions(event.target.value) }}
-                            style={{ marginTop: "1em" }}
-                        />
-
-                        <TextField
-                            required
-                            label="Briga o biljci"
-                            fullWidth
-                            multiline
-                            rows={4}
-                            value={plantCare}
-                            color="secondary"
-                            onChange={(event) => { setPlantCare(event.target.value) }}
-                            style={{ marginTop: "1em" }}
-                        />
-
-                        <div style={{
-                            display: 'flex',
-                            marginTop: "1em"
-                        }}>
                             <TextField
                                 required
-                                label="Min vrijeme uzgoja"
-                                type="number"
+                                label="Naziv biljke"
                                 fullWidth
-                                value={min}
+                                autoFocus
+                                value={plantName}
                                 color="secondary"
-                                onChange={(event) => { setMin(event.target.value) }}
-                                style={{ flex: 1 }}
+                                onChange={(event) => { setPlantName(event.target.value) }}
+                                style={{ marginBottom: "1em" }}
+                                withPreview={true}
                             />
-                            <div style={{ flex: 0.4 }}></div>
-                            <TextField
-                                required
-                                label="Max vrijeme uzgoja"
-                                type="number"
-                                fullWidth
-                                value={max}
-                                color="secondary"
-                                onChange={(event) => { setMax(event.target.value) }}
-                                style={{ flex: 1 }}
-                            />
-                        </div>
 
-                        <TextField
-                            required
-                            label="Materijali npr. vaza;zemlja;mreža"
-                            fullWidth
-                            multiline
-                            rows={4}
-                            value={materials}
-                            color="secondary"
-                            onChange={(event) => { setMaterials(event.target.value) }}
-                            style={{ marginTop: "1em", marginBottom: "1em" }}
-                        />
-
-                        <FileBase64
-                            multiple={false}
-                            onDone={getFiles} />
-
-                        <Snackbar open={alertOpen} autoHideDuration={6000} onClose={() => setAlertOpen(false)}>
-                            <Alert onClose={() => setAlertOpen(false)} severity="error">
-                                {alertText}
-                            </Alert>
-                        </Snackbar>
-
-                        <div style={{
-                            flexDirection: "column",
-                            flex: 3,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between"
-                        }}>
-                            {displayProgress ? <CircularProgress variant="determinate" value={progress} style={{ marginBottom: "1em" }} /> : <CircularProgress variant="determinate" value={0} style={{ marginBottom: "1em" }} />}
-
-                            <Button
-                                fullWidth
-                                variant="contained"
-                                style={{
-                                    backgroundColor: "#C4D0FD",
-                                    color: "white",
-                                    width: "60%"
-                                }}
-                                className={classes.submit}
-                                onClick={
-                                    () => {
-                                        validateInput();
-                                    }
-                                }
+                            <Select
+                                value={plantCategory}
+                                onChange={(value) => { setPlantCategory(value.target.value) }}
+                                style={{ marginTop: "1em" }}
                             >
-                                Dodaj biljku
-                                </Button>
-                        </div>
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 3, height: "100%" }}></div>
-                </div>
-            );
-        }
-        else if (category === 'qr') {
-            return (
-                <div style={{ display: 'flex', flexDirection: 'row', flex: 2, padding: 20 }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%", paddingTop: 10, justifyContent: 'center' }}>
-                        <IconButton aria-label="Povratak na kategorije" onClick={() => setCategory("")} style={{ width: '25%', alignSelf: 'center' }}>
-                            <ArrowBack style={{ color: 'black', fontSize: '1.2em' }} />
-                        </IconButton>
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 2, height: "100%" }}></div>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
-                        <div>
-                            <QrReader
-                                delay={300}
-                                onError={handleError}
-                                onScan={handleScan}
-                                style={{ width: '100%' }}
-                            />
-                            <p>{result}</p>
-                        </div>
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 3, height: "100%" }}></div>
-                </div >
-            )
-        }
-        else {
-            return (
-                <div style={{ display: 'flex', flexDirection: 'row', flex: 2, padding: 20 }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%", paddingTop: 10, justifyContent: 'center' }}>
-                        <IconButton aria-label="Povratak na kategorije" onClick={() => setCategory("")} style={{ width: '25%', alignSelf: 'center' }}>
-                            <ArrowBack style={{ color: 'black', fontSize: '1.2em' }} />
-                        </IconButton>
-                    </div>
+                                <MenuItem value={'Voće'}>Voće</MenuItem>
+                                <MenuItem value={'Povrće'}>Povrće</MenuItem>
+                                <MenuItem value={'Cvijeće'}>Cvijeće</MenuItem>
+                                <MenuItem value={'Začini'}>Začini</MenuItem>
+                            </Select>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
-                        {lCards}
+                            <TextField
+                                required
+                                label="Opis biljke"
+                                fullWidth
+                                multiline
+                                rows={4}
+                                value={plantDescription}
+                                color="secondary"
+                                onChange={(event) => { setPlantDescription(event.target.value) }}
+                                style={{ marginTop: "1em" }}
+                            />
+
+                            <TextField
+                                required
+                                label="Težina uzgoja"
+                                fullWidth
+                                value={plantDifficulty}
+                                color="secondary"
+                                onChange={(event) => { setPlantDifficulty(event.target.value) }}
+                                style={{ marginTop: "1em" }}
+                            />
+
+                            <TextField
+                                required
+                                label="Upute za sadnju"
+                                fullWidth
+                                multiline
+                                rows={4}
+                                value={plantInstuctions}
+                                color="secondary"
+                                onChange={(event) => { setPlantInstructions(event.target.value) }}
+                                style={{ marginTop: "1em" }}
+                            />
+
+                            <TextField
+                                required
+                                label="Briga o biljci"
+                                fullWidth
+                                multiline
+                                rows={4}
+                                value={plantCare}
+                                color="secondary"
+                                onChange={(event) => { setPlantCare(event.target.value) }}
+                                style={{ marginTop: "1em" }}
+                            />
+
+                            <div style={{
+                                display: 'flex',
+                                marginTop: "1em"
+                            }}>
+                                <TextField
+                                    required
+                                    label="Min vrijeme uzgoja"
+                                    type="number"
+                                    fullWidth
+                                    value={min}
+                                    color="secondary"
+                                    onChange={(event) => { setMin(event.target.value) }}
+                                    style={{ flex: 1 }}
+                                />
+                                <div style={{ flex: 0.4 }}></div>
+                                <TextField
+                                    required
+                                    label="Max vrijeme uzgoja"
+                                    type="number"
+                                    fullWidth
+                                    value={max}
+                                    color="secondary"
+                                    onChange={(event) => { setMax(event.target.value) }}
+                                    style={{ flex: 1 }}
+                                />
+                            </div>
+
+                            <TextField
+                                required
+                                label="Materijali npr. vaza;zemlja;mreža"
+                                fullWidth
+                                multiline
+                                rows={4}
+                                value={materials}
+                                color="secondary"
+                                onChange={(event) => { setMaterials(event.target.value) }}
+                                style={{ marginTop: "1em", marginBottom: "1em" }}
+                            />
+
+                            <FileBase64
+                                multiple={false}
+                                onDone={getFiles} />
+
+                            <Snackbar open={alertOpen} autoHideDuration={6000} onClose={() => setAlertOpen(false)}>
+                                <Alert onClose={() => setAlertOpen(false)} severity="error">
+                                    {alertText}
+                                </Alert>
+                            </Snackbar>
+
+                            <div style={{
+                                flexDirection: "column",
+                                flex: 3,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between"
+                            }}>
+                                {displayProgress ? <CircularProgress variant="determinate" value={progress} style={{ marginBottom: "1em" }} /> : <CircularProgress variant="determinate" value={0} style={{ marginBottom: "1em" }} />}
+
+                                <Button
+                                    fullWidth
+                                    variant="contained"
+                                    style={{
+                                        backgroundColor: "#C4D0FD",
+                                        color: "white",
+                                        width: "60%"
+                                    }}
+                                    className={classes.submit}
+                                    onClick={
+                                        () => {
+                                            validateInput();
+                                        }
+                                    }
+                                >
+                                    Dodaj biljku
+                                </Button>
+                            </div>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 3, height: "100%" }}></div>
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 0.1, height: "100%" }}></div>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
-                        {mCards}
+                );
+            }
+            else if (category === 'qr') {
+                return (
+                    <div style={{ display: 'flex', flexDirection: 'row', flex: 2, padding: 20 }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%", paddingTop: 10, justifyContent: 'center' }}>
+                            <IconButton aria-label="Povratak na kategorije" onClick={() => setCategory("")} style={{ width: '25%', alignSelf: 'center' }}>
+                                <ArrowBack style={{ color: 'black', fontSize: '1.2em' }} />
+                            </IconButton>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 2, height: "100%" }}></div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
+                            <div>
+                                <QrReader
+                                    delay={300}
+                                    onError={handleError}
+                                    onScan={handleScan}
+                                    style={{ width: '100%' }}
+                                />
+                                <p>{result}</p>
+                            </div>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 3, height: "100%" }}></div>
+                    </div >
+                )
+            }
+            else {
+                return (
+                    <div style={{ display: 'flex', flexDirection: 'row', flex: 2, padding: 20 }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%", paddingTop: 10, justifyContent: 'center' }}>
+                            <IconButton aria-label="Povratak na kategorije" onClick={() => setCategory("")} style={{ width: '25%', alignSelf: 'center' }}>
+                                <ArrowBack style={{ color: 'black', fontSize: '1.2em' }} />
+                            </IconButton>
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
+                            {lCards}
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 0.1, height: "100%" }}></div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
+                            {mCards}
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 0.1, height: "100%" }}></div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
+                            {rCards}
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%" }}></div>
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 0.1, height: "100%" }}></div>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
-                        {rCards}
+                );
+            }
+        } else {
+            if (category === '') {
+                return (
+                    <div style={{ display: 'flex', flexDirection: 'row', flex: 1, padding: 20 }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                            <div style={{ paddingTop: "2em" }}>
+                                <Card className={classes.root} variant="outlined" style={{ borderRadius: 20, backgroundColor: '#FFE3E3' }}>
+                                    <Button style={{ width: "100%" }} onClick={() => setCategory("Voće")}>
+                                        <CardContent style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: "10em" }}>
+                                            <Typography style={{ padding: 2 }}>Voće</Typography>
+                                            <img src={Voce} style={{ alignSelf: 'center' }} />
+                                        </CardContent>
+                                    </Button>
+                                </Card>
+                            </div>
+                            <div style={{ paddingTop: "2em" }}>
+                                <Card className={classes.root} variant="outlined" style={{ borderRadius: 20, backgroundColor: '#E8E4FF' }}>
+                                    <Button style={{ width: "100%" }} onClick={() => setCategory("Začini")}>
+                                        <CardContent style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: "10em" }}>
+                                            <Typography style={{ padding: 2 }}>Začini</Typography>
+                                            <img src={Zacini} style={{ alignSelf: 'center' }} />
+                                        </CardContent>
+                                    </Button>
+                                </Card>
+                            </div>
+                            <div style={{ paddingTop: "2em" }}>
+                                <Card className={classes.root} variant="outlined" style={{ borderRadius: 20, backgroundColor: '#F5F0BE' }}>
+                                    <Button style={{ width: "100%" }} onClick={() => setCategory("Cvijeće")}>
+                                        <CardContent style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: "10em" }}>
+                                            <Typography style={{ padding: 2 }}>Cvijeće</Typography>
+                                            <img src={Cvijece} style={{ alignSelf: 'center' }} />
+                                        </CardContent>
+                                    </Button>
+                                </Card>
+                            </div>
+                            <div style={{ paddingTop: "2em" }}>
+                                <Card className={classes.root} variant="outlined" style={{ borderRadius: 20, backgroundColor: '#CAF5B0' }}>
+                                    <Button style={{ width: "100%" }} onClick={() => setCategory("Povrće")}>
+                                        <CardContent style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: "10em" }}>
+                                            <Typography style={{ padding: 2 }}>Povrće</Typography>
+                                            <img src={Povrce} style={{ alignSelf: 'center' }} />
+                                        </CardContent>
+                                    </Button>
+                                </Card>
+                            </div>
+                            <div style={{ paddingTop: "2em" }}>
+                                <Card className={classes.root} variant="outlined" style={{ borderRadius: 20, backgroundColor: '#FFF2DE' }}>
+                                    <Button style={{ width: "100%" }} onClick={() => setCategory("Add")}>
+                                        <CardContent style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: "10em" }}>
+                                            <Typography style={{ padding: 2 }}>Dodaj biljku</Typography>
+                                            <img src={dodajBiljku} style={{ alignSelf: 'center', marginTop: 5 }} />
+                                        </CardContent>
+                                    </Button>
+                                </Card>
+                            </div>
+                            <div style={{ paddingTop: "2em" }}>
+                                <Card className={classes.root} variant="outlined" style={{ borderRadius: 20, backgroundColor: '#E0F4F6' }}>
+                                    <Button style={{ width: "100%" }} onClick={() => setCategory("qr")}>
+                                        <CardContent style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: "10em" }}>
+                                            <Typography style={{ padding: 2 }}>QR</Typography>
+                                            <img src={qr} style={{ alignSelf: 'center' }} />
+                                        </CardContent>
+                                    </Button>
+                                </Card>
+                            </div>
+
+                        </div>
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%" }}></div>
-                </div>
-            );
+                );
+            }
+            else if (category === 'Add') {
+                return (
+                    <div style={{ display: 'flex', flexDirection: 'column', flex: 2, padding: 20 }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%", paddingTop: 10, justifyContent: 'center' }}>
+                            <IconButton aria-label="Povratak na kategorije" onClick={() => setCategory("")} style={{ width: '25%', alignSelf: 'center' }}>
+                                <ArrowBack style={{ color: 'black', fontSize: '1.2em' }} />
+                            </IconButton>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 2, height: "100%" }}></div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
+                            <Typography component="h1" variant="h5" style={{ textAlign: "center" }}>
+                                Dodavanje biljke
+                            </Typography>
+
+                            <TextField
+                                required
+                                label="Naziv biljke"
+                                fullWidth
+                                autoFocus
+                                value={plantName}
+                                color="secondary"
+                                onChange={(event) => { setPlantName(event.target.value) }}
+                                style={{ marginBottom: "1em" }}
+                                withPreview={true}
+                            />
+
+                            <Select
+                                value={plantCategory}
+                                onChange={(value) => { setPlantCategory(value.target.value) }}
+                                style={{ marginTop: "1em" }}
+                            >
+                                <MenuItem value={'Voće'}>Voće</MenuItem>
+                                <MenuItem value={'Povrće'}>Povrće</MenuItem>
+                                <MenuItem value={'Cvijeće'}>Cvijeće</MenuItem>
+                                <MenuItem value={'Začini'}>Začini</MenuItem>
+                            </Select>
+
+                            <TextField
+                                required
+                                label="Opis biljke"
+                                fullWidth
+                                multiline
+                                rows={4}
+                                value={plantDescription}
+                                color="secondary"
+                                onChange={(event) => { setPlantDescription(event.target.value) }}
+                                style={{ marginTop: "1em" }}
+                            />
+
+                            <TextField
+                                required
+                                label="Težina uzgoja"
+                                fullWidth
+                                value={plantDifficulty}
+                                color="secondary"
+                                onChange={(event) => { setPlantDifficulty(event.target.value) }}
+                                style={{ marginTop: "1em" }}
+                            />
+
+                            <TextField
+                                required
+                                label="Upute za sadnju"
+                                fullWidth
+                                multiline
+                                rows={4}
+                                value={plantInstuctions}
+                                color="secondary"
+                                onChange={(event) => { setPlantInstructions(event.target.value) }}
+                                style={{ marginTop: "1em" }}
+                            />
+
+                            <TextField
+                                required
+                                label="Briga o biljci"
+                                fullWidth
+                                multiline
+                                rows={4}
+                                value={plantCare}
+                                color="secondary"
+                                onChange={(event) => { setPlantCare(event.target.value) }}
+                                style={{ marginTop: "1em" }}
+                            />
+
+                            <div style={{
+                                display: 'flex',
+                                marginTop: "1em"
+                            }}>
+                                <TextField
+                                    required
+                                    label="Min vrijeme uzgoja"
+                                    type="number"
+                                    fullWidth
+                                    value={min}
+                                    color="secondary"
+                                    onChange={(event) => { setMin(event.target.value) }}
+                                    style={{ flex: 1 }}
+                                />
+                                <div style={{ flex: 0.4 }}></div>
+                                <TextField
+                                    required
+                                    label="Max vrijeme uzgoja"
+                                    type="number"
+                                    fullWidth
+                                    value={max}
+                                    color="secondary"
+                                    onChange={(event) => { setMax(event.target.value) }}
+                                    style={{ flex: 1 }}
+                                />
+                            </div>
+
+                            <TextField
+                                required
+                                label="Materijali npr. vaza;zemlja;mreža"
+                                fullWidth
+                                multiline
+                                rows={4}
+                                value={materials}
+                                color="secondary"
+                                onChange={(event) => { setMaterials(event.target.value) }}
+                                style={{ marginTop: "1em", marginBottom: "1em" }}
+                            />
+
+                            <FileBase64
+                                multiple={false}
+                                onDone={getFiles} />
+
+                            <Snackbar open={alertOpen} autoHideDuration={6000} onClose={() => setAlertOpen(false)}>
+                                <Alert onClose={() => setAlertOpen(false)} severity="error">
+                                    {alertText}
+                                </Alert>
+                            </Snackbar>
+
+                            <div style={{
+                                flexDirection: "column",
+                                flex: 3,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between"
+                            }}>
+                                {displayProgress ? <CircularProgress variant="determinate" value={progress} style={{ marginBottom: "1em" }} /> : <CircularProgress variant="determinate" value={0} style={{ marginBottom: "1em" }} />}
+
+                                <Button
+                                    fullWidth
+                                    variant="contained"
+                                    style={{
+                                        backgroundColor: "#C4D0FD",
+                                        color: "white",
+                                        width: "60%"
+                                    }}
+                                    className={classes.submit}
+                                    onClick={
+                                        () => {
+                                            validateInput();
+                                        }
+                                    }
+                                >
+                                    Dodaj biljku
+                                </Button>
+                            </div>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 3, height: "100%" }}></div>
+                    </div>
+                );
+            }
+            else if (category === 'qr') {
+                return (
+                    <div style={{ display: 'flex', flexDirection: 'column', flex: 2, padding: 20 }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%", paddingTop: 10, justifyContent: 'center' }}>
+                            <IconButton aria-label="Povratak na kategorije" onClick={() => setCategory("")} style={{ width: '25%', alignSelf: 'center' }}>
+                                <ArrowBack style={{ color: 'black', fontSize: '1.2em' }} />
+                            </IconButton>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 2, height: "100%" }}></div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
+                            <div>
+                                <QrReader
+                                    delay={300}
+                                    onError={handleError}
+                                    onScan={handleScan}
+                                    style={{ width: '100%' }}
+                                />
+                                <p>{result}</p>
+                            </div>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 3, height: "100%" }}></div>
+                    </div >
+                )
+            }
+            else {
+                return (
+                    <div style={{ display: 'flex', flexDirection: 'column', flex: 2, padding: 20 }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%", paddingTop: 10, justifyContent: 'center' }}>
+                            <IconButton aria-label="Povratak na kategorije" onClick={() => setCategory("")} style={{ width: '25%', alignSelf: 'center' }}>
+                                <ArrowBack style={{ color: 'black', fontSize: '1.2em' }} />
+                            </IconButton>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
+                            {lCards}
+                            {mCards}
+                            {rCards}
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%" }}></div>
+                    </div>
+                );
+            }
         }
     }
 

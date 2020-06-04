@@ -14,7 +14,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Facebook from '@material-ui/icons/Facebook';
 import Instagram from '@material-ui/icons/Instagram';
 import Button from '@material-ui/core/Button';
-
+import { useMediaQuery } from 'react-responsive'
 
 import GoogleLogin from 'react-google-login';
 
@@ -80,240 +80,502 @@ export default function Landing(props) {
         e.target.style.color = 'white';
     }
 
-
     function restoreBackground(e) {
         e.target.style.background = '#F0F0F0';
         e.target.style.color = 'black';
     }
 
-    return (
-        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: '420vh', backgroundColor: 'green' }}>
-            <div id="Top" style={navbar}>
-                <div style={{ display: 'flex', flex: 6, justifyContent: 'space-around', alignItems: 'center' }}>
-                    <ul style={{ listStyleType: 'none', margin: 0, padding: 0, display: 'flex', flex: 6, justifyContent: 'space-between', alignItems: 'center' }}>
-                        <li><Logo style={{ height: '4em' }} /></li>
-                        <a style={navLink} href="#About"><li>O Plantzilli</li></a>
-                        <li><a style={navLink} href="#Pricing">Opcije</a></li>
-                        <li><a style={navLink} href="#Map">Esri Mapa</a></li>
-                        <li><a style={navLink} href="#Contact">Kontakt</a></li>
-                    </ul>
-                </div>
-                <div style={{ flex: 8 }}></div>
-                <div style={{ display: 'flex', flexDirection: 'row', flex: 2, alignItems: 'center', justifyContent: 'space-around' }}>
-                    <a style={navLink} href="#" onClick={() => { props.returnLogin(true) }}>Prijava</a>
-                    <GoogleLogin
-                        clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-                        buttonText="Login"
-                        onSuccess={responseGoogle}
-                        onFailure={responseGoogle}
-                        cookiePolicy={'single_host_origin'}
-                    />
-                </div>
+    const [width, setWidth] = React.useState(window.innerWidth);
+    const breakpoint = 1000;
 
-            </div>
-            <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                flex: 9,
-                backgroundImage: `url(${LandingPic})`,
-                backgroundPosition: 'center',
-                backgroundSize: 'cover',
-                backgroundRepeat: 'no-repeat',
-                alignItems: 'center'
-            }}>
-                <div style={{ flex: 2 }}></div>
-                <div style={{ textAlign: 'center', padding: '1em' }}>
-                    <p style={{ flex: 4, fontSize: '3em', paddingBottom: '1em' }}>Plantzilla</p>
-                    <p style={{ fontSize: '1.5em' }}>Naša aplikacija nudi novo iskustvo za Vas i Vaše biljke</p>
-                    <p style={{ fontSize: '1.5em', paddingBottom: '5em' }}>Vrijeme je sad i zato krenite</p>
-                    <img alt="" src={Soon} style={{ width: "25%" }} />
-                </div>
-                <div style={{ flex: 4 }}></div>
-            </div>
+    React.useEffect(() => {
+        const handleWindowResize = () => setWidth(window.innerWidth)
+        window.addEventListener("resize", handleWindowResize);
 
-            <div id="About" style={{ display: 'flex', flex: 9, backgroundColor: 'white' }}>
-                <div style={{ flex: 2 }}></div>
-                <div style={{ display: 'flex', flex: 5, flexDirection: 'column' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', flex: 13, textAlign: 'center', justifyContent: 'space-around', alignItems: 'center' }}>
-                        <p style={{ fontSize: '2em', color: '#4D974E', paddingTop: '0.5em' }}>Zašto koristiti Plantzillu?</p>
-                        <div style={{ display: 'flex', flex: 1, flexDirection: 'column', alignItems: 'center' }}>
-                            <img alt="" src={Garden} style={{ height: 400 }} />
-                            <p style={{ fontSize: '1.5em', lineHeight: '1.2em', paddingTop: '2em', paddingBottom: '0.5em', paddingLeft: "10%", paddingRight: "10%" }}>Vrtlarenje je odavno prestalo biti omiljeni 'hobi' rezerviran za ljude koji žive u ruralnim područjima ili kućama s dvorištem. Ako vam se uzgoj vlastitog povrća, salata ili začinskog bilja na balkonu, prozorskim klupicama ili pred ulaznim vratima čini kao zanimljiva razbibriga, pravi je trenutak da se okušate u ovom korisnom hobiju.</p>
+        return () => window.removeEventListener("resize", handleWindowResize);
+    }, []);
+
+    function layout() {
+        if (width < breakpoint) {
+            return (
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: '420vh', width: '100%', backgroundColor: 'white' }}>
+                    <div id="Top" style={navbar}>
+                        <div style={{ display: 'flex', flex: 6, justifyContent: 'space-around', alignItems: 'center', width: '100%' }}>
+                            <ul style={{ listStyleType: 'none', margin: 0, padding: 0, display: 'flex', flex: 6, justifyContent: 'space-around', alignItems: 'center', width: '100%' }}>
+                                <li><Logo style={{ height: '4em' }} /></li>
+                                <li><a style={navLink} href="#" onClick={() => { props.returnLogin(true) }}>Prijava</a></li>
+                                <li><GoogleLogin
+                                    clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+                                    buttonText="Login"
+                                    onSuccess={responseGoogle}
+                                    onFailure={responseGoogle}
+                                    cookiePolicy={'single_host_origin'}
+                                /></li>
+                            </ul>
                         </div>
                     </div>
-                    <div style={{ flex: 2 }}></div>
-                </div>
-                <div style={{ flex: 2 }}></div>
-            </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flex: 6, backgroundColor: '#F0F0F0' }}>
-                <div style={{ flex: 3 }}>
-                    <p style={{ fontSize: '2em', color: '#4D974E', padding: '1em', textAlign: 'center' }}>Kako izgleda sadnja uz Plantzillu</p>
-                </div>
-                <div style={{ display: 'flex', flex: 6, justifyContent: 'space-evenly', padding: '1em', paddingTop: "2em", textAlign: 'center' }}>
-                    <div style={{ flex: 1 }}></div>
-                    <div style={{ flex: 2 }}>
-                        <img alt="" src={Sprout} style={{}} />
-                        <p style={{ fontSize: '1.5em', textAlign: 'center', marginTop: "-0.85em" }}>Odabirite željenu biljku za sadnju i dodajte je u Vaš popis</p>
-                    </div>
-
-                    <div style={{ flex: 0.8 }}></div>
-                    <div style={{ flex: 2 }}>
-                        <img alt="" src={Planty} style={{}} />
-                        <p style={{ fontSize: '1.5em', textAlign: 'center', }}>Pratite uputstva za sadnju i brigu o Vašim biljkama</p>
-                    </div>
-
-                    <div style={{ flex: 0.8 }}></div>
-                    <div style={{ flex: 2 }}>
-                        <img alt="" src={Hot} style={{}} />
-                        <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Uz pomoć senzora pratite rast Vaše biljke i izvan kuće</p>
-                    </div>
-
-                    <div style={{ flex: 0.8 }}></div>
-                    <div style={{ flex: 2 }}>
-                        <img alt="" src={Book} style={{}} />
-                        <p style={{ fontSize: '1.5em', textAlign: 'center' }}>U tren oka Vaša biljka će potpuno izrasti</p>
-                    </div>
-                    <div style={{ flex: 1 }}></div>
-                </div>
-            </div>
-
-            <div id="Pricing" style={{ display: 'flex', flex: 10, backgroundColor: 'white', flexDirection: 'column' }}>
-                <div style={{ flex: 1 }}>
-                    <p style={{ fontSize: '2em', color: '#4D974E', padding: '1em', textAlign: 'center' }}>Opcije</p>
-                </div>
-                <div style={{ display: 'flex', flex: 8, justifyContent: 'space-evenly', padding: '1em', paddingTop: "2em", textAlign: 'center' }}>
-                    <div style={{ display: 'flex', flex: 1 }}></div>
-                    <div style={{ flex: 2, display: 'flex', flexDirection: 'column' }}>
-                        <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: "1em" }}>
-                            <div style={{ flex: 0.5 }}></div>
-                            <p style={{ flex: 1, fontSize: '1.5em', textAlign: 'left' }}>Sadnica za početak</p>
-                            <p style={{ flex: 1, fontSize: '2em', textAlign: 'left', paddingLeft: '0.5em' }}>Free</p>
-                            <div style={{ flex: 0.5 }}></div>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        flex: 9,
+                        backgroundImage: `url(${LandingPic})`,
+                        backgroundPosition: 'center left',
+                        backgroundSize: 'cover',
+                        backgroundRepeat: 'no-repeat',
+                        alignItems: 'center'
+                    }}>
+                        <div style={{ flex: 2 }}></div>
+                        <div style={{ textAlign: 'center' }}>
+                            <div style={{
+                                backgroundColor: 'rgba(255, 255, 255, 0.4)',
+                                padding: '1em'
+                            }}>
+                                <p style={{ flex: 4, fontSize: '3em', paddingBottom: '1em' }}>Plantzilla</p>
+                                <p style={{ fontSize: '1.2em' }}>Naša aplikacija nudi novo iskustvo za Vas i Vaše biljke</p>
+                                <p style={{ fontSize: '1.2em', paddingBottom: '2em' }}>Vrijeme je sad i zato krenite</p>
+                                <img alt="" src={Soon} style={{
+                                    width: '100%',
+                                    maxWidth: '100px',
+                                    height: 'auto'
+                                }} />
+                            </div>
                         </div>
-                        <div
-                            style={{ flex: 8, display: 'flex', flexDirection: 'column', paddingTop: '1em', paddingBottom: '1em', backgroundColor: '#F0F0F0', justifyContent: 'space-evenly' }}
-                            className="opcije"
-                            onMouseOver={changeBackground}
-                            onMouseLeave={restoreBackground}
-                        >
-                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>5 biljaka</p>
-                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Praćenje biljaka</p>
-                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Dobivanje obavijesti</p>
-                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Upute za sadnju</p>
-                            <p style={{ fontSize: '1.5em', textAlign: 'center', textDecoration: 'line-through', color: 'gray' }}>Senzor za temperaturu i vlagu</p>
-                            <p style={{ fontSize: '1.5em', textAlign: 'center', textDecoration: 'line-through', color: 'gray' }}>Senzor za temperaturu zemlje</p>
-                            <p style={{ fontSize: '1.5em', textAlign: 'center', textDecoration: 'line-through', color: 'gray' }}>Senzor za vlagu</p>
-                        </div>
+                        <div style={{ flex: 4 }}></div>
                     </div>
 
-                    <div style={{ flex: 1 }}></div>
-                    <div style={{ flex: 2, display: 'flex', flexDirection: 'column' }}>
-                        <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: "1em" }}>
-                            <div style={{ flex: 0.5 }}></div>
-                            <p style={{ flex: 1, fontSize: '1.5em', textAlign: 'left' }}>Vrt za napredak</p>
-                            <p style={{ flex: 1, fontSize: '2em', textAlign: 'left', paddingLeft: '0.5em' }}>75kn</p>
-                            <div style={{ flex: 0.5 }}></div>
-                        </div>
-                        <div
-                            style={{ flex: 8, display: 'flex', flexDirection: 'column', paddingTop: '1em', paddingBottom: '1em', backgroundColor: '#F0F0F0', justifyContent: 'space-evenly' }}
-                            className="opcije"
-                            onMouseOver={changeBackground}
-                            onMouseLeave={restoreBackground}
-                        >
-                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>25 biljaka</p>
-                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Praćenje biljaka</p>
-                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Dobivanje obavijesti</p>
-                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Upute za sadnju</p>
-                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Senzor za temperaturu i vlagu</p>
-                            <p style={{ fontSize: '1.5em', textAlign: 'center', textDecoration: 'line-through', color: 'gray' }}>Senzor za temperaturu zemlje</p>
-                            <p style={{ fontSize: '1.5em', textAlign: 'center', textDecoration: 'line-through', color: 'gray' }}>Senzor za vlagu</p>
-                        </div>
-                    </div>
-
-                    <div style={{ flex: 1 }}></div>
-                    <div style={{ flex: 2, display: 'flex', flexDirection: 'column' }}>
-                        <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: "1em" }}>
-                            <div style={{ flex: 0.5 }}></div>
-                            <p style={{ flex: 1.2, fontSize: '1.5em', textAlign: 'left' }}>Šuma za prave vrtlare</p>
-                            <p style={{ flex: 1, fontSize: '2em', textAlign: 'left', paddingLeft: '0.5em' }}>150kn</p>
-                            <div style={{ flex: 0.5 }}></div>
-                        </div>
-                        <div
-                            style={{ flex: 8, display: 'flex', flexDirection: 'column', paddingTop: '1em', paddingBottom: '1em', backgroundColor: '#F0F0F0', justifyContent: 'space-evenly' }}
-                            className="opcije"
-                            onMouseOver={changeBackground}
-                            onMouseLeave={restoreBackground}
-                        >
-                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>∞ biljaka</p>
-                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Praćenje biljaka</p>
-                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Dobivanje obavijesti</p>
-                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Upute za sadnju</p>
-                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Senzor za temperaturu i vlagu</p>
-                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Senzor za temperaturu zemlje</p>
-                            <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Senzor za vlagu</p>
-                        </div>
-                    </div>
-                    <div style={{ flex: 1 }}></div>
-                </div>
-                <div style={{ flex: 1 }}></div>
-            </div>
-
-            <div id="Map" style={{ display: 'flex', flexDirection: 'column', flex: 10, backgroundColor: '#F0F0F0', paddingTop: "0.5em", paddingBottom: "0.5em" }}>
-                <div style={{ flex: 1 }}></div>
-                <div style={{ flex: 12, display: 'flex' }}>
-                    <div style={{ flex: 1 }}></div>
-                    <div style={{ flex: 7, backgroundColor: 'white', display: 'flex' }}>
-                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '3em' }}>
-                            <p style={{ fontSize: '1.5em', flex: 0.5, paddingBottom: '1em' }}>Javite nam se</p>
-                            <form style={{ flex: 8, display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly' }}>
-                                <input type="text" placeholder="Ime" style={{ backgroundColor: '#F0F0F0', padding: '0.5em', marginBottom: '0.5em' }} />
-                                <input type="text" placeholder="Email" style={{ backgroundColor: '#F0F0F0', padding: '0.5em', marginBottom: '0.5em' }} />
-                                <textarea placeholder="Vaša poruka" rows="15" style={{ backgroundColor: '#F0F0F0', padding: '0.5em', marginBottom: '0.5em' }} />
-                                <Button style={{ width: "2em" }}>
-                                    <input type="submit" value="Pošalji" style={{ textAlign: 'left', width: '3.2em' }} />
-                                </Button>
-                            </form>
+                    <div id="About" style={{ display: 'flex', flex: 9, backgroundColor: 'white', width: '100%' }}>
+                        <div style={{ flex: 1 }}></div>
+                        <div style={{ display: 'flex', flex: 5, flexDirection: 'column' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', flex: 13, textAlign: 'center', justifyContent: 'space-around', alignItems: 'center' }}>
+                                <p style={{ fontSize: '2em', color: '#4D974E', paddingTop: '0.5em' }}>Zašto koristiti Plantzillu?</p>
+                                <div style={{ display: 'flex', flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+                                    <img alt="" src={Garden} style={{
+                                        width: '100%',
+                                        maxWidth: '80%',
+                                        height: 'auto',
+                                        marginTop: "1em"
+                                    }} />
+                                    <p style={{ fontSize: '1.2em', lineHeight: '1.2em', paddingTop: '2em', paddingBottom: '0.5em' }}>Vrtlarenje je odavno prestalo biti omiljeni 'hobi' rezerviran za ljude koji žive u ruralnim područjima ili kućama s dvorištem. Ako vam se uzgoj vlastitog povrća, salata ili začinskog bilja na balkonu, prozorskim klupicama ili pred ulaznim vratima čini kao zanimljiva razbibriga, pravi je trenutak da se okušate u ovom korisnom hobiju.</p>
+                                </div>
+                            </div>
                             <div style={{ flex: 1 }}></div>
                         </div>
-                        <div style={{ flex: 2 }}>
-                            <Map sensorValues={sensorValues} />
+                        <div style={{ flex: 1 }}></div>
+                    </div>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flex: 6, backgroundColor: '#F0F0F0' }}>
+                        <div style={{ flex: 3 }}>
+                            <p style={{ fontSize: '2em', color: '#4D974E', padding: '1em', textAlign: 'center' }}>Kako izgleda sadnja uz Plantzillu</p>
+                        </div>
+                        <div style={{ display: 'flex', flex: 6, justifyContent: 'space-evenly', flexDirection: 'column', padding: '1em', paddingTop: "2em", textAlign: 'center' }}>
+                            <div style={{ flex: 1 }}></div>
+                            <div style={{ flex: 2 }}>
+                                <img alt="" src={Sprout} style={{
+                                    width: '100%',
+                                    maxWidth: '100px',
+                                    height: 'auto'
+                                }} />
+                                <p style={{ fontSize: '1.2em', textAlign: 'center', marginTop: "-0.85em" }}>Odabirite željenu biljku za sadnju i dodajte je u Vaš popis</p>
+                            </div>
+
+                            <div style={{ flex: 0.8 }}></div>
+                            <div style={{ flex: 2, marginTop: "1em" }}>
+                                <img alt="" src={Planty} style={{
+                                    width: '100%',
+                                    maxWidth: '100px',
+                                    height: 'auto'
+                                }} />
+                                <p style={{ fontSize: '1.2em', textAlign: 'center', }}>Pratite uputstva za sadnju i brigu o Vašim biljkama</p>
+                            </div>
+
+                            <div style={{ flex: 0.8 }}></div>
+                            <div style={{ flex: 2, marginTop: "1em" }}>
+                                <img alt="" src={Hot} style={{
+                                    width: '100%',
+                                    maxWidth: '100px',
+                                    height: 'auto'
+                                }} />
+                                <p style={{ fontSize: '1.2em', textAlign: 'center' }}>Uz pomoć senzora pratite rast Vaše biljke i izvan kuće</p>
+                            </div>
+
+                            <div style={{ flex: 0.8 }}></div>
+                            <div style={{ flex: 2, marginTop: "1em" }}>
+                                <img alt="" src={Book} style={{
+                                    width: '100%',
+                                    maxWidth: '100px',
+                                    height: 'auto'
+                                }} />
+                                <p style={{ fontSize: '1.2em', textAlign: 'center' }}>U tren oka Vaša biljka će potpuno izrasti</p>
+                            </div>
+                            <div style={{ flex: 1 }}></div>
                         </div>
                     </div>
-                    <div style={{ flex: 1 }}></div>
-                </div>
-                <div style={{ flex: 1 }}></div>
-            </div>
-            <div id="Contact" style={{ display: 'flex', flex: 0.5, backgroundColor: '#424242', padding: '1em', flexDirection: 'column', fontSize: '1.2em' }}>
-                <div style={{ flex: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <div style={{ display: 'flex', flex: 2, justifyContent: 'space-between', alignItems: 'flex-Start', paddingLeft: '0.6em' }}>
-                        <a style={navLink2} href="#Top">Na vrh</a>
-                        <a style={navLink2} href="#About">O Plantzilli</a>
-                        <a style={navLink2} href="#Pricing">Opcije</a>
-                        <a style={navLink2} href="#Map">Esri mapa</a>
+
+                    <div id="Pricing" style={{ display: 'flex', flex: 10, backgroundColor: 'white', flexDirection: 'column' }}>
+                        <div style={{ flex: 1 }}>
+                            <p style={{ fontSize: '2em', color: '#4D974E', padding: '1em', textAlign: 'center' }}>Opcije</p>
+                        </div>
+                        <div style={{ display: 'flex', flex: 8, justifyContent: 'space-evenly', flexDirection: 'column', padding: '1em', paddingTop: "2em", textAlign: 'center' }}>
+                            <div style={{ display: 'flex', flex: 1 }}></div>
+                            <div style={{ flex: 2, display: 'flex', flexDirection: 'column' }}>
+                                <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: "1em" }}>
+                                    <div style={{ flex: 0.5 }}></div>
+                                    <p style={{ flex: 1, fontSize: '1.5em', textAlign: 'center' }}>Sadnica za početak</p>
+                                    <p style={{ flex: 1, fontSize: '2em', textAlign: 'center', paddingLeft: '0.5em' }}>Free</p>
+                                    <div style={{ flex: 0.5 }}></div>
+                                </div>
+                                <div
+                                    style={{ flex: 8, display: 'flex', flexDirection: 'column', paddingTop: '1em', paddingBottom: '1em', backgroundColor: '#F0F0F0', justifyContent: 'space-evenly' }}
+                                    className="opcije"
+                                    onMouseOver={changeBackground}
+                                    onMouseLeave={restoreBackground}
+                                >
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>5 biljaka</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Praćenje biljaka</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Dobivanje obavijesti</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Upute za sadnju</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center', textDecoration: 'line-through', color: 'gray' }}>Senzor za temperaturu i vlagu</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center', textDecoration: 'line-through', color: 'gray' }}>Senzor za temperaturu zemlje</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center', textDecoration: 'line-through', color: 'gray' }}>Senzor za vlagu</p>
+                                </div>
+                            </div>
+
+                            <div style={{ flex: 1 }}></div>
+                            <div style={{ flex: 2, display: 'flex', flexDirection: 'column', marginTop: "1em" }}>
+                                <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: "1em" }}>
+                                    <div style={{ flex: 0.5 }}></div>
+                                    <p style={{ flex: 1, fontSize: '1.5em', textAlign: 'center' }}>Vrt za napredak</p>
+                                    <p style={{ flex: 1, fontSize: '2em', textAlign: 'center', paddingLeft: '0.5em' }}>75kn</p>
+                                    <div style={{ flex: 0.5 }}></div>
+                                </div>
+                                <div
+                                    style={{ flex: 8, display: 'flex', flexDirection: 'column', paddingTop: '1em', paddingBottom: '1em', backgroundColor: '#F0F0F0', justifyContent: 'space-evenly' }}
+                                    className="opcije"
+                                    onMouseOver={changeBackground}
+                                    onMouseLeave={restoreBackground}
+                                >
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>25 biljaka</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Praćenje biljaka</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Dobivanje obavijesti</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Upute za sadnju</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Senzor za temperaturu i vlagu</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center', textDecoration: 'line-through', color: 'gray' }}>Senzor za temperaturu zemlje</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center', textDecoration: 'line-through', color: 'gray' }}>Senzor za vlagu</p>
+                                </div>
+                            </div>
+
+                            <div style={{ flex: 1 }}></div>
+                            <div style={{ flex: 2, display: 'flex', flexDirection: 'column', marginTop: "1em" }}>
+                                <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: "1em" }}>
+                                    <div style={{ flex: 0.5 }}></div>
+                                    <p style={{ flex: 1.2, fontSize: '1.5em', textAlign: 'center' }}>Šuma za prave vrtlare</p>
+                                    <p style={{ flex: 1, fontSize: '2em', textAlign: 'center', paddingLeft: '0.5em' }}>150kn</p>
+                                    <div style={{ flex: 0.5 }}></div>
+                                </div>
+                                <div
+                                    style={{ flex: 8, display: 'flex', flexDirection: 'column', paddingTop: '1em', paddingBottom: '1em', backgroundColor: '#F0F0F0', justifyContent: 'space-evenly' }}
+                                    className="opcije"
+                                    onMouseOver={changeBackground}
+                                    onMouseLeave={restoreBackground}
+                                >
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>∞ biljaka</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Praćenje biljaka</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Dobivanje obavijesti</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Upute za sadnju</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Senzor za temperaturu i vlagu</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Senzor za temperaturu zemlje</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Senzor za vlagu</p>
+                                </div>
+                            </div>
+                            <div style={{ flex: 1 }}></div>
+                        </div>
+                        <div style={{ flex: 1 }}></div>
                     </div>
-                    <div style={{ flex: 5, display: 'flex', alignItems: 'flex-end', flexDirection: 'column' }}>
-                        <p style={{ color: 'white', padding: '0.5em' }}>Pronađite nas na:</p>
-                        <div style={{ paddingRight: "1em" }}>
-                            <IconButton aria-label="facebook">
-                                <a href="https://www.facebook.com/Plantzilla-103503864727030/?modal=admin_todo_tour" target="_blank">
-                                    <Facebook style={{ color: 'white', fontSize: '1.5em' }} />
-                                </a>
-                            </IconButton>
-                            <IconButton aria-label="instagram">
-                                <a href="https://www.instagram.com/Plantzilla_App/" target="_blank">
-                                    <Instagram style={{ color: 'white', fontSize: '1.5em' }} />
-                                </a>
-                            </IconButton>
+
+                    <div id="Map" style={{ display: 'flex', flexDirection: 'column', flex: 10, backgroundColor: '#F0F0F0', paddingTop: "0.5em", paddingBottom: "0.5em" }}>
+                        <div style={{ flex: 1 }}></div>
+                        <div style={{ flex: 12, display: 'flex' }}>
+                            <div style={{ flex: 1 }}></div>
+                            <div style={{ flex: 7, backgroundColor: 'white', display: 'flex' }}>
+                                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '3em' }}>
+                                    <p style={{ fontSize: '1.5em', flex: 0.5, paddingBottom: '1em' }}>Javite nam se</p>
+                                    <form style={{ flex: 8, display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly' }}>
+                                        <input type="text" placeholder="Ime" style={{ backgroundColor: '#F0F0F0', padding: '0.5em', marginBottom: '0.5em' }} />
+                                        <input type="text" placeholder="Email" style={{ backgroundColor: '#F0F0F0', padding: '0.5em', marginBottom: '0.5em' }} />
+                                        <textarea placeholder="Vaša poruka" rows="15" style={{ backgroundColor: '#F0F0F0', padding: '0.5em', marginBottom: '0.5em' }} />
+                                        <Button style={{ width: "2em" }}>
+                                            <input type="submit" value="Pošalji" style={{ textAlign: 'left', width: '3.2em' }} />
+                                        </Button>
+                                    </form>
+                                    <div style={{ flex: 1 }}></div>
+                                </div>
+                            </div>
+                            <div style={{ flex: 1 }}></div>
+                        </div>
+                        <div style={{ flex: 1 }}></div>
+                    </div>
+                    <div id="Contact" style={{ display: 'flex', flex: 0.5, backgroundColor: '#424242', padding: '1em', flexDirection: 'column', fontSize: '1.2em' }}>
+                        <div style={{ flex: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <div style={{ flex: 5, display: 'flex', alignItems: 'flex-end', flexDirection: 'column' }}>
+                                <p style={{ color: 'white', padding: '0.5em' }}>Pronađite nas na:</p>
+                                <div style={{ paddingRight: "1em" }}>
+                                    <IconButton aria-label="facebook">
+                                        <a href="https://www.facebook.com/Plantzilla-103503864727030/?modal=admin_todo_tour" target="_blank">
+                                            <Facebook style={{ color: 'white', fontSize: '1.5em' }} />
+                                        </a>
+                                    </IconButton>
+                                    <IconButton aria-label="instagram">
+                                        <a href="https://www.instagram.com/Plantzilla_App/" target="_blank">
+                                            <Instagram style={{ color: 'white', fontSize: '1.5em' }} />
+                                        </a>
+                                    </IconButton>
+                                </div>
+                            </div>
+                        </div>
+                        <div style={{ flex: 1, borderTop: "1px solid white" }}>
+                            <p style={{ color: 'white', padding: '0.5em' }}>Made with love Plantzilla, 2020</p>
                         </div>
                     </div>
                 </div>
-                <div style={{ flex: 1, borderTop: "1px solid white" }}>
-                    <p style={{ color: 'white', padding: '0.5em' }}>Made with love Plantzilla, 2020</p>
+            );
+        } else {
+            return (
+                <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: '420vh', backgroundColor: 'white' }}>
+                    <div id="Top" style={navbar}>
+                        <div style={{ display: 'flex', flex: 6, justifyContent: 'space-around', alignItems: 'center' }}>
+                            <ul style={{ listStyleType: 'none', margin: 0, padding: 0, display: 'flex', flex: 6, justifyContent: 'space-between', alignItems: 'center' }}>
+                                <li><Logo style={{ height: '4em' }} /></li>
+                                <a style={navLink} href="#About"><li>O Plantzilli</li></a>
+                                <li><a style={navLink} href="#Pricing">Opcije</a></li>
+                                <li><a style={navLink} href="#Map">Esri Mapa</a></li>
+                                <li><a style={navLink} href="#Contact">Kontakt</a></li>
+                            </ul>
+                        </div>
+                        <div style={{ flex: 8 }}></div>
+                        <div style={{ display: 'flex', flexDirection: 'row', flex: 2, alignItems: 'center', justifyContent: 'space-around' }}>
+                            <a style={navLink} href="#" onClick={() => { props.returnLogin(true) }}>Prijava</a>
+                            <GoogleLogin
+                                clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+                                buttonText="Login"
+                                onSuccess={responseGoogle}
+                                onFailure={responseGoogle}
+                                cookiePolicy={'single_host_origin'}
+                            />
+                        </div>
+
+                    </div>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        flex: 9,
+                        backgroundImage: `url(${LandingPic})`,
+                        backgroundPosition: 'center',
+                        backgroundSize: 'cover',
+                        backgroundRepeat: 'no-repeat',
+                        alignItems: 'center'
+                    }}>
+                        <div style={{ flex: 2 }}></div>
+                        <div style={{ textAlign: 'center', padding: '1em' }}>
+                            <p style={{ flex: 4, fontSize: '3em', paddingBottom: '1em' }}>Plantzilla</p>
+                            <p style={{ fontSize: '1.5em' }}>Naša aplikacija nudi novo iskustvo za Vas i Vaše biljke</p>
+                            <p style={{ fontSize: '1.5em', paddingBottom: '5em' }}>Vrijeme je sad i zato krenite</p>
+                            <img alt="" src={Soon} style={{ width: "25%" }} />
+                        </div>
+                        <div style={{ flex: 4 }}></div>
+                    </div>
+
+                    <div id="About" style={{ display: 'flex', flex: 9, backgroundColor: 'white' }}>
+                        <div style={{ flex: 2 }}></div>
+                        <div style={{ display: 'flex', flex: 5, flexDirection: 'column' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', flex: 13, textAlign: 'center', justifyContent: 'space-around', alignItems: 'center' }}>
+                                <p style={{ fontSize: '2em', color: '#4D974E', paddingTop: '0.5em' }}>Zašto koristiti Plantzillu?</p>
+                                <div style={{ display: 'flex', flex: 1, flexDirection: 'column', alignItems: 'center' }}>
+                                    <img alt="" src={Garden} style={{ height: 400 }} />
+                                    <p style={{ fontSize: '1.5em', lineHeight: '1.2em', paddingTop: '2em', paddingBottom: '0.5em', paddingLeft: "10%", paddingRight: "10%" }}>Vrtlarenje je odavno prestalo biti omiljeni 'hobi' rezerviran za ljude koji žive u ruralnim područjima ili kućama s dvorištem. Ako vam se uzgoj vlastitog povrća, salata ili začinskog bilja na balkonu, prozorskim klupicama ili pred ulaznim vratima čini kao zanimljiva razbibriga, pravi je trenutak da se okušate u ovom korisnom hobiju.</p>
+                                </div>
+                            </div>
+                            <div style={{ flex: 2 }}></div>
+                        </div>
+                        <div style={{ flex: 2 }}></div>
+                    </div>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flex: 6, backgroundColor: '#F0F0F0' }}>
+                        <div style={{ flex: 3 }}>
+                            <p style={{ fontSize: '2em', color: '#4D974E', padding: '1em', textAlign: 'center' }}>Kako izgleda sadnja uz Plantzillu</p>
+                        </div>
+                        <div style={{ display: 'flex', flex: 6, justifyContent: 'space-evenly', padding: '1em', paddingTop: "2em", textAlign: 'center' }}>
+                            <div style={{ flex: 1 }}></div>
+                            <div style={{ flex: 2 }}>
+                                <img alt="" src={Sprout} style={{}} />
+                                <p style={{ fontSize: '1.5em', textAlign: 'center', marginTop: "-0.85em" }}>Odabirite željenu biljku za sadnju i dodajte je u Vaš popis</p>
+                            </div>
+
+                            <div style={{ flex: 0.8 }}></div>
+                            <div style={{ flex: 2 }}>
+                                <img alt="" src={Planty} style={{}} />
+                                <p style={{ fontSize: '1.5em', textAlign: 'center', }}>Pratite uputstva za sadnju i brigu o Vašim biljkama</p>
+                            </div>
+
+                            <div style={{ flex: 0.8 }}></div>
+                            <div style={{ flex: 2 }}>
+                                <img alt="" src={Hot} style={{}} />
+                                <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Uz pomoć senzora pratite rast Vaše biljke i izvan kuće</p>
+                            </div>
+
+                            <div style={{ flex: 0.8 }}></div>
+                            <div style={{ flex: 2 }}>
+                                <img alt="" src={Book} style={{}} />
+                                <p style={{ fontSize: '1.5em', textAlign: 'center' }}>U tren oka Vaša biljka će potpuno izrasti</p>
+                            </div>
+                            <div style={{ flex: 1 }}></div>
+                        </div>
+                    </div>
+
+                    <div id="Pricing" style={{ display: 'flex', flex: 10, backgroundColor: 'white', flexDirection: 'column' }}>
+                        <div style={{ flex: 1 }}>
+                            <p style={{ fontSize: '2em', color: '#4D974E', padding: '1em', textAlign: 'center' }}>Opcije</p>
+                        </div>
+                        <div style={{ display: 'flex', flex: 8, justifyContent: 'space-evenly', padding: '1em', paddingTop: "2em", textAlign: 'center' }}>
+                            <div style={{ display: 'flex', flex: 1 }}></div>
+                            <div style={{ flex: 2, display: 'flex', flexDirection: 'column' }}>
+                                <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: "1em" }}>
+                                    <div style={{ flex: 0.5 }}></div>
+                                    <p style={{ flex: 1, fontSize: '1.5em', textAlign: 'left' }}>Sadnica za početak</p>
+                                    <p style={{ flex: 1, fontSize: '2em', textAlign: 'left', paddingLeft: '0.5em' }}>Free</p>
+                                    <div style={{ flex: 0.5 }}></div>
+                                </div>
+                                <div
+                                    style={{ flex: 8, display: 'flex', flexDirection: 'column', paddingTop: '1em', paddingBottom: '1em', backgroundColor: '#F0F0F0', justifyContent: 'space-evenly' }}
+                                    className="opcije"
+                                    onMouseOver={changeBackground}
+                                    onMouseLeave={restoreBackground}
+                                >
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>5 biljaka</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Praćenje biljaka</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Dobivanje obavijesti</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Upute za sadnju</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center', textDecoration: 'line-through', color: 'gray' }}>Senzor za temperaturu i vlagu</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center', textDecoration: 'line-through', color: 'gray' }}>Senzor za temperaturu zemlje</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center', textDecoration: 'line-through', color: 'gray' }}>Senzor za vlagu</p>
+                                </div>
+                            </div>
+
+                            <div style={{ flex: 1 }}></div>
+                            <div style={{ flex: 2, display: 'flex', flexDirection: 'column' }}>
+                                <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: "1em" }}>
+                                    <div style={{ flex: 0.5 }}></div>
+                                    <p style={{ flex: 1, fontSize: '1.5em', textAlign: 'left' }}>Vrt za napredak</p>
+                                    <p style={{ flex: 1, fontSize: '2em', textAlign: 'left', paddingLeft: '0.5em' }}>75kn</p>
+                                    <div style={{ flex: 0.5 }}></div>
+                                </div>
+                                <div
+                                    style={{ flex: 8, display: 'flex', flexDirection: 'column', paddingTop: '1em', paddingBottom: '1em', backgroundColor: '#F0F0F0', justifyContent: 'space-evenly' }}
+                                    className="opcije"
+                                    onMouseOver={changeBackground}
+                                    onMouseLeave={restoreBackground}
+                                >
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>25 biljaka</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Praćenje biljaka</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Dobivanje obavijesti</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Upute za sadnju</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Senzor za temperaturu i vlagu</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center', textDecoration: 'line-through', color: 'gray' }}>Senzor za temperaturu zemlje</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center', textDecoration: 'line-through', color: 'gray' }}>Senzor za vlagu</p>
+                                </div>
+                            </div>
+
+                            <div style={{ flex: 1 }}></div>
+                            <div style={{ flex: 2, display: 'flex', flexDirection: 'column' }}>
+                                <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', paddingBottom: "1em" }}>
+                                    <div style={{ flex: 0.5 }}></div>
+                                    <p style={{ flex: 1.2, fontSize: '1.5em', textAlign: 'left' }}>Šuma za prave vrtlare</p>
+                                    <p style={{ flex: 1, fontSize: '2em', textAlign: 'left', paddingLeft: '0.5em' }}>150kn</p>
+                                    <div style={{ flex: 0.5 }}></div>
+                                </div>
+                                <div
+                                    style={{ flex: 8, display: 'flex', flexDirection: 'column', paddingTop: '1em', paddingBottom: '1em', backgroundColor: '#F0F0F0', justifyContent: 'space-evenly' }}
+                                    className="opcije"
+                                    onMouseOver={changeBackground}
+                                    onMouseLeave={restoreBackground}
+                                >
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>∞ biljaka</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Praćenje biljaka</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Dobivanje obavijesti</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Upute za sadnju</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Senzor za temperaturu i vlagu</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Senzor za temperaturu zemlje</p>
+                                    <p style={{ fontSize: '1.5em', textAlign: 'center' }}>Senzor za vlagu</p>
+                                </div>
+                            </div>
+                            <div style={{ flex: 1 }}></div>
+                        </div>
+                        <div style={{ flex: 1 }}></div>
+                    </div>
+
+                    <div id="Map" style={{ display: 'flex', flexDirection: 'column', flex: 10, backgroundColor: '#F0F0F0', paddingTop: "0.5em", paddingBottom: "0.5em" }}>
+                        <div style={{ flex: 1 }}></div>
+                        <div style={{ flex: 12, display: 'flex' }}>
+                            <div style={{ flex: 1 }}></div>
+                            <div style={{ flex: 7, backgroundColor: 'white', display: 'flex' }}>
+                                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: '3em' }}>
+                                    <p style={{ fontSize: '1.5em', flex: 0.5, paddingBottom: '1em' }}>Javite nam se</p>
+                                    <form style={{ flex: 8, display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly' }}>
+                                        <input type="text" placeholder="Ime" style={{ backgroundColor: '#F0F0F0', padding: '0.5em', marginBottom: '0.5em' }} />
+                                        <input type="text" placeholder="Email" style={{ backgroundColor: '#F0F0F0', padding: '0.5em', marginBottom: '0.5em' }} />
+                                        <textarea placeholder="Vaša poruka" rows="15" style={{ backgroundColor: '#F0F0F0', padding: '0.5em', marginBottom: '0.5em' }} />
+                                        <Button style={{ width: "2em" }}>
+                                            <input type="submit" value="Pošalji" style={{ textAlign: 'left', width: '3.2em' }} />
+                                        </Button>
+                                    </form>
+                                    <div style={{ flex: 1 }}></div>
+                                </div>
+                                <div style={{ flex: 2 }}>
+                                    <Map sensorValues={sensorValues} />
+                                </div>
+                            </div>
+                            <div style={{ flex: 1 }}></div>
+                        </div>
+                        <div style={{ flex: 1 }}></div>
+                    </div>
+                    <div id="Contact" style={{ display: 'flex', flex: 0.5, backgroundColor: '#424242', padding: '1em', flexDirection: 'column', fontSize: '1.2em' }}>
+                        <div style={{ flex: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <div style={{ display: 'flex', flex: 2, justifyContent: 'space-between', alignItems: 'flex-Start', paddingLeft: '0.6em' }}>
+                                <a style={navLink2} href="#Top">Na vrh</a>
+                                <a style={navLink2} href="#About">O Plantzilli</a>
+                                <a style={navLink2} href="#Pricing">Opcije</a>
+                                <a style={navLink2} href="#Map">Esri mapa</a>
+                            </div>
+                            <div style={{ flex: 5, display: 'flex', alignItems: 'flex-end', flexDirection: 'column' }}>
+                                <p style={{ color: 'white', padding: '0.5em' }}>Pronađite nas na:</p>
+                                <div style={{ paddingRight: "1em" }}>
+                                    <IconButton aria-label="facebook">
+                                        <a href="https://www.facebook.com/Plantzilla-103503864727030/?modal=admin_todo_tour" target="_blank">
+                                            <Facebook style={{ color: 'white', fontSize: '1.5em' }} />
+                                        </a>
+                                    </IconButton>
+                                    <IconButton aria-label="instagram">
+                                        <a href="https://www.instagram.com/Plantzilla_App/" target="_blank">
+                                            <Instagram style={{ color: 'white', fontSize: '1.5em' }} />
+                                        </a>
+                                    </IconButton>
+                                </div>
+                            </div>
+                        </div>
+                        <div style={{ flex: 1, borderTop: "1px solid white" }}>
+                            <p style={{ color: 'white', padding: '0.5em' }}>Made with love Plantzilla, 2020</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            );
+        }
+    }
+
+    return (
+        <div>
+            {layout()}
         </div>
     );
+
 }
 
 

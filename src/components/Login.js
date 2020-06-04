@@ -122,106 +122,231 @@ export default function Login({ returnLogedIn, returnJsonToken, returnUserId, re
         };
     }, []);
 
+    const [width, setWidth] = React.useState(window.innerWidth);
+    const breakpoint = 1000;
+
+    React.useEffect(() => {
+        const handleWindowResize = () => setWidth(window.innerWidth)
+        window.addEventListener("resize", handleWindowResize);
+
+        return () => window.removeEventListener("resize", handleWindowResize);
+    }, []);
+
+    function layout() {
+        if (width < breakpoint) {
+            return (
+                <div>
+                    <div style={{
+                        display: 'flex', height: "8em", width: "100%", backgroundColor: "#FFF", backgroundImage: `url(${Banner})`, backgroundPosition: 'center left',
+                        backgroundSize: 'cover',
+                        backgroundRepeat: 'no-repeat', margin: 0
+                    }}></div>
+                    <div>
+                        <div style={{ flex: 1 }}></div>
+                        <div className={classes.paper}>
+                            <div style={{ flex: 1 }}></div>
+                            <div style={{ flex: 3, background: "rgba(255, 255, 255, 0.7)", padding: 20, borderRadius: 25 }}>
+                                <div style={{
+                                    display: 'flex',
+                                    flexDirection: "row",
+                                    paddingTop: "1em",
+                                    paddingBottom: "1em",
+                                }}>
+                                    <div style={{ flex: 3 }}></div>
+                                    <div style={{ flex: 1 }}>
+                                        <img alt="" src={LoginImg} style={{
+                                            width: '100 %',
+                                            maxWidth: '200px',
+                                            height: 'auto'
+                                        }} />
+                                    </div>
+                                    <div style={{ flex: 3 }}></div>
+                                </div>
+                                <Typography component="h1" variant="h5" style={{ textAlign: "center" }}>
+                                    Dobrodošli
+                                </Typography>
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label="Korisničko ime"
+                                    name="email"
+                                    autoComplete="email"
+                                    autoFocus
+                                    error={usernameError}
+                                    value={username}
+                                    onChange={(event) => { setUsername(event.target.value); setUsernameError(false) }}
+                                />
+
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="password"
+                                    label="Lozinka"
+                                    type="password"
+                                    id="password"
+                                    autoComplete="current-password"
+                                    error={passwordError}
+                                    value={password}
+                                    onChange={(event) => { setPassword(event.target.value); setPasswordError(false) }}
+                                />
+
+                                <Snackbar open={alertOpen} autoHideDuration={6000} onClose={() => setAlertOpen(false)}>
+                                    <Alert onClose={() => setAlertOpen(false)} severity="error">
+                                        {alertText}
+                                    </Alert>
+                                </Snackbar>
+
+                                <div style={{
+                                    flexDirection: "column",
+                                    flex: 3,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "space-between"
+                                }}>
+                                    {displayProgress ? <CircularProgress variant="determinate" value={progress} style={{ marginBottom: "1em" }} /> : <CircularProgress variant="determinate" value={0} style={{ marginBottom: "1em" }} />}
+
+                                    <Button
+                                        fullWidth
+                                        variant="contained"
+                                        style={{
+                                            backgroundColor: "#0C8A36",
+                                            color: "white",
+                                            width: "60%"
+                                        }}
+                                        className={classes.submit}
+                                        onClick={
+                                            () => {
+                                                verifyInput();
+                                            }
+                                        }
+                                    >
+                                        Prijavi me
+                        </Button>
+                                </div>
+                                <div style={{ paddingTop: "2em", paddingBottom: "2em", textAlign: "center" }}>
+                                    <Link href="#" onClick={() => returnRegister(true)} variant="body2" style={{ color: '#0000EE' }}>
+                                        {"Nemate račun? Registrirajte se"}
+                                    </Link>
+                                </div>
+                            </div>
+                            <div style={{ flex: 2 }}></div>
+                        </div>
+                        <div style={{ flex: 1 }}></div>
+                    </div>
+                </div >)
+        } else {
+            return (
+                <div>
+                    <div style={{
+                        display: 'flex', height: "8em", width: "100%", backgroundColor: "#FFF", backgroundImage: `url(${Banner})`, backgroundPosition: 'center bottom',
+                        backgroundSize: 'cover',
+                        backgroundRepeat: 'no-repeat', margin: 0
+                    }}></div>
+                    <div>
+                        <div style={{ flex: 1 }}></div>
+                        <div className={classes.paper}>
+                            <div style={{ flex: 1 }}></div>
+                            <div style={{ flex: 3, background: "rgba(255, 255, 255, 0.7)", padding: 20, borderRadius: 25 }}>
+                                <div style={{
+                                    display: 'flex',
+                                    flexDirection: "row",
+                                    paddingTop: "1em",
+                                    paddingBottom: "1em",
+                                }}>
+                                    <div style={{ flex: 3 }}></div>
+                                    <div style={{ flex: 1 }}>
+                                        <img alt="" src={LoginImg} />
+                                    </div>
+                                    <div style={{ flex: 3 }}></div>
+                                </div>
+                                <Typography component="h1" variant="h5" style={{ textAlign: "center" }}>
+                                    Dobrodošli
+                    </Typography>
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label="Korisničko ime"
+                                    name="email"
+                                    autoComplete="email"
+                                    autoFocus
+                                    error={usernameError}
+                                    value={username}
+                                    onChange={(event) => { setUsername(event.target.value); setUsernameError(false) }}
+                                />
+
+                                <TextField
+                                    variant="outlined"
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="password"
+                                    label="Lozinka"
+                                    type="password"
+                                    id="password"
+                                    autoComplete="current-password"
+                                    error={passwordError}
+                                    value={password}
+                                    onChange={(event) => { setPassword(event.target.value); setPasswordError(false) }}
+                                />
+
+                                <Snackbar open={alertOpen} autoHideDuration={6000} onClose={() => setAlertOpen(false)}>
+                                    <Alert onClose={() => setAlertOpen(false)} severity="error">
+                                        {alertText}
+                                    </Alert>
+                                </Snackbar>
+
+                                <div style={{
+                                    flexDirection: "column",
+                                    flex: 3,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "space-between"
+                                }}>
+                                    {displayProgress ? <CircularProgress variant="determinate" value={progress} style={{ marginBottom: "1em" }} /> : <CircularProgress variant="determinate" value={0} style={{ marginBottom: "1em" }} />}
+
+                                    <Button
+                                        fullWidth
+                                        variant="contained"
+                                        style={{
+                                            backgroundColor: "#0C8A36",
+                                            color: "white",
+                                            width: "60%"
+                                        }}
+                                        className={classes.submit}
+                                        onClick={
+                                            () => {
+                                                verifyInput();
+                                            }
+                                        }
+                                    >
+                                        Prijavi me
+                        </Button>
+                                </div>
+                                <div style={{ paddingTop: "2em", paddingBottom: "2em", textAlign: "center" }}>
+                                    <Link href="#" onClick={() => returnRegister(true)} variant="body2" style={{ color: '#0000EE' }}>
+                                        {"Nemate račun? Registrirajte se"}
+                                    </Link>
+                                </div>
+                            </div>
+                            <div style={{ flex: 2 }}></div>
+                        </div>
+                        <div style={{ flex: 1 }}></div>
+                    </div>
+                </div >)
+        }
+    }
+
     return (
         <div>
-            <div style={{
-                display: 'flex', height: "8em", width: "100%", backgroundColor: "#FFF", backgroundImage: `url(${Banner})`, backgroundPosition: 'center bottom',
-                backgroundSize: 'cover',
-                backgroundRepeat: 'no-repeat', margin: 0
-            }}></div>
-            <div>
-                <div style={{ flex: 1 }}></div>
-                <div className={classes.paper}>
-                    <div style={{ flex: 1 }}></div>
-                    <div style={{ flex: 3, background: "rgba(255, 255, 255, 0.7)", padding: 20, borderRadius: 25 }}>
-                        <div style={{
-                            display: 'flex',
-                            flexDirection: "row",
-                            paddingTop: "1em",
-                            paddingBottom: "1em",
-                        }}>
-                            <div style={{ flex: 3 }}></div>
-                            <div style={{ flex: 1 }}>
-                                <img alt="" src={LoginImg} />
-                            </div>
-                            <div style={{ flex: 3 }}></div>
-                        </div>
-                        <Typography component="h1" variant="h5" style={{ textAlign: "center" }}>
-                            Dobrodošli
-                    </Typography>
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="email"
-                            label="Korisničko ime"
-                            name="email"
-                            autoComplete="email"
-                            autoFocus
-                            error={usernameError}
-                            value={username}
-                            onChange={(event) => { setUsername(event.target.value); setUsernameError(false) }}
-                        />
-
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Lozinka"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                            error={passwordError}
-                            value={password}
-                            onChange={(event) => { setPassword(event.target.value); setPasswordError(false) }}
-                        />
-
-                        <Snackbar open={alertOpen} autoHideDuration={6000} onClose={() => setAlertOpen(false)}>
-                            <Alert onClose={() => setAlertOpen(false)} severity="error">
-                                {alertText}
-                            </Alert>
-                        </Snackbar>
-
-                        <div style={{
-                            flexDirection: "column",
-                            flex: 3,
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between"
-                        }}>
-                            {displayProgress ? <CircularProgress variant="determinate" value={progress} style={{ marginBottom: "1em" }} /> : <CircularProgress variant="determinate" value={0} style={{ marginBottom: "1em" }} />}
-
-                            <Button
-                                fullWidth
-                                variant="contained"
-                                style={{
-                                    backgroundColor: "#0C8A36",
-                                    color: "white",
-                                    width: "60%"
-                                }}
-                                className={classes.submit}
-                                onClick={
-                                    () => {
-                                        verifyInput();
-                                    }
-                                }
-                            >
-                                Prijavi me
-                        </Button>
-                        </div>
-                        <div style={{ paddingTop: "2em", paddingBottom: "2em", textAlign: "center" }}>
-                            <Link href="#" onClick={() => returnRegister(true)} variant="body2" style={{ color: '#0000EE' }}>
-                                {"Nemate račun? Registrirajte se"}
-                            </Link>
-                        </div>
-                    </div>
-                    <div style={{ flex: 2 }}></div>
-                </div>
-                <div style={{ flex: 1 }}></div>
-            </div>
-        </div >
+            {layout()}
+        </div>
     );
 }

@@ -177,115 +177,240 @@ export default function TabsNav(props) {
     }
   }
 
+  const [width, setWidth] = React.useState(window.innerWidth);
+  const breakpoint = 1000;
+
+  React.useEffect(() => {
+    const handleWindowResize = () => setWidth(window.innerWidth)
+    window.addEventListener("resize", handleWindowResize);
+
+    return () => window.removeEventListener("resize", handleWindowResize);
+  }, []);
+
+  function layout() {
+    if (width < breakpoint) {
+      return (
+        <div style={{
+          display: 'flex', height: "100%", width: "100%", backgroundColor: "#FFF", margin: 0
+        }}>
+          <div className={classes.root}>
+            <AppBar position="static" title={<img src={Logo} />} style={{ backgroundColor: '#fff', color: '#000', width: "100%" }}>
+              <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%' }}>
+                <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" centered>
+                  <Tab label="Praćenje" {...a11yProps(0)} style={{ marginRight: 0 }} />
+                  <Tab label="Dodaj" {...a11yProps(1)} style={{ marginRight: 0 }} />
+                  <Tab label="Upravljanje" {...a11yProps(2)} />
+                </Tabs>
+              </div>
+              <div style={{
+                display: 'flex', height: "8em", width: "100%", backgroundColor: "#F1E4C7", backgroundImage: `url(${Banner})`, backgroundPosition: 'center bottom',
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat', margin: 0, padding: 0,
+              }}></div>
+            </AppBar>
+            <TabPanel value={value} index={0} style={{ backgroundColor: "#FFF" }}>
+              <HomeScreen jsonToken={jsonToken} userId={userId} />
+            </TabPanel>
+            <TabPanel value={value} index={1} style={{ backgroundColor: "#FFF" }}>
+              <AddPlantScreen jsonToken={jsonToken} userId={userId} value={handleChange} username={props.username} />
+            </TabPanel>
+            <TabPanel value={value} index={2} style={{ backgroundColor: "#FFF" }}>
+              <div style={{ display: 'flex', flex: 1, justifyContent: "center", alignItems: "center", paddingBottom: 0 }}>
+                <Card className={classes.card} style={{ display: 'flex', flexDirection: 'column', flex: 1, alignItems: 'center' }}>
+                  <CardContent style={{ width: '60%' }}>
+                    <Typography gutterBottom variant="h5" component="h2" style={{ marginBottom: 20 }}>
+                      Bok, {props.username}
+                    </Typography>
+                    <Typography variant="body1" color="textSecondary" component="p">
+                      Vaša Postignuća (lvl {`${Math.floor(done / 5)}`}):
+                    </Typography>
+                    <div style={{ width: "100%", marginTop: 30, marginBottom: 50 }}>
+                      <Line percent={((done % 5) * 20)} strokeWidth="1" strokeColor="#51A1FF" />
+                      <div style={{ display: 'flex', flex: '1', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 40 }}>
+                        <img
+                          alt=""
+                          src={A1}
+                          title=""
+                          style={{ height: 50 }}
+                        />
+                        <img
+                          alt=""
+                          src={A2}
+                          title=""
+                          style={{ height: 50 }}
+                        />
+                        <img
+                          alt=""
+                          src={A3}
+                          title=""
+                          style={{ height: 50 }}
+                        />
+                        <img
+                          alt=""
+                          src={A4}
+                          title=""
+                          style={{ height: 50 }}
+                        />
+                      </div>
+                    </div>
+
+                    <Typography variant="body2" color="textSecondary" component="p">
+                      Uzgojeno sveukupno biljaka: {done}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10 }}>
+                      Uzgojeno Voća: {doneV}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10 }}>
+                      Uzgojeno Povrća: {doneP}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10 }}>
+                      Uzgojeno Cvijeća: {doneC}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10, marginBottom: 50 }}>
+                      Uzgojeno Začina: {doneZ}
+                    </Typography>
+
+                    <Typography variant="body1" color="textSecondary" component="p" style={{ marginTop: 40, marginBottom: 10 }}>
+                      Postavke računa:
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10, marginBottom: 10 }}>
+                      Korisničko ime: {props.username}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10, marginBottom: 10 }}>
+                      Email: {props.email}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10, marginBottom: 30 }}>
+                      Datum registracije: {moment(props.date).format('DD.MM.YYYY')}
+                    </Typography>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginLeft: -5 }}>
+                      <Button onClick={() => { props.returnLogedIn(false); props.returnLogin(false) }}>Odjava</Button>
+                      <Button onClick={() => tryToDeleteAccount()}>Obriši račun</Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabPanel>
+          </div>
+        </div>
+      )
+    } else {
+      return (
+        <div style={{
+          display: 'flex', height: "100%", width: "100%", backgroundColor: "#FFF", margin: 0
+        }}>
+          <div className={classes.root}>
+            <AppBar position="static" title={<img src={Logo} />} style={{ backgroundColor: '#fff', color: '#000' }}>
+              <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                <div style={{ flex: 1 }}>
+                  <Logo style={{ height: '4em' }} />
+                </div>
+                <div style={{ flex: 1 }}></div>
+                <div style={{ flex: 5 }}>
+                  <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" centered>
+                    <Tab label="Praćenje biljke" {...a11yProps(0)} style={{ marginRight: "5em" }} />
+                    <Tab label="Dodaj biljku" {...a11yProps(1)} style={{ marginRight: "5em" }} />
+                    <Tab label="Upravljanje računom" {...a11yProps(2)} />
+                  </Tabs>
+                </div>
+                <div style={{ flex: 2 }}></div>
+              </div>
+              <div style={{
+                display: 'flex', height: "8em", width: "100%", backgroundColor: "#F1E4C7", backgroundImage: `url(${Banner})`, backgroundPosition: 'center bottom',
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat', margin: 0, padding: 0,
+              }}></div>
+            </AppBar>
+            <TabPanel value={value} index={0} style={{ backgroundColor: "#FFF" }}>
+              <HomeScreen jsonToken={jsonToken} userId={userId} />
+            </TabPanel>
+            <TabPanel value={value} index={1} style={{ backgroundColor: "#FFF" }}>
+              <AddPlantScreen jsonToken={jsonToken} userId={userId} value={handleChange} username={props.username} />
+            </TabPanel>
+            <TabPanel value={value} index={2} style={{ backgroundColor: "#FFF" }}>
+              <div style={{ display: 'flex', flex: 1, justifyContent: "center", alignItems: "center", paddingLeft: '20%', paddingRight: '20%', paddingBottom: 0 }}>
+                <Card className={classes.card} style={{ display: 'flex', flexDirection: 'column', flex: 1, alignItems: 'center' }}>
+                  <CardContent style={{ width: '60%' }}>
+                    <Typography gutterBottom variant="h5" component="h2" style={{ marginBottom: 20 }}>
+                      Bok, {props.username}
+                    </Typography>
+                    <Typography variant="body1" color="textSecondary" component="p">
+                      Vaša Postignuća (lvl {`${Math.floor(done / 5)}`}):
+                    </Typography>
+                    <div style={{ width: "100%", marginTop: 30, marginBottom: 50 }}>
+                      <Line percent={((done % 5) * 20)} strokeWidth="1" strokeColor="#51A1FF" />
+                      <div style={{ display: 'flex', flex: '1', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 40 }}>
+                        <img
+                          alt=""
+                          src={A1}
+                          title=""
+                          style={{ height: 50 }}
+                        />
+                        <img
+                          alt=""
+                          src={A2}
+                          title=""
+                          style={{ height: 50 }}
+                        />
+                        <img
+                          alt=""
+                          src={A3}
+                          title=""
+                          style={{ height: 50 }}
+                        />
+                        <img
+                          alt=""
+                          src={A4}
+                          title=""
+                          style={{ height: 50 }}
+                        />
+                      </div>
+                    </div>
+
+                    <Typography variant="body2" color="textSecondary" component="p">
+                      Uzgojeno sveukupno biljaka: {done}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10 }}>
+                      Uzgojeno Voća: {doneV}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10 }}>
+                      Uzgojeno Povrća: {doneP}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10 }}>
+                      Uzgojeno Cvijeća: {doneC}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10, marginBottom: 50 }}>
+                      Uzgojeno Začina: {doneZ}
+                    </Typography>
+
+                    <Typography variant="body1" color="textSecondary" component="p" style={{ marginTop: 40, marginBottom: 10 }}>
+                      Postavke računa:
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10, marginBottom: 10 }}>
+                      Korisničko ime: {props.username}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10, marginBottom: 10 }}>
+                      Email: {props.email}
+                    </Typography>
+                    <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10, marginBottom: 30 }}>
+                      Datum registracije: {moment(props.date).format('DD.MM.YYYY')}
+                    </Typography>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginLeft: -5 }}>
+                      <Button onClick={() => { props.returnLogedIn(false); props.returnLogin(false) }}>Odjavi me</Button>
+                      <Button onClick={() => tryToDeleteAccount()}>Obriši račun</Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabPanel>
+          </div>
+        </div>
+      )
+    }
+  }
+
   return (
-    <div style={{
-      display: 'flex', height: "100%", width: "100%", backgroundColor: "#FFF", margin: 0
-    }}>
-      <div className={classes.root}>
-        <AppBar position="static" title={<img src={Logo} />} style={{ backgroundColor: '#fff', color: '#000' }}>
-          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-            <div style={{ flex: 1 }}>
-              <Logo style={{ height: '4em' }} />
-            </div>
-            <div style={{ flex: 1 }}></div>
-            <div style={{ flex: 5 }}>
-              <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" centered>
-                <Tab label="Praćenje biljke" {...a11yProps(0)} style={{ marginRight: "5em" }} />
-                <Tab label="Dodaj biljku" {...a11yProps(1)} style={{ marginRight: "5em" }} />
-                <Tab label="Upravljanje računom" {...a11yProps(2)} />
-              </Tabs>
-            </div>
-            <div style={{ flex: 2 }}></div>
-          </div>
-          <div style={{
-            display: 'flex', height: "8em", width: "100%", backgroundColor: "#F1E4C7", backgroundImage: `url(${Banner})`, backgroundPosition: 'center bottom',
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat', margin: 0, padding: 0,
-          }}></div>
-        </AppBar>
-        <TabPanel value={value} index={0} style={{ backgroundColor: "#FFF" }}>
-          <HomeScreen jsonToken={jsonToken} userId={userId} />
-        </TabPanel>
-        <TabPanel value={value} index={1} style={{ backgroundColor: "#FFF" }}>
-          <AddPlantScreen jsonToken={jsonToken} userId={userId} value={handleChange} username={props.username} />
-        </TabPanel>
-        <TabPanel value={value} index={2} style={{ backgroundColor: "#FFF" }}>
-          <div style={{ display: 'flex', flex: 1, justifyContent: "center", alignItems: "center", paddingLeft: '20%', paddingRight: '20%', paddingBottom: 0 }}>
-            <Card className={classes.card} style={{ display: 'flex', flexDirection: 'column', flex: 1, alignItems: 'center' }}>
-              <CardContent style={{ width: '60%' }}>
-                <Typography gutterBottom variant="h5" component="h2" style={{ marginBottom: 20 }}>
-                  Bok, {props.username}
-                </Typography>
-                <Typography variant="body1" color="textSecondary" component="p">
-                  Vaša Postignuća (lvl {`${Math.floor(done / 5)}`}):
-                </Typography>
-                <div style={{ width: "100%", marginTop: 30, marginBottom: 50 }}>
-                  <Line percent={((done % 5) * 20)} strokeWidth="1" strokeColor="#51A1FF" />
-                  <div style={{ display: 'flex', flex: '1', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop:40 }}>
-                    <img
-                      alt=""
-                      src={A1}
-                      title=""
-                      style={{ height: 50 }}
-                    />
-                    <img
-                      alt=""
-                      src={A2}
-                      title=""
-                      style={{ height: 50 }}
-                    />
-                    <img
-                      alt=""
-                      src={A3}
-                      title=""
-                      style={{ height: 50 }}
-                    />
-                    <img
-                      alt=""
-                      src={A4}
-                      title=""
-                      style={{ height: 50 }}
-                    />
-                  </div>
-                </div>
-
-                <Typography variant="body2" color="textSecondary" component="p">
-                  Uzgojeno sveukupno biljaka: {done}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10 }}>
-                  Uzgojeno Voća: {doneV}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10 }}>
-                  Uzgojeno Povrća: {doneP}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10 }}>
-                  Uzgojeno Cvijeća: {doneC}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10, marginBottom: 50 }}>
-                  Uzgojeno Začina: {doneZ}
-                </Typography>
-
-                <Typography variant="body1" color="textSecondary" component="p" style={{ marginTop: 40, marginBottom: 10 }}>
-                  Postavke računa:
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10, marginBottom: 10 }}>
-                  Korisničko ime: {props.username}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10, marginBottom: 10 }}>
-                  Email: {props.email}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p" style={{ marginTop: 10, marginBottom: 30 }}>
-                  Datum registracije: {moment(props.date).format('DD.MM.YYYY')}
-                </Typography>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginLeft: -5 }}>
-                  <Button onClick={() => { props.returnLogedIn(false); props.returnLogin(false) }}>Odjavi me</Button>
-                  <Button onClick={() => tryToDeleteAccount()}>Obriši račun</Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </TabPanel>
-      </div>
+    <div>
+      {layout()}
     </div>
   );
 }
