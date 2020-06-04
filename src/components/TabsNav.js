@@ -89,6 +89,11 @@ export default function TabsNav(props) {
   const [doneZ, setDoneZ] = useState(0);
   const [doneV, setDoneV] = useState(0);
 
+  const [ac1, setAc1] = useState(0.2);
+  const [ac2, setAc2] = useState(0.2);
+  const [ac3, setAc3] = useState(0.2);
+  const [ac4, setAc4] = useState(0.2);
+
   async function tryToLogIn() {
     try {
       let response = await fetch('https://afternoon-depths-99413.herokuapp.com/progress/byId', {
@@ -125,6 +130,24 @@ export default function TabsNav(props) {
             cZacini++;
           }
         });
+
+        let level = Math.floor(count / 5);
+        console.log(level);
+        if (level == 1) {
+          setAc1(1);
+        } else if (level == 2) {
+          setAc1(1);
+          setAc2(1);
+        } else if (level == 3) {
+          setAc1(1);
+          setAc2(1);
+          setAc3(1);
+        } else if (level > 3) {
+          setAc1(1);
+          setAc2(1);
+          setAc3(1);
+          setAc4(1);
+        }
 
         setDone(count);
         setDoneV(cVoce);
@@ -231,25 +254,25 @@ export default function TabsNav(props) {
                           alt=""
                           src={A1}
                           title=""
-                          style={{ height: 50 }}
+                          style={{ height: 50, opacity: ac1 }}
                         />
                         <img
                           alt=""
                           src={A2}
                           title=""
-                          style={{ height: 50 }}
+                          style={{ height: 50, opacity: ac2 }}
                         />
                         <img
                           alt=""
                           src={A3}
                           title=""
-                          style={{ height: 50 }}
+                          style={{ height: 50, opacity: ac3 }}
                         />
                         <img
                           alt=""
                           src={A4}
                           title=""
-                          style={{ height: 50 }}
+                          style={{ height: 50, opacity: ac4 }}
                         />
                       </div>
                     </div>
@@ -343,25 +366,25 @@ export default function TabsNav(props) {
                           alt=""
                           src={A1}
                           title=""
-                          style={{ height: 50 }}
+                          style={{ height: 50, opacity: ac1 }}
                         />
                         <img
                           alt=""
                           src={A2}
                           title=""
-                          style={{ height: 50 }}
+                          style={{ height: 50, opacity: ac2 }}
                         />
                         <img
                           alt=""
                           src={A3}
                           title=""
-                          style={{ height: 50 }}
+                          style={{ height: 50, opacity: ac3 }}
                         />
                         <img
                           alt=""
                           src={A4}
                           title=""
-                          style={{ height: 50 }}
+                          style={{ height: 50, opacity: ac4 }}
                         />
                       </div>
                     </div>
