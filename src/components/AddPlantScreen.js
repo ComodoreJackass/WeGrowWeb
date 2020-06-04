@@ -280,7 +280,7 @@ export default function AddPlantScreen(props) {
                     name: plantName,
                     summary: plantDescription,
                     difficulty: plantDifficulty,
-                    category: category,
+                    category: plantCategory,
                     owner: props.username,
                     care: plantCare,
                     instructions: plantInstuctions,
