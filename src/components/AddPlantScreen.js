@@ -19,6 +19,7 @@ import { Alert } from '@material-ui/lab';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FileBase64 from 'react-file-base64';
+import QrReader from 'react-qr-reader'
 
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBack from '@material-ui/icons/ArrowBack';
@@ -28,6 +29,8 @@ import Povrce from '../assets/povrce.png'
 import Cvijece from '../assets/cvijece.png'
 import Zacini from '../assets/zacini.png'
 import dodajBiljku from '../assets/dodajBiljku.png'
+import qr from '../assets/qr.png'
+
 
 const useStyles = makeStyles({
     root: {
@@ -55,6 +58,7 @@ export default function AddPlantScreen(props) {
     const [mCards, setMiddleCards] = useState([]);
     const [rCards, setRightCards] = useState([]);
 
+    const [result, setResult] = useState('No result');
     const [category, setCategory] = useState('');
 
     const classes = useStyles();
@@ -333,6 +337,17 @@ export default function AddPlantScreen(props) {
         setImage(files.base64.split(",")[1]);
     }
 
+    const handleScan = data => {
+        if (data) {
+            setResult(data);
+        }
+    }
+
+    const handleError = err => {
+        console.error(err)
+    }
+
+
     function switcher() {
         if (category === '') {
             return (
@@ -396,6 +411,17 @@ export default function AddPlantScreen(props) {
                                     <CardContent style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: "10em" }}>
                                         <Typography style={{ padding: 2 }}>Cvijeće</Typography>
                                         <img src={Cvijece} style={{ alignSelf: 'center' }} />
+                                    </CardContent>
+                                </Button>
+                            </Card>
+                        </div>
+
+                        <div style={{ paddingTop: "2em" }}>
+                            <Card className={classes.root} variant="outlined" style={{ borderRadius: 20, backgroundColor: '#E0F4F6' }}>
+                                <Button style={{ width: "100%" }} onClick={() => setCategory("qr")}>
+                                    <CardContent style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: "10em" }}>
+                                        <Typography style={{ padding: 2 }}>QR</Typography>
+                                        <img src={qr} style={{ alignSelf: 'center' }} />
                                     </CardContent>
                                 </Button>
                             </Card>
@@ -569,6 +595,30 @@ export default function AddPlantScreen(props) {
                     <div style={{ display: 'flex', flexDirection: 'column', flex: 3, height: "100%" }}></div>
                 </div>
             );
+        }
+        else if (category === 'qr') {
+            return (
+                <div style={{ display: 'flex', flexDirection: 'row', flex: 2, padding: 20 }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, height: "100%", paddingTop: 10, justifyContent: 'center' }}>
+                        <IconButton aria-label="Povratak na kategorije" onClick={() => setCategory("")} style={{ width: '25%', alignSelf: 'center' }}>
+                            <ArrowBack style={{ color: 'black', fontSize: '1.2em' }} />
+                        </IconButton>
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', flex: 2, height: "100%" }}></div>
+                    <div style={{ display: 'flex', flexDirection: 'column', flex: 2 }}>
+                        <div>
+                            <QrReader
+                                delay={300}
+                                onError={handleError}
+                                onScan={handleScan}
+                                style={{ width: '100%' }}
+                            />
+                            <p>{result}</p>
+                        </div>
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', flex: 3, height: "100%" }}></div>
+                </div >
+            )
         }
         else {
             return (
