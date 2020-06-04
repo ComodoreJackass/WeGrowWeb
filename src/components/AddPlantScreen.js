@@ -165,6 +165,7 @@ export default function AddPlantScreen(props) {
                             <Typography variant="h5" component="h2" style={{ paddingLeft: 15 }}>
                                 {plant.name}
                             </Typography>
+                            <Typography variant="body1" component="p" style={{ marginTop: 10, paddingLeft: 15 }}>By {plant.owner}</Typography>
                             <Typography variant="body1" component="p" style={{ marginTop: 10, paddingLeft: 15 }}>
                                 Težina uzgoja: {plant.difficulty}
                             </Typography>
