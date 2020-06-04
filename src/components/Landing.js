@@ -14,7 +14,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Facebook from '@material-ui/icons/Facebook';
 import Instagram from '@material-ui/icons/Instagram';
 import Button from '@material-ui/core/Button';
-import { useMediaQuery } from 'react-responsive'
 
 import GoogleLogin from 'react-google-login';
 
