@@ -248,7 +248,7 @@ export default function TrackedCard(props) {
                         Proteklo vrijeme {props.elapsedTime(Date.parse(prog.started_on))}
                     </Typography>
                     <Typography variant="body2" component="p" style={{ paddingLeft: 15, marginTop: "1em" }}>
-                        Zadnje zalijevanje prije:
+                        Zalijevano prije:
                         {props.elapsedTime(Date.parse(prog.last_watered_on))}
                         <IconButton aria-label="water" onClick={() => watered(prog.id)} style={{ marginLeft: "10px" }}>
                             <WaterIcon style={{ color: '#77B5FE' }} />
