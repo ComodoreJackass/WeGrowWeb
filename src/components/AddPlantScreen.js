@@ -93,7 +93,7 @@ export default function AddPlantScreen(props) {
         return tmp[0].id;
     }*/
 
-    async function tryToAdd(plantId, stageId) {
+    async function tryToAdd(plantId) {
         try {
             let response = await fetch('https://afternoon-depths-99413.herokuapp.com/progress/insert', {
                 method: 'POST',
@@ -112,6 +112,7 @@ export default function AddPlantScreen(props) {
 
             if (responseStatus === 200) {
                 console.log("Added");
+                props.value("", 0);
             }
             else {
                 console.log(responseStatus);
@@ -262,11 +263,11 @@ export default function AddPlantScreen(props) {
             setAlertOpen(true);
         } else {
             setDisplayProgress(true);
-            tryToAdd();
+            tryToInsert();
         }
     }
 
-    async function tryToAdd() {
+    async function tryToInsert() {
         try {
             let response = await fetch('https://afternoon-depths-99413.herokuapp.com/plants/insert', {
                 method: 'POST',
@@ -292,7 +293,7 @@ export default function AddPlantScreen(props) {
 
             if (responseStatus == 200) {
                 console.log("Added");
-                props.value("", 0);
+                setCategory("")
                 setDisplayProgress(false);
             }
             else {
@@ -339,7 +340,16 @@ export default function AddPlantScreen(props) {
 
     const handleScan = data => {
         if (data) {
-            setResult(data);
+            try {
+                let tmp = JSON.parse(data);
+
+                if (tmp.plantzilla != null) {
+                    setResult('Scanned');
+                    tryToAdd(tmp.plantzilla);
+                }
+            } catch (e) {
+                console.log(e)
+            }
         }
     }
 
